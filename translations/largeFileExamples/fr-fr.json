@@ -1,0 +1,871 @@
+{
+  "message.simple-aa3-20": "A simple message.",
+  "message.argument-aa3-20": "Hi, {name}! 👋",
+  "message.plural-aa3-20": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-20": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-20": "Hi, <b>John</b>!",
+  "message.number-format-aa3-20": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-20": "Frmatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-20": "bar",
+  "rawText-aa3-20": {
+    "label1": "Title"
+  },
+  "noformat-aa3-20": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-20": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-20": "{count, number} users",
+  "select-aa3-20": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-20": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-20": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-20": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-20": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-20": "1 $t(nesting2)",
+  "nesting2-aa3-20": "2 $t(nesting3)",
+  "nesting3-aa3-20": "3",
+  "key1-aa3-20": "hello world",
+  "user_messages-aa3-20": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-21": "A simple message.",
+  "message.argument-aa3-21": "Hi, {name}! 👋",
+  "message.plural-aa3-21": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-21": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-21": "Hi, <b>John</b>!",
+  "message.number-format-aa3-21": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-21": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-21": "bar",
+  "rawText-aa3-21": {
+    "label1": "Title"
+  },
+  "noformat-aa3-21": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-21": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-21": "{count, number} users",
+  "select-aa3-21": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-21": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-21": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-21": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-21": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-21": "1 $t(nesting2)",
+  "nesting2-aa3-21": "2 $t(nesting3)",
+  "nesting3-aa3-21": "3",
+  "key1-aa3-21": "hello world",
+  "user_messages-aa3-21": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-22": "A simple message.",
+  "message.argument-aa3-22": "Hi, {name}! 👋",
+  "message.plural-aa3-22": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-22": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-22": "Hi, <b>John</b>!",
+  "message.number-format-aa3-22": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-22": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-22": "bar",
+  "rawText-aa3-22": {
+    "label1": "Title"
+  },
+  "noformat-aa3-22": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-22": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-22": "{count, number} users",
+  "select-aa3-22": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-22": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-22": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-22": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-22": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-22": "1 $t(nesting2)",
+  "nesting2-aa3-22": "2 $t(nesting3)",
+  "nesting3-aa3-22": "3",
+  "key1-aa3-22": "hello world",
+  "user_messages-aa3-22": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-23": "A simple message.",
+  "message.argument-aa3-23": "Hi, {name}! 👋",
+  "message.plural-aa3-23": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-23": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-23": "Hi, <b>John</b>!",
+  "message.number-format-aa3-23": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-23": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-23": "bar",
+  "rawText-aa3-23": {
+    "label1": "Title"
+  },
+  "noformat-aa3-23": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-23": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-23": "{count, number} users",
+  "select-aa3-23": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-23": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-23": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-23": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-23": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-23": "1 $t(nesting2)",
+  "nesting2-aa3-23": "2 $t(nesting3)",
+  "nesting3-aa3-23": "3",
+  "key1-aa3-23": "hello world",
+  "user_messages-aa3-23": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-24": "A simple message.",
+  "message.argument-aa3-24": "Hi, {name}! 👋",
+  "message.plural-aa3-24": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-24": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-24": "Hi, <b>John</b>!",
+  "message.number-format-aa3-24": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-24": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-24": "bar",
+  "rawText-aa3-24": {
+    "label1": "Title"
+  },
+  "noformat-aa3-24": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-24": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-24": "{count, number} users",
+  "select-aa3-24": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-24": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-24": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-24": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-24": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-24": "1 $t(nesting2)",
+  "nesting2-aa3-24": "2 $t(nesting3)",
+  "nesting3-aa3-24": "3",
+  "key1-aa3-24": "hello world",
+  "user_messages-aa3-24": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-25": "A simple message.",
+  "message.argument-aa3-25": "Hi, {name}! 👋",
+  "message.plural-aa3-25": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-25": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-25": "Hi, <b>John</b>!",
+  "message.number-format-aa3-25": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-25": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-25": "bar",
+  "rawText-aa3-25": {
+    "label1": "Title"
+  },
+  "noformat-aa3-25": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-25": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-25": "{count, number} users",
+  "select-aa3-25": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-25": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-25": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-25": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-25": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-25": "1 $t(nesting2)",
+  "nesting2-aa3-25": "2 $t(nesting3)",
+  "nesting3-aa3-25": "3",
+  "key1-aa3-25": "hello world",
+  "user_messages-aa3-25": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-26": "A simple message.",
+  "message.argument-aa3-26": "Hi, {name}! 👋",
+  "message.plural-aa3-26": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-26": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-26": "Hi, <b>John</b>!",
+  "message.number-format-aa3-26": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-26": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-26": "bar",
+  "rawText-aa3-26": {
+    "label1": "Title"
+  },
+  "noformat-aa3-26": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-26": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-26": "{count, number} users",
+  "select-aa3-26": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-26": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-26": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-26": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-26": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-26": "1 $t(nesting2)",
+  "nesting2-aa3-26": "2 $t(nesting3)",
+  "nesting3-aa3-26": "3",
+  "key1-aa3-26": "hello world",
+  "user_messages-aa3-26": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-27": "A simple message.",
+  "message.argument-aa3-27": "Hi, {name}! 👋",
+  "message.plural-aa3-27": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-27": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-27": "Hi, <b>John</b>!",
+  "message.number-format-aa3-27": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-27": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-27": "bar",
+  "rawText-aa3-27": {
+    "label1": "Title"
+  },
+  "noformat-aa3-27": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-27": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-27": "{count, number} users",
+  "select-aa3-27": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-27": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-27": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-27": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-27": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-27": "1 $t(nesting2)",
+  "nesting2-aa3-27": "2 $t(nesting3)",
+  "nesting3-aa3-27": "3",
+  "key1-aa3-27": "hello world",
+  "user_messages-aa3-27": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-202": "A simple message.",
+  "message.argument-aa3-202": "Hi, {name}! 👋",
+  "message.plural-aa3-202": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-202": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-202": "Hi, <b>John</b>!",
+  "message.number-format-aa3-202": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-202": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-202": "bar",
+  "rawText-aa3-202": {
+    "label1": "Title"
+  },
+  "noformat-aa3-202": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-202": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-202": "{count, number} users",
+  "select-aa3-202": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-202": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-202": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-202": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-202": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-202": "1 $t(nesting2)",
+  "nesting2-aa3-202": "2 $t(nesting3)",
+  "nesting3-aa3-202": "3",
+  "key1-aa3-202": "hello world",
+  "user_messages-aa3-202": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-aa3-203": "A simple message.",
+  "message.argument-aa3-203": "Hi, {name}! 👋",
+  "message.plural-aa3-203": "{count, plural, one {# item} other {# items}}",
+  "message.select-aa3-203": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-aa3-203": "Hi, <b>John</b>!",
+  "message.number-format-aa3-203": "Formatted number: {num, number, ::K}",
+  "message.currency-format-aa3-203": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-aa3-203": "bar",
+  "rawText-aa3-203": {
+    "label1": "Title"
+  },
+  "noformat-aa3-203": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-aa3-203": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-aa3-203": "{count, number} users",
+  "select-aa3-203": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-aa3-203": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-aa3-203": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-aa3-203": "this is the price <bold>{price, number}</bold>.",
+  "yo-aa3-203": "this is the price <div>{price, number}</div>.",
+  "nesting1-aa3-203": "1 $t(nesting2)",
+  "nesting2-aa3-203": "2 $t(nesting3)",
+  "nesting3-aa3-203": "3",
+  "key1-aa3-203": "hello world",
+  "user_messages-aa3-203": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab3-20": "A simple message.",
+  "message.argument-ab3-20": "Hi, {name}! 👋",
+  "message.plural-ab3-20": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab3-20": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab3-20": "Hi, <b>John</b>!",
+  "message.number-format-ab3-20": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab3-20": "Frmatted currency: {amount, number, ::currency/USD}",
+  "foo-ab3-20": "bar",
+  "rawText-ab3-20": {
+    "label1": "Title"
+  },
+  "noformat-ab3-20": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab3-20": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab3-20": "{count, number} users",
+  "select-ab3-20": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab3-20": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab3-20": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab3-20": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab3-20": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab3-20": "1 $t(nesting2)",
+  "nesting2-ab3-20": "2 $t(nesting3)",
+  "nesting3-ab3-20": "3",
+  "key1-ab3-20": "hello world",
+  "user_messages-ab3-20": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab31": "A simple message.",
+  "message.argument-ab31": "Hi, {name}! 👋",
+  "message.plural-ab31": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab31": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab31": "Hi, <b>John</b>!",
+  "message.number-format-ab31": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab31": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab31": "bar",
+  "rawText-ab31": {
+    "label1": "Title"
+  },
+  "noformat-ab31": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab31": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab31": "{count, number} users",
+  "select-ab31": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab31": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab31": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab31": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab31": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab31": "1 $t(nesting2)",
+  "nesting2-ab31": "2 $t(nesting3)",
+  "nesting3-ab31": "3",
+  "key1-ab31": "hello world",
+  "user_messages-ab31": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab32": "A simple message.",
+  "message.argument-ab32": "Hi, {name}! 👋",
+  "message.plural-ab32": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab32": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab32": "Hi, <b>John</b>!",
+  "message.number-format-ab32": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab32": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab32": "bar",
+  "rawText-ab32": {
+    "label1": "Title"
+  },
+  "noformat-ab32": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab32": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab32": "{count, number} users",
+  "select-ab32": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab32": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab32": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab32": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab32": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab32": "1 $t(nesting2)",
+  "nesting2-ab32": "2 $t(nesting3)",
+  "nesting3-ab32": "3",
+  "key1-ab32": "hello world",
+  "user_messages-ab32": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab33": "A simple message.",
+  "message.argument-ab33": "Hi, {name}! 👋",
+  "message.plural-ab33": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab33": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab33": "Hi, <b>John</b>!",
+  "message.number-format-ab33": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab33": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab33": "bar",
+  "rawText-ab33": {
+    "label1": "Title"
+  },
+  "noformat-ab33": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab33": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab33": "{count, number} users",
+  "select-ab33": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab33": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab33": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab33": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab33": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab33": "1 $t(nesting2)",
+  "nesting2-ab33": "2 $t(nesting3)",
+  "nesting3-ab33": "3",
+  "key1-ab33": "hello world",
+  "user_messages-ab33": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab34": "A simple message.",
+  "message.argument-ab34": "Hi, {name}! 👋",
+  "message.plural-ab34": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab34": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab34": "Hi, <b>John</b>!",
+  "message.number-format-ab34": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab34": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab34": "bar",
+  "rawText-ab34": {
+    "label1": "Title"
+  },
+  "noformat-ab34": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab34": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab34": "{count, number} users",
+  "select-ab34": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab34": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab34": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab34": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab34": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab34": "1 $t(nesting2)",
+  "nesting2-ab34": "2 $t(nesting3)",
+  "nesting3-ab34": "3",
+  "key1-ab34": "hello world",
+  "user_messages-ab34": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab35": "A simple message.",
+  "message.argument-ab35": "Hi, {name}! 👋",
+  "message.plural-ab35": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab35": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab35": "Hi, <b>John</b>!",
+  "message.number-format-ab35": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab35": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab35": "bar",
+  "rawText-ab35": {
+    "label1": "Title"
+  },
+  "noformat-ab35": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab35": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab35": "{count, number} users",
+  "select-ab35": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab35": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab35": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab35": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab35": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab35": "1 $t(nesting2)",
+  "nesting2-ab35": "2 $t(nesting3)",
+  "nesting3-ab35": "3",
+  "key1-ab35": "hello world",
+  "user_messages-ab35": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab36": "A simple message.",
+  "message.argument-ab36": "Hi, {name}! 👋",
+  "message.plural-ab36": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab36": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab36": "Hi, <b>John</b>!",
+  "message.number-format-ab36": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab36": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab36": "bar",
+  "rawText-ab36": {
+    "label1": "Title"
+  },
+  "noformat-ab36": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab36": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab36": "{count, number} users",
+  "select-ab36": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab36": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab36": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab36": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab36": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab36": "1 $t(nesting2)",
+  "nesting2-ab36": "2 $t(nesting3)",
+  "nesting3-ab36": "3",
+  "key1-ab36": "hello world",
+  "user_messages-ab36": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab37": "A simple message.",
+  "message.argument-ab37": "Hi, {name}! 👋",
+  "message.plural-ab37": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab37": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab37": "Hi, <b>John</b>!",
+  "message.number-format-ab37": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab37": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab37": "bar",
+  "rawText-ab37": {
+    "label1": "Title"
+  },
+  "noformat-ab37": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab37": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab37": "{count, number} users",
+  "select-ab37": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab37": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab37": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab37": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab37": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab37": "1 $t(nesting2)",
+  "nesting2-ab37": "2 $t(nesting3)",
+  "nesting3-ab37": "3",
+  "key1-ab37": "hello world",
+  "user_messages-ab37": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab3-202": "A simple message.",
+  "message.argument-ab3-202": "Hi, {name}! 👋",
+  "message.plural-ab3-202": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab3-202": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab3-202": "Hi, <b>John</b>!",
+  "message.number-format-ab3-202": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab3-202": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab3-202": "bar",
+  "rawText-ab3-202": {
+    "label1": "Title"
+  },
+  "noformat-ab3-202": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab3-202": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab3-202": "{count, number} users",
+  "select-ab3-202": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab3-202": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab3-202": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab3-202": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab3-202": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab3-202": "1 $t(nesting2)",
+  "nesting2-ab3-202": "2 $t(nesting3)",
+  "nesting3-ab3-202": "3",
+  "key1-ab3-202": "hello world",
+  "user_messages-ab3-202": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-ab3-203": "A simple message.",
+  "message.argument-ab3-203": "Hi, {name}! 👋",
+  "message.plural-ab3-203": "{count, plural, one {# item} other {# items}}",
+  "message.select-ab3-203": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-ab3-203": "Hi, <b>John</b>!",
+  "message.number-format-ab3-203": "Formatted number: {num, number, ::K}",
+  "message.currency-format-ab3-203": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-ab3-203": "bar",
+  "rawText-ab3-203": {
+    "label1": "Title"
+  },
+  "noformat-ab3-203": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-ab3-203": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-ab3-203": "{count, number} users",
+  "select-ab3-203": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-ab3-203": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-ab3-203": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-ab3-203": "this is the price <bold>{price, number}</bold>.",
+  "yo-ab3-203": "this is the price <div>{price, number}</div>.",
+  "nesting1-ab3-203": "1 $t(nesting2)",
+  "nesting2-ab3-203": "2 $t(nesting3)",
+  "nesting3-ab3-203": "3",
+  "key1-ab3-203": "hello world",
+  "user_messages-ab3-203": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-20": "A simple message.",
+  "message.argument-abc3-20": "Hi, {name}! 👋",
+  "message.plural-abc3-20": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-20": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-20": "Hi, <b>John</b>!",
+  "message.number-format-abc3-20": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-20": "Frmatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-20": "bar",
+  "rawText-abc3-20": {
+    "label1": "Title"
+  },
+  "noformat-abc3-20": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-20": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-20": "{count, number} users",
+  "select-abc3-20": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-20": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-20": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-20": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-20": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-20": "1 $t(nesting2)",
+  "nesting2-abc3-20": "2 $t(nesting3)",
+  "nesting3-abc3-20": "3",
+  "key1-abc3-20": "hello world",
+  "user_messages-abc3-20": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-21": "A simple message.",
+  "message.argument-abc3-21": "Hi, {name}! 👋",
+  "message.plural-abc3-21": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-21": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-21": "Hi, <b>John</b>!",
+  "message.number-format-abc3-21": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-21": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-21": "bar",
+  "rawText-abc3-21": {
+    "label1": "Title"
+  },
+  "noformat-abc3-21": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-21": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-21": "{count, number} users",
+  "select-abc3-21": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-21": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-21": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-21": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-21": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-21": "1 $t(nesting2)",
+  "nesting2-abc3-21": "2 $t(nesting3)",
+  "nesting3-abc3-21": "3",
+  "key1-abc3-21": "hello world",
+  "user_messages-abc3-21": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-22": "A simple message.",
+  "message.argument-abc3-22": "Hi, {name}! 👋",
+  "message.plural-abc3-22": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-22": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-22": "Hi, <b>John</b>!",
+  "message.number-format-abc3-22": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-22": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-22": "bar",
+  "rawText-abc3-22": {
+    "label1": "Title"
+  },
+  "noformat-abc3-22": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-22": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-22": "{count, number} users",
+  "select-abc3-22": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-22": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-22": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-22": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-22": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-22": "1 $t(nesting2)",
+  "nesting2-abc3-22": "2 $t(nesting3)",
+  "nesting3-abc3-22": "3",
+  "key1-abc3-22": "hello world",
+  "user_messages-abc3-22": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-23": "A simple message.",
+  "message.argument-abc3-23": "Hi, {name}! 👋",
+  "message.plural-abc3-23": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-23": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-23": "Hi, <b>John</b>!",
+  "message.number-format-abc3-23": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-23": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-23": "bar",
+  "rawText-abc3-23": {
+    "label1": "Title"
+  },
+  "noformat-abc3-23": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-23": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-23": "{count, number} users",
+  "select-abc3-23": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-23": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-23": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-23": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-23": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-23": "1 $t(nesting2)",
+  "nesting2-abc3-23": "2 $t(nesting3)",
+  "nesting3-abc3-23": "3",
+  "key1-abc3-23": "hello world",
+  "user_messages-abc3-23": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-24": "A simple message.",
+  "message.argument-abc3-24": "Hi, {name}! 👋",
+  "message.plural-abc3-24": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-24": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-24": "Hi, <b>John</b>!",
+  "message.number-format-abc3-24": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-24": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-24": "bar",
+  "rawText-abc3-24": {
+    "label1": "Title"
+  },
+  "noformat-abc3-24": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-24": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-24": "{count, number} users",
+  "select-abc3-24": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-24": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-24": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-24": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-24": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-24": "1 $t(nesting2)",
+  "nesting2-abc3-24": "2 $t(nesting3)",
+  "nesting3-abc3-24": "3",
+  "key1-abc3-24": "hello world",
+  "user_messages-abc3-24": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-25": "A simple message.",
+  "message.argument-abc3-25": "Hi, {name}! 👋",
+  "message.plural-abc3-25": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-25": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-25": "Hi, <b>John</b>!",
+  "message.number-format-abc3-25": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-25": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-25": "bar",
+  "rawText-abc3-25": {
+    "label1": "Title"
+  },
+  "noformat-abc3-25": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-25": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-25": "{count, number} users",
+  "select-abc3-25": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-25": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-25": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-25": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-25": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-25": "1 $t(nesting2)",
+  "nesting2-abc3-25": "2 $t(nesting3)",
+  "nesting3-abc3-25": "3",
+  "key1-abc3-25": "hello world",
+  "user_messages-abc3-25": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-26": "A simple message.",
+  "message.argument-abc3-26": "Hi, {name}! 👋",
+  "message.plural-abc3-26": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-26": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-26": "Hi, <b>John</b>!",
+  "message.number-format-abc3-26": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-26": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-26": "bar",
+  "rawText-abc3-26": {
+    "label1": "Title"
+  },
+  "noformat-abc3-26": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-26": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-26": "{count, number} users",
+  "select-abc3-26": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-26": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-26": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-26": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-26": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-26": "1 $t(nesting2)",
+  "nesting2-abc3-26": "2 $t(nesting3)",
+  "nesting3-abc3-26": "3",
+  "key1-abc3-26": "hello world",
+  "user_messages-abc3-26": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-27": "A simple message.",
+  "message.argument-abc3-27": "Hi, {name}! 👋",
+  "message.plural-abc3-27": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-27": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-27": "Hi, <b>John</b>!",
+  "message.number-format-abc3-27": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-27": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-27": "bar",
+  "rawText-abc3-27": {
+    "label1": "Title"
+  },
+  "noformat-abc3-27": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-27": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-27": "{count, number} users",
+  "select-abc3-27": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-27": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-27": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-27": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-27": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-27": "1 $t(nesting2)",
+  "nesting2-abc3-27": "2 $t(nesting3)",
+  "nesting3-abc3-27": "3",
+  "key1-abc3-27": "hello world",
+  "user_messages-abc3-27": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-202": "A simple message.",
+  "message.argument-abc3-202": "Hi, {name}! 👋",
+  "message.plural-abc3-202": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-202": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-202": "Hi, <b>John</b>!",
+  "message.number-format-abc3-202": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-202": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-202": "bar",
+  "rawText-abc3-202": {
+    "label1": "Title"
+  },
+  "noformat-abc3-202": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-202": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-202": "{count, number} users",
+  "select-abc3-202": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-202": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-202": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-202": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-202": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-202": "1 $t(nesting2)",
+  "nesting2-abc3-202": "2 $t(nesting3)",
+  "nesting3-abc3-202": "3",
+  "key1-abc3-202": "hello world",
+  "user_messages-abc3-202": "{count, plural, one {You have # message.} other {You have # messages.}}",
+
+  "message.simple-abc3-203": "A simple message.",
+  "message.argument-abc3-203": "Hi, {name}! 👋",
+  "message.plural-abc3-203": "{count, plural, one {# item} other {# items}}",
+  "message.select-abc3-203": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format-abc3-203": "Hi, <b>John</b>!",
+  "message.number-format-abc3-203": "Formatted number: {num, number, ::K}",
+  "message.currency-format-abc3-203": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo-abc3-203": "bar",
+  "rawText-abc3-203": {
+    "label1": "Title"
+  },
+  "noformat-abc3-203": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables-abc3-203": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat-abc3-203": "{count, number} users",
+  "select-abc3-203": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select-abc3-203": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution-abc3-203": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText-abc3-203": "this is the price <bold>{price, number}</bold>.",
+  "yo-abc3-203": "this is the price <div>{price, number}</div>.",
+  "nesting1-abc3-203": "1 $t(nesting2)",
+  "nesting2-abc3-203": "2 $t(nesting3)",
+  "nesting3-abc3-203": "3",
+  "key1-abc3-203": "hello world",
+  "user_messages-abc3-203": "{count, plural, one {You have # message.} other {You have # messages.}}"
+}

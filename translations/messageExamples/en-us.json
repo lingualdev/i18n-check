@@ -1,0 +1,30 @@
+{
+  "message.simple": "A simple message.",
+  "message.argument": "Hi, {name}! 👋",
+  "message.plural": "{count, plural, one {# item} other {# items}}",
+  "message.select": "{gender, select, male {Mr} female {Mrs} other {User}}",
+  "message.text-format": "Hi, <b>John</b>!",
+  "message.number-format": "Formatted number: {num, number, ::K}",
+  "message.currency-format": "Formatted currency: {amount, number, ::currency/USD}",
+  "foo": "bar",
+  "rawText": {
+    "label1": "Title"
+  },
+  "noformat": {
+    "search": {
+      "label2": "Hi {user}"
+    }
+  },
+  "multipleVariables": "Hi {user}, it is {today, date, medium}.",
+  "numberFormat": "{count, number} users",
+  "select": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution": "Cart: {itemCount, plural, =0 {no items} one {# item} other {# items}}.",
+  "richText": "this is the price <bold>{price, number}</bold>.",
+  "yo": "this is the price <div>{price, number}</div>.",
+  "nesting1": "1 $t(nesting2)",
+  "nesting2": "2 $t(nesting3)",
+  "nesting3": "3",
+  "key1": "hello world",
+  "user_messages": "{count, plural, one {You have # message.} other {You have # messages.}}"
+}

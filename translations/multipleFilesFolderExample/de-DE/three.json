@@ -1,0 +1,8 @@
+{
+  "multipleVariables": "Hi {name}, it is {today, date, medium} and tomorrow it is {tomorrow, date, medium}.",
+  "numberFormat": "{count, number} users",
+  "select": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select": "{done, select, no {There is more to it {count, number}.} other {Done.}}",
+  "plural.with.substitution": "Shopping cart: {itemCount, plural, =0 {keine Einheiten} one {# Eiheit} other {# Einheiten}}.",
+  "user_messages": "{count, plural, one {You had # message.} other {You had # messages.}}"
+}
