@@ -2,11 +2,11 @@
   "name": "@lingual/i18n-check",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "bin": {
-    "i18n-check": "./dist/bin/index.js"
+    "i18n-check": "dist/bin/index.js"
   },
-  "types": "./dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest"
