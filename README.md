@@ -61,8 +61,10 @@ yarn i18n:check -t translations/messageExamples -s translations/messageExamples/
 
 ### --format
 
-By default `i18n-check` will validate against any `icu` compliant translations. There are i18n libraries that have their own specific format, which might not be based on `icu` and therefore not be validated against.
-Currently the `i18Next` format is supported and can be set via the `-f` or `--format` option.
+By default `i18n-check` will validate against any [`icu`](https://github.com/unicode-org/icu) compliant translations.
+Additionally the `i18next` format is supported and can be set via the `-f` or `--format` option.
+
+There are i18n libraries that have their own specific format, which might not be based on `icu` and therefore can not be validated against currently. On a side-note: there might be future support for more specific formats.
 
 ```bash
 yarn i18n:check -t translations/i18NextMessageExamples -s translations/i18NextMessageExamples/en-us.json -f i18next
@@ -70,17 +72,23 @@ yarn i18n:check -t translations/i18NextMessageExamples -s translations/i18NextMe
 
 ### --check
 
-By default the `i18n-check` will perform a validation against any missing and invalid keys. There are situations where only a specific check should run. By using the `-c` or `--check` option you can specify a specific check to run.
+By default the `i18n-check` will perform a validation against any **missing** and/or **invalid** keys. There are situations where only a specific check should run. By using the `-c` or `--check` option you can specify a specific check to run.
 
 The available options are `missingKeys`, which will check against any missing keys in the target files and `invalidKeys` will check for invalid keys, where the target translations has a different type then the one defined in the source file.
+
+Check for missing keys:
+
+```bash
+yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c missingKeys
+```
+
+Check for invalid keys:
 
 ```bash
 yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c invalidKeys
 ```
 
-```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c missingKeys
-```
+Check for missing an invalid keys (which is the default):
 
 ```bash
 yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c missingKeys,invalidKeys
@@ -97,7 +105,7 @@ yarn i18n:check -t translations/messageExamples -s translations/messageExamples/
 
 ### --exclude
 
-There are situations where we want to exclude a single or multiple files or a single folder or a group of folders. A typical scenario is that it is known that some keys are missing for a specific folder as it would be work inp progress for example. To exclude this or these files/folders you can use the `-e` or `--exclude` option. It expect a comma separated string of files and/or folders.
+There are situations where we want to exclude a single or multiple files or a single folder or a group of folders. A typical scenario would be that some keys are missing in a specific folder, as they are being work in progress for example. To exclude this or these files/folders you can use the `-e` or `--exclude` option. It expects a comma separated string of files and/or folders.
 
 To exclude a single file:
 
@@ -138,7 +146,7 @@ If all the locales are organized in a **single folder**:
   - en-en.json
   - de-de.json
 
-Use the `d` or `dir` option to define the directory that should be checked for target files. With the `b` or `base` option you can specify the base/reference file to compare the target files against.
+Use the `d` or `dir` option to define the directory that should be checked for target files. With the `s` or `source` option you can specify the base/reference file to compare the target files against.
 
 ```bash
 yarn i18n:check -t locales -s locales/en-us.json
@@ -162,7 +170,7 @@ yarn i18n:check -t locales -s locales/en-US/index.json
 
 #### Folder per locale with multiple files
 
-If the locales are **organised as folders** containing containing multiple json files:
+If the locales are **organised as folders** containing multiple json files:
 
 - locales/
   - en-US/
@@ -174,7 +182,7 @@ If the locales are **organised as folders** containing containing multiple json 
     - two.json
     - three.json
 
-Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `base` option. `i18n-check` will try to collect all the files in the provided base directory and compare each one against the corresponding files in the target locales.
+Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. `i18n-check` will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
 
 ```bash
 yarn i18n:check -t locales -s locales/en-US/
@@ -205,7 +213,7 @@ If the locales are **organised as folders** containing multiple json files:
       - two.json
       - three.json
 
-Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `base` option. `i18n-check` will try to collect all the files in the provided base directory and compare each one against the corresponding files in the target locales.
+Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. `i18n-check` will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
 
 ```bash
 yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/de
@@ -213,7 +221,7 @@ yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/de
 
 ## As Github Action
 
-We currently do not offer an explicit Github action you can use out of the box, but if you have `i18n-check` already installed, you can define your own **YAML** file. The following example can be starting point that you can adapt to your current setup:
+We currently do not offer an explicit **Github Action** you can use out of the box, but if you have `i18n-check` already installed, you can define your own **YAML** file. The following example can be starting point that you can adapt to your current setup:
 
 ```
 name: i18n Check
@@ -253,7 +261,7 @@ import * as i18nCheck from "@lingual/i18n-check";
 
 ### `i18nCheck.checkTranslations(source, targets [, options])`
 
-`checkTranslations` expects the base and comparison or target files and returns an object containing the missing and invalid keys. The optional `options` objects can be provided as a third argument to define the format style via the `format` property, this is useful if you want to validate `i18Next` specific translations.
+`checkTranslations` expects the base and comparison or target files and returns an object containing the missing and invalid keys. The optional `options` objects can be provided as a third argument to define the format style via the `format` property, this is useful if you want to validate `i18next` specific translations.
 
 ```ts
 import { checkTranslations } from "@lingual/i18n-check";
@@ -269,7 +277,7 @@ const { invalidKeys, missingKeys } = checkTranslations(
 );
 ```
 
-Additionally the `options` enable to also define which checks should run via the `checks` property, f.e. if you only want to check for missing or invalid keys only.
+Additionally the `options` object enables to also define which checks should run via the `checks` property, f.e. if you only want to check for missing or invalid keys only.
 
 ```ts
 import { checkTranslations } from "@lingual/i18n-check";
@@ -307,7 +315,7 @@ The result for `missingKeys` as well as `invalidKeys` is an object containing th
 
 ### `i18nCheck.checkMissingTranslations(source, targets)`
 
-`checkMissingTranslations` checks for if there are any missing keys in the comparison or target files. All files are compared against the base file.
+`checkMissingTranslations` checks for any missing keys in the target files. All files are compared against the source file.
 
 ```ts
 import { checkMissingTranslations } from "@lingual/i18n-check";
@@ -324,7 +332,7 @@ The result is an object containing the provided locales and their corresponding 
 
 ### `i18nCheck.checkInvalidTranslations(source, targets [, options])`
 
-`checkInvalidTranslations` checks for if there are any invalid keys in the comparison or target files. All files are compared against the base file.
+`checkInvalidTranslations` checks if there are any invalid keys in the target files. All files are compared against the source file.
 
 ```ts
 import { checkInvalidTranslations } from "@lingual/i18n-check";
