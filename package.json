@@ -1,6 +1,6 @@
 {
   "name": "@lingual/i18n-check",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -12,6 +12,9 @@
     "build": "tsc",
     "test": "jest"
   },
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "@formatjs/icu-messageformat-parser": "^2.7.6",
     "chalk": "^4.1.2",
