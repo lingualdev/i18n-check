@@ -86,6 +86,24 @@ const main = async () => {
   const format = program.getOptionValue("format");
   const exclude = program.getOptionValue("exclude");
 
+  if (!srcPath) {
+    console.log(
+      chalk.red(
+        "Source file(s) not found. Please provide valid source file(s), i.e. -s translations/en-us.json"
+      )
+    );
+    exit(1);
+  }
+
+  if (!targetPath) {
+    console.log(
+      chalk.red(
+        "Target file(s) not found. Please provide valid target file(s), i.e. -t translations/"
+      )
+    );
+    exit(1);
+  }
+
   const excludedPaths = exclude ? toArray(exclude) : [];
   const targetPathFolders: string[] = toArray(targetPath);
   const srcPaths: string[] = toArray(srcPath);
@@ -115,38 +133,45 @@ const main = async () => {
     format: format ?? undefined,
   };
 
-  if (srcPaths.length > 0) {
-    files.forEach((file) => {
-      const content = JSON.parse(fs.readFileSync(file, "utf-8"));
-      const sourcePath = getSourcePath(srcPaths, file);
-      if (sourcePath) {
-        srcFiles.push({
-          reference: null,
-          name: file,
-          content: flattenTranslations(content),
-        });
-      } else {
-        const targetPath = getTargetPath(targetPathFolders, srcPaths, file);
-        const reference = targetPath?.includes(".json")
-          ? targetPath
-          : `${targetPath}${file.split("/").pop()}`;
+  files.forEach((file) => {
+    const content = JSON.parse(fs.readFileSync(file, "utf-8"));
+    const sourcePath = getSourcePath(srcPaths, file);
+    if (sourcePath) {
+      srcFiles.push({
+        reference: null,
+        name: file,
+        content: flattenTranslations(content),
+      });
+    } else {
+      const targetPath = getTargetPath(targetPathFolders, srcPaths, file);
+      const reference = targetPath?.includes(".json")
+        ? targetPath
+        : `${targetPath}${file.split("/").pop()}`;
 
-        targetFiles.push({
-          reference,
-          name: file,
-          content: flattenTranslations(content),
-        });
-      }
-    });
-  }
+      targetFiles.push({
+        reference,
+        name: file,
+        content: flattenTranslations(content),
+      });
+    }
+  });
 
   if (srcFiles.length === 0) {
     console.log(
       chalk.red(
-        "Source file(s) not found. Please provide a valid source file, i.e. -s translations/en-us.json"
+        "Source file(s) not found. Please provide valid source file(s), i.e. -s translations/en-us.json"
       )
     );
-    return;
+    exit(1);
+  }
+
+  if (targetFiles.length === 0) {
+    console.log(
+      chalk.red(
+        "Target file(s) not found. Please provide valid target file(s), i.e. -t translations/"
+      )
+    );
+    exit(1);
   }
 
   try {
