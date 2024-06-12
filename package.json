@@ -1,6 +1,7 @@
 {
   "name": "@lingual/i18n-check",
   "version": "0.1.5",
+  "description": "i18n translation messages check",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -27,5 +28,9 @@
     "@types/node": "^20.12.12",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lingualdev/i18n-check.git"
   }
 }
