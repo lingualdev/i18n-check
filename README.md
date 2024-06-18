@@ -1,4 +1,4 @@
-# Lingual i18n Check
+# Lingual i18n-check
 
 ## Installation and Usage
 
@@ -400,3 +400,7 @@ To run the tests use the following command:
 ```bash
 pnpm run test // yarn test or npm test
 ```
+
+## Links
+
+[Twitter](https://twitter.com/lingualdev)
