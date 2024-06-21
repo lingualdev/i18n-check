@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: yarn install & test
+      - name: pnpm install & test
         run: |
-          yarn install
-          yarn test
+          pnpm install --frozen-lockfile
+          pnpm test
 
   test-build:
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: yarn install & build
+      - name: pnpm install & build
         run: |
-          yarn install
-          yarn build
+          pnpm install --frozen-lockfile
+          pnpm build
