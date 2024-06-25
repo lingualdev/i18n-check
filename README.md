@@ -146,7 +146,7 @@ If all the locales are organized in a **single folder**:
   - en-en.json
   - de-de.json
 
-Use the `d` or `dir` option to define the directory that should be checked for target files. With the `s` or `source` option you can specify the base/reference file to compare the target files against.
+Use the `t` or `target` option to define the directory that should be checked for target files. With the `s` or `source` option you can specify the base/reference file to compare the target files against.
 
 ```bash
 yarn i18n:check -t locales -s locales/en-us.json
@@ -216,7 +216,7 @@ If the locales are **organised as folders** containing multiple json files:
 Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. `i18n-check` will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
 
 ```bash
-yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/de
+yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/en
 ```
 
 ## As Github Action
