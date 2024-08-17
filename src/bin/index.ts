@@ -121,8 +121,8 @@ const main = async () => {
     ignore: ["node_modules/**"].concat(excludedPaths),
   });
 
-  console.log(chalk.blue("i18n translations checker"));
-  console.log(chalk.blackBright(`Source file(s): ${srcPath}`));
+  console.log("i18n translations checker");
+  console.log(chalk.gray(`Source file(s): ${srcPath}`));
 
   if (format) {
     console.log(chalk.blackBright(`Selected format is: ${format}`));
@@ -213,32 +213,55 @@ const print = ({
 }) => {
   const reporter = program.getOptionValue("reporter");
 
-  const errorReporter =
-    reporter === "summary" ? summaryReporter : standardReporter;
+  const isSummary = reporter === "summary";
 
   if (missingKeys && Object.keys(missingKeys).length > 0) {
-    console.log(chalk.bgRed(chalk.white("\nFound missing keys!")));
-    for (const [lang, missingMessageKeys] of Object.entries<string[]>(
-      missingKeys
-    )) {
-      console.log(chalk.red(`\nIn ${lang}:\n`));
-      console.log(chalk.red(errorReporter(missingMessageKeys, "missingKeys")));
+    console.log(chalk.red("\nFound missing keys!"));
+    if (isSummary) {
+      console.log(chalk.red(summaryReporter(getSummaryRows(missingKeys))));
+    } else {
+      console.log(chalk.red(standardReporter(getStandardRows(missingKeys))));
     }
   } else if (missingKeys) {
     console.log(chalk.green("\nNo missing keys found!"));
   }
 
   if (invalidKeys && Object.keys(invalidKeys).length > 0) {
-    console.log(chalk.bgRed(chalk.white("\nFound invalid keys!")));
-    for (const [lang, invalidMessageKeys] of Object.entries<string[]>(
-      invalidKeys
-    )) {
-      console.log(chalk.red(`\nIn ${lang}:\n`));
-      console.log(chalk.red(errorReporter(invalidMessageKeys, "invalidKeys")));
+    console.log(chalk.red("\nFound invalid keys!"));
+    if (isSummary) {
+      console.log(chalk.red(summaryReporter(getSummaryRows(invalidKeys))));
+    } else {
+      console.log(chalk.red(standardReporter(getStandardRows(invalidKeys))));
     }
   } else if (invalidKeys) {
     console.log(chalk.green("\nNo invalid translations found!"));
   }
+};
+
+const getSummaryRows = (checkResult: CheckResult) => {
+  const formattedRows = [];
+
+  for (const [file, keys] of Object.entries<string[]>(checkResult)) {
+    formattedRows.push({
+      file,
+      total: keys.length,
+    });
+  }
+  return formattedRows;
+};
+
+const getStandardRows = (checkResult: CheckResult) => {
+  const formattedRows = [];
+
+  for (const [file, keys] of Object.entries<string[]>(checkResult)) {
+    for (const key of keys) {
+      formattedRows.push({
+        file,
+        key,
+      });
+    }
+  }
+  return formattedRows;
 };
 
 main();
