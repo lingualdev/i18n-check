@@ -1,5 +1,14 @@
 # Lingual i18n-check
 
+**i18n-check** will help with validating your translation files, including
+checking for missing and/or invalid/broken translations.
+It will compare the defined source language with all target translation files and try to find inconsistencies between source and target files.
+You can run these checks as a pre-commit hook or on the CI depending on your use-case and setup.
+
+![example 1](./assets/i18n-check-example-one.png)
+
+![example 2](./assets/i18n-check-example-two.png)
+
 ## Installation and Usage
 
 Using **yarn**:
