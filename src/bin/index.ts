@@ -1,12 +1,12 @@
 #! /usr/bin/env node
 
-import { glob } from "glob";
+import { glob, globSync } from "glob";
 import chalk from "chalk";
 import fs from "fs";
 import { exit } from "process";
 import { program } from "commander";
 import { CheckResult, TranslationFile } from "../types";
-import { checkTranslations } from "..";
+import { checkTranslations, checkUnusedKeys } from "..";
 import { Context, standardReporter, summaryReporter } from "../errorReporters";
 import { flattenTranslations } from "../utils/flattenTranslations";
 
@@ -32,6 +32,10 @@ program
   .option(
     "-e, --exclude [file(s), folder(s)]",
     "define the file(s) and/or folders(s) that should be excluded from the check"
+  )
+  .option(
+    "-u, --unused [folder]",
+    "define the source path to find all unused keys"
   )
   .parse();
 
@@ -85,6 +89,7 @@ const main = async () => {
   const targetPath = program.getOptionValue("target");
   const format = program.getOptionValue("format");
   const exclude = program.getOptionValue("exclude");
+  const unusedSrcPath = program.getOptionValue("unused");
 
   if (!srcPath) {
     console.log(
@@ -173,11 +178,19 @@ const main = async () => {
     );
     exit(1);
   }
-
   try {
     const result = checkTranslations(srcFiles, targetFiles, options);
 
-    print(result);
+    printTranslationResult(result);
+
+    if (unusedSrcPath) {
+      const unusedKeys = await checkUnusedKeys(
+        srcFiles,
+        unusedSrcPath,
+        options
+      );
+      printUnusedKeysResult({ unusedKeys });
+    }
 
     const end = performance.now();
 
@@ -204,7 +217,7 @@ const main = async () => {
   }
 };
 
-const print = ({
+const printTranslationResult = ({
   missingKeys,
   invalidKeys,
 }: {
@@ -238,12 +251,36 @@ const print = ({
   }
 };
 
+const printUnusedKeysResult = ({
+  unusedKeys,
+}: {
+  unusedKeys: CheckResult | undefined;
+}) => {
+  const reporter = program.getOptionValue("reporter");
+
+  const isSummary = reporter === "summary";
+
+  if (unusedKeys && Object.keys(unusedKeys).length > 0) {
+    console.log(chalk.red("\nFound unused keys!"));
+    if (isSummary) {
+      console.log(chalk.red(summaryReporter(getSummaryRows(unusedKeys))));
+    } else {
+      console.log(chalk.red(standardReporter(getStandardRows(unusedKeys))));
+    }
+  } else if (unusedKeys) {
+    console.log(chalk.green("\nNo unused found!"));
+  }
+};
+
+const truncate = (chars: string) =>
+  chars.length > 80 ? `${chars.substring(0, 80)}...` : chars;
+
 const getSummaryRows = (checkResult: CheckResult) => {
   const formattedRows = [];
 
   for (const [file, keys] of Object.entries<string[]>(checkResult)) {
     formattedRows.push({
-      file,
+      file: truncate(file),
       total: keys.length,
     });
   }
@@ -256,8 +293,8 @@ const getStandardRows = (checkResult: CheckResult) => {
   for (const [file, keys] of Object.entries<string[]>(checkResult)) {
     for (const key of keys) {
       formattedRows.push({
-        file,
-        key,
+        file: truncate(file),
+        key: truncate(key),
       });
     }
   }
