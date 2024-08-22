@@ -109,7 +109,7 @@ yarn i18n:check -t translations/messageExamples -s translations/messageExamples/
 
 This feature is currently only supported for `react-intl` and is useful if you need to know which keys exist in your translation files but not in your codebase. Via the `-u` or `--unused` option you provide a source path to the code, which will be parsed to find all unused keys in the primay target language.
 
-It is important to note that you must also provide the `-f` or `--format` option with `react-intl` as value. See the [`type` section](#--format) for more information.
+It is important to note that you must also provide the `-f` or `--format` option with `react-intl` as value. See the [`format` section](#--format) for more information.
 
 ```bash
 yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -u client/ -f react-intl
