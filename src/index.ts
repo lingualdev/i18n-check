@@ -3,9 +3,11 @@ import { CheckResult, Translation, TranslationFile } from "./types";
 import { findInvalidTranslations } from "./utils/findInvalidTranslations";
 import { findInvalid18nTranslations } from "./utils/findInvalidi18nTranslations";
 import { Context } from "./errorReporters";
+import { globSync } from "glob";
+import { extract } from "@formatjs/cli-lib";
 
 export type Options = {
-  format?: "icu" | "i18next";
+  format?: "icu" | "i18next" | "react-intl" | "react-i18next";
   checks?: Context[];
 };
 
@@ -65,4 +67,49 @@ export const checkTranslations = (
     missingKeys: hasMissingKeys ? missingKeys : undefined,
     invalidKeys: hasInvalidKeys ? invalidKeys : undefined,
   };
+};
+
+export const checkUnusedKeys = async (
+  source: TranslationFile[],
+  codebaseSrc: string,
+  options: Options = {
+    format: "react-intl",
+  }
+): Promise<CheckResult | undefined> => {
+  if (!options.format || !["react-intl", "i18next"].includes(options.format)) {
+    return undefined;
+  }
+
+  return options.format === "react-intl"
+    ? findUnusedReactIntlTranslations(source, codebaseSrc)
+    : undefined;
+};
+
+const findUnusedReactIntlTranslations = async (
+  source: TranslationFile[],
+  codebaseSrc: string
+) => {
+  let unusedKeys = {};
+
+  // find any unused keys in a react-intl code base
+  const unsuedKeysFiles = globSync(codebaseSrc, {
+    ignore: ["node_modules/**"],
+  });
+
+  const extracted = await extract(unsuedKeysFiles, {});
+  const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
+
+  source.forEach(({ name, content }) => {
+    const keysInSource = Object.keys(content);
+    const found = [];
+    for (const keyInSource of keysInSource) {
+      if (!extractedResultSet.has(keyInSource)) {
+        found.push(keyInSource);
+      }
+    }
+
+    Object.assign(unusedKeys, { [name]: found });
+  });
+
+  return unusedKeys;
 };
