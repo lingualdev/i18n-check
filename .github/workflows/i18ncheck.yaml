@@ -19,6 +19,6 @@ jobs:
           yarn install
           yarn build
 
-      - name: yarn i18n-check
+      - name: yarn i18n:check
         run: |
           yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json
