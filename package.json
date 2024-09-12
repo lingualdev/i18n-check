@@ -11,7 +11,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "i18n:check": "i18n-check"
   },
   "files": [
     "dist/"
