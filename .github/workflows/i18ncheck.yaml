@@ -21,4 +21,4 @@ jobs:
 
       - name: yarn i18n-check
         run: |
-          yarn i18n-check -t translations/messageExamples -s translations/messageExamples/en-us.json
+          yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json

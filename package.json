@@ -12,7 +12,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "i18n-check": "i18n-check"
+    "i18n:check": "i18n-check"
   },
   "files": [
     "dist/"
