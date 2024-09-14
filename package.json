@@ -11,7 +11,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest src/ --testPathIgnorePatterns src/bin/*",
+    "test:cli": "tsc && jest src/bin/index.test.ts"
   },
   "files": [
     "dist/"
