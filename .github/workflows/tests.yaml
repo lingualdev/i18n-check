@@ -26,6 +26,24 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm test
 
+  test-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "pnpm"
+      - name: pnpm install & test
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm test:cli
+
   test-build:
     runs-on: ubuntu-latest
 
