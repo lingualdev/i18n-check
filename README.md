@@ -30,7 +30,7 @@ pnpm add --save-dev @lingual/i18n-check
 
 After the installation, i18n-check can either be accessed via defining a command in the `package.json` file or directly in the CLI.
 
-Update the your `package.json` and add a new command:
+Update your `package.json` and add a new command:
 
 ```bash
 "scripts": {
