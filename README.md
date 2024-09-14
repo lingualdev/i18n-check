@@ -8,6 +8,21 @@ You can run these checks as a pre-commit hook or on the CI depending on your use
 
 ![example 2](./assets/i18n-check-example-two.png)
 
+## Table of Contents
+
+- [Installation](#installation)
+- [General Usage](#general-usage)
+- [CLI Options](#options)
+- [Examples](#examples)
+  - [Single folder](#single-folder)
+  - [Folder per locale](#folder-per-locale)
+  - [Folder per locale with multiple files](#folder-per-locale-with-multiple-files)
+  - [Multiple folders containing locales](#multiple-folders-containing-locales)
+- [Github Action](#as-github-action)
+- [API](#api)
+- [Development](#development)
+- [Links](#links)
+
 ## Installation
 
 Using **yarn**:
@@ -439,14 +454,23 @@ Multiple folders containing locales translation example:
 node dist/bin/index.js -t translations/folderExample,translations/messageExamples -s translations/folderExample/en-US/,translations/messageExamples/en-us.json
 ```
 
-## Test
+### Tests
 
-To run the tests use the following command:
+To run the tests use one of the following commands:
 
 ```bash
-pnpm run test // yarn test or npm test
+pnpm test
+```
+
+```bash
+yarn test
+```
+
+```bash
+npm test
 ```
 
 ## Links
 
-[Twitter](https://twitter.com/lingualdev)
+- [Introducing i18n-check](https://lingual.dev/blog/introducing-i18n-check/)
+- [Twitter](https://twitter.com/lingualdev)
