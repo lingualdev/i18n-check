@@ -17,7 +17,6 @@ You can run these checks as a pre-commit hook or on the CI depending on your use
   - [Single folder](#single-folder)
   - [Folder per locale](#folder-per-locale)
   - [Folder per locale with multiple files](#folder-per-locale-with-multiple-files)
-  - [Multiple folders containing locales](#multiple-folders-containing-locales)
 - [Github Action](#as-github-action)
 - [API](#api)
 - [Development](#development)
@@ -245,39 +244,6 @@ Define the `locales` folder as the directory to look for target files and pass `
 
 ```bash
 yarn i18n:check -t locales -s locales/en-US/
-```
-
-### Multiple folders containing locales
-
-If the locales are **organised as folders** containing multiple json files:
-
-```
-dirOne
-  locales/
-    en-US/
-      one.json
-      two.json
-      three.json
-    de-DE/
-      one.json
-      two.json
-      three.json
-dirTwo
-  locales/
-    en/
-      one.json
-      two.json
-      three.json
-    de/
-      one.json
-      two.json
-      three.json
-```
-
-Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. i18n-check will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
-
-```bash
-yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/en
 ```
 
 ## As Github Action
