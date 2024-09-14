@@ -84,10 +84,6 @@ export const hasDiff = (
       return true;
     }
 
-    if (formatElementA.type === "text" && formatElementB.type === "text") {
-      return false;
-    }
-
     if (formatElementA.type === "tag" && formatElementB.type === "tag") {
       return (
         formatElementA.raw !== formatElementB.raw ||
