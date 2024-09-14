@@ -251,7 +251,7 @@ yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/en
 
 We currently do not offer an explicit **Github Action** you can use out of the box, but if you have i18n-check already installed, you can define your own **YAML** file. The following example can be starting point that you can adapt to your current setup:
 
-```
+```yml
 name: i18n Check
 on:
   pull_request:
