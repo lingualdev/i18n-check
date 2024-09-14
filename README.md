@@ -176,7 +176,7 @@ The `--exclude` option also accepts a mix of files and folders, which follows th
 
 i18n-check is able to load and validate against different locale folder structures. Depending on how the locale files are organized, there are different configuration options.
 
-#### Single folder
+### Single folder
 
 If all the locales are organized in a **single folder**:
 
@@ -192,7 +192,7 @@ Use the `t` or `target` option to define the directory that should be checked fo
 yarn i18n:check -t locales -s locales/en-us.json
 ```
 
-#### Folder per locale
+### Folder per locale
 
 If the locales are **organised as folders** containing a single json file:
 
@@ -210,7 +210,7 @@ Define the `locales` folder as the directory to look for target files.
 yarn i18n:check -t locales -s locales/en-US/index.json
 ```
 
-#### Folder per locale with multiple files
+### Folder per locale with multiple files
 
 If the locales are **organised as folders** containing multiple json files:
 
@@ -232,7 +232,7 @@ Define the `locales` folder as the directory to look for target files and pass `
 yarn i18n:check -t locales -s locales/en-US/
 ```
 
-#### Multiple folders containing locales
+### Multiple folders containing locales
 
 If the locales are **organised as folders** containing multiple json files:
 
