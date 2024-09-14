@@ -28,7 +28,7 @@ Using **pnpm**:
 pnpm add --save-dev @lingual/i18n-check
 ```
 
-After the installation, `i18n-check` can either be accessed via defining a command in the `package.json` file or directly in the CLI.
+After the installation, i18n-check can either be accessed via defining a command in the `package.json` file or directly in the CLI.
 
 Update the your `package.json` and add a new command:
 
@@ -51,7 +51,7 @@ node_modules/.bin/i18n-check
 
 ### --target
 
-With the `-t` or `--target` option you define which folder or multiple folders you want to run the i18n checks against. It is a **required** option. `i18n-check` will try to find all target locale files and compare these files against the defined source file(s).
+With the `-t` or `--target` option you define which folder or multiple folders you want to run the i18n checks against. It is a **required** option. i18n-check will try to find all target locale files and compare these files against the defined source file(s).
 Check the [example](#examples) to see how different locale translation files are organised and how they can be addressed.
 
 ```bash
@@ -60,7 +60,7 @@ yarn i18n:check -t translations/messageExamples -s translations/messageExamples/
 
 ### --source
 
-With the `-s` or `--source` option you define which file(s) or folder(s) you want to use as the source to compare all target files against. It is a **required** option. `i18n-check` will try to find all target locale files and compare these files against the defined source file(s).
+With the `-s` or `--source` option you define which file(s) or folder(s) you want to use as the source to compare all target files against. It is a **required** option. i18n-check will try to find all target locale files and compare these files against the defined source file(s).
 Check the [example](#examples) to see how different locale translation files are organised and how they can be addressed.
 
 ```bash
@@ -69,12 +69,12 @@ yarn i18n:check -t translations/messageExamples -s translations/messageExamples/
 
 ### --format
 
-By default `i18n-check` will validate against any [`icu`](https://github.com/unicode-org/icu) compliant translations.
+By default i18n-check will validate against any [ICU](https://github.com/unicode-org/icu) compliant translations.
 Additionally the `i18next` format is supported and can be set via the `-f` or `--format` option.
 
-There are i18n libraries that have their own specific format, which might not be based on `icu` and therefore can not be validated against currently. On a side-note: there might be future support for more specific formats.
+There are i18n libraries that have their own specific format, which might not be based on ICU and therefore can not be validated against currently. On a side-note: there might be future support for more specific formats.
 
-Hint: If you want to use the `--unused` flag, you should provide `react-intl` as the format. Also see the [`unused` section](#--unused) for more details.
+Hint: If you want to use the `--unused` flag, you should provide react-intl as the format. Also see the [`unused` section](#--unused) for more details.
 
 ```bash
 yarn i18n:check -t translations/i18NextMessageExamples -s translations/i18NextMessageExamples/en-us.json -f i18next
@@ -82,7 +82,7 @@ yarn i18n:check -t translations/i18NextMessageExamples -s translations/i18NextMe
 
 ### --check
 
-By default the `i18n-check` will perform a validation against any **missing** and/or **invalid** keys. There are situations where only a specific check should run. By using the `-c` or `--check` option you can specify a specific check to run.
+By default i18n-check will perform a validation against any **missing** and/or **invalid** keys. There are situations where only a specific check should run. By using the `-c` or `--check` option you can specify a specific check to run.
 
 The available options are `missingKeys`, which will check against any missing keys in the target files and `invalidKeys` will check for invalid keys, where the target translations has a different type then the one defined in the source file.
 
@@ -98,7 +98,7 @@ Check for invalid keys:
 yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c invalidKeys
 ```
 
-Check for missing an invalid keys (which is the default):
+Check for missing and invalid keys (which is the default):
 
 ```bash
 yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c missingKeys,invalidKeys
@@ -106,7 +106,7 @@ yarn i18n:check -t translations/messageExamples -s translations/messageExamples/
 
 ### --unused
 
-This feature is currently only supported for `react-intl` and is useful if you need to know which keys exist in your translation files but not in your codebase. Via the `-u` or `--unused` option you provide a source path to the code, which will be parsed to find all unused keys in the primay target language.
+This feature is currently only supported for react-intl and is useful if you need to know which keys exist in your translation files but not in your codebase. Via the `-u` or `--unused` option you provide a source path to the code, which will be parsed to find all unused keys in the primary target language.
 
 It is important to note that you must also provide the `-f` or `--format` option with `react-intl` as value. See the [`format` section](#--format) for more information.
 
@@ -156,15 +156,17 @@ The `--exclude` option also accepts a mix of files and folders, which follows th
 
 ## Examples
 
-`i18n-check` is able to load and validate against different locale folder structures. Depending on how the locale files are organized, there are different configuration options.
+i18n-check is able to load and validate against different locale folder structures. Depending on how the locale files are organized, there are different configuration options.
 
 #### Single folder
 
 If all the locales are organized in a **single folder**:
 
-- locales/
-  - en-en.json
-  - de-de.json
+```
+locales/
+  en-en.json
+  de-de.json
+```
 
 Use the `t` or `target` option to define the directory that should be checked for target files. With the `s` or `source` option you can specify the base/reference file to compare the target files against.
 
@@ -176,11 +178,13 @@ yarn i18n:check -t locales -s locales/en-us.json
 
 If the locales are **organised as folders** containing a single json file:
 
-- locales/
-  - en-US/
-    - index.json
-  - de-DE/
-    - index.json
+```
+locales/
+  en-US/
+    index.json
+  de-DE/
+    index.json
+```
 
 Define the `locales` folder as the directory to look for target files.
 
@@ -192,17 +196,19 @@ yarn i18n:check -t locales -s locales/en-US/index.json
 
 If the locales are **organised as folders** containing multiple json files:
 
-- locales/
-  - en-US/
-    - one.json
-    - two.json
-    - three.json
-  - de-DE/
-    - one.json
-    - two.json
-    - three.json
+```
+locales/
+  en-US/
+    one.json
+    two.json
+    three.json
+  de-DE/
+    one.json
+    two.json
+    three.json
+```
 
-Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. `i18n-check` will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
+Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. i18n-check will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
 
 ```bash
 yarn i18n:check -t locales -s locales/en-US/
@@ -212,28 +218,30 @@ yarn i18n:check -t locales -s locales/en-US/
 
 If the locales are **organised as folders** containing multiple json files:
 
-- dirOne
-  - locales/
-    - en-US/
-      - one.json
-      - two.json
-      - three.json
-    - de-DE/
-      - one.json
-      - two.json
-      - three.json
-- dirTwo
-  - locales/
-    - en/
-      - one.json
-      - two.json
-      - three.json
-    - de/
-      - one.json
-      - two.json
-      - three.json
+```
+dirOne
+  locales/
+    en-US/
+      one.json
+      two.json
+      three.json
+    de-DE/
+      one.json
+      two.json
+      three.json
+dirTwo
+  locales/
+    en/
+      one.json
+      two.json
+      three.json
+    de/
+      one.json
+      two.json
+      three.json
+```
 
-Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. `i18n-check` will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
+Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. i18n-check will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
 
 ```bash
 yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/en
@@ -241,7 +249,7 @@ yarn i18n:check -t dirOne,dirTwo -s dirOne/en/,dirTwo/en
 
 ## As Github Action
 
-We currently do not offer an explicit **Github Action** you can use out of the box, but if you have `i18n-check` already installed, you can define your own **YAML** file. The following example can be starting point that you can adapt to your current setup:
+We currently do not offer an explicit **Github Action** you can use out of the box, but if you have i18n-check already installed, you can define your own **YAML** file. The following example can be starting point that you can adapt to your current setup:
 
 ```
 name: i18n Check
@@ -272,8 +280,8 @@ jobs:
 
 ## API
 
-Aside from using the CLI, `i18n-check` also exposes a set of check functions that can be accessed programmatically.
-Start by importing `i18n-check`:
+Aside from using the CLI, i18n-check also exposes a set of check functions that can be accessed programmatically.
+Start by importing i18n-check:
 
 ```ts
 import * as i18nCheck from "@lingual/i18n-check";
