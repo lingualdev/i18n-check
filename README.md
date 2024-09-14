@@ -8,7 +8,7 @@ You can run these checks as a pre-commit hook or on the CI depending on your use
 
 ![example 2](./assets/i18n-check-example-two.png)
 
-## Installation and Usage
+## Installation
 
 Using **yarn**:
 
