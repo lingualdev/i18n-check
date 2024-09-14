@@ -11,9 +11,9 @@ Source file(s): translations/flattenExamples/en-us.json
 
 Found missing keys!
 ┌───────────────────────────────────────────┬────────────────────────────────┐
-│                   file                    │              key               │
+│ file                                      │ key                            │
 ├───────────────────────────────────────────┼────────────────────────────────┤
-│  translations/flattenExamples/de-de.json  │       other.nested.three       │
+│  translations/flattenExamples/de-de.json  │  other.nested.three            │
 │  translations/flattenExamples/de-de.json  │  other.nested.deep.more.final  │
 └───────────────────────────────────────────┴────────────────────────────────┘
 
@@ -37,7 +37,7 @@ Source file(s): translations/folderExample/en-US/
 
 Found missing keys!
 ┌───────────────────────────────────────────────┬───────────────────────┐
-│                     file                      │          key          │
+│ file                                          │ key                   │
 ├───────────────────────────────────────────────┼───────────────────────┤
 │  translations/folderExample/de-DE/index.json  │  message.text-format  │
 └───────────────────────────────────────────────┴───────────────────────┘
@@ -46,7 +46,7 @@ Found missing keys!
 
 Found invalid keys!
 ┌───────────────────────────────────────────────┬──────────────────┐
-│                     file                      │       key        │
+│ file                                          │ key              │
 ├───────────────────────────────────────────────┼──────────────────┤
 │  translations/folderExample/de-DE/index.json  │  message.select  │
 └───────────────────────────────────────────────┴──────────────────┘
@@ -69,9 +69,9 @@ Source file(s): translations/multipleFilesFolderExample/en-US/
 
 Found missing keys!
 ┌──────────────────────────────────────────────────────────┬───────────────────────┐
-│                           file                           │          key          │
+│ file                                                     │ key                   │
 ├──────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/multipleFilesFolderExample/de-DE/two.json  │    test.drive.four    │
+│  translations/multipleFilesFolderExample/de-DE/two.json  │  test.drive.four      │
 │  translations/multipleFilesFolderExample/de-DE/one.json  │  message.text-format  │
 └──────────────────────────────────────────────────────────┴───────────────────────┘
 
@@ -79,10 +79,10 @@ Found missing keys!
 
 Found invalid keys!
 ┌────────────────────────────────────────────────────────────┬─────────────────────┐
-│                            file                            │         key         │
+│ file                                                       │ key                 │
 ├────────────────────────────────────────────────────────────┼─────────────────────┤
 │  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
-│   translations/multipleFilesFolderExample/de-DE/one.json   │   message.select    │
+│  translations/multipleFilesFolderExample/de-DE/one.json    │  message.select     │
 └────────────────────────────────────────────────────────────┴─────────────────────┘
 
 
