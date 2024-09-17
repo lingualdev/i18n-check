@@ -63,40 +63,40 @@ node_modules/.bin/i18n-check
 
 ## General Usage
 
-For i18n-check to work you need to tell it at a minimum how to find the source (`--source, -s`) translation files in the primary language and the target translation files (`--target, -t`) in the target languages.
+For i18n-check to work you need to provide it at a minimum the source locale (`--source, -s`) for the primary language and the path to the locale translation files (`--locales, -l`).
 
 Example:
 
 ```bash
-yarn i18n:check -s translations/en.json -t translations/
+yarn i18n:check -s en-US --locales translations/
 ```
 
 Instead of a single source file you can also pass a directory:
 
 ```bash
-yarn i18n:check -s translations/en/ -t translations/
+yarn i18n:check -s en-US --locales translations/
 ```
 
 See the [examples](#examples) for more details.
 
 ## Options
 
-### --target, -t
+### --locales, -l
 
-With the `-t` or `--target` option you define which folder or multiple folders you want to run the i18n checks against. It is a **required** option. i18n-check will try to find all target locale files and compare these files against the defined source file(s).
+With the `-l` or `--locales` option you define which folder or multiple folders you want to run the i18n checks against. It is a **required** option. i18n-check will try to find all target locale files and compare these files against the defined source file(s).
 Check the [example](#examples) to see how different locale translation files are organised and how they can be addressed.
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json
+yarn i18n:check --locales translations/messageExamples -s en-US
 ```
 
 ### --source, -s
 
-With the `-s` or `--source` option you define which file(s) or folder(s) you want to use as the source to compare all target files against. It is a **required** option. i18n-check will try to find all target locale files and compare these files against the defined source file(s).
+With the `-s` or `--source` option you define the source locale to compare all target files against. It is a **required** option. i18n-check will try to find all target locale files and compare these files against the applicable source file(s).
 Check the [examples](#examples) to see how different locale translation files are organised and how they can be addressed.
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json
+yarn i18n:check --locales translations/messageExamples -s en-US
 ```
 
 ### --format, -f
@@ -109,7 +109,7 @@ There are i18n libraries that have their own specific format, which might not be
 Hint: If you want to use the `--unused` flag, you should provide react-intl as the format. Also see the [`unused` section](#--unused) for more details.
 
 ```bash
-yarn i18n:check -t translations/i18NextMessageExamples -s translations/i18NextMessageExamples/en-us.json -f i18next
+yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
 ```
 
 ### --check, -c
@@ -121,19 +121,19 @@ The available options are `missingKeys`, which will check against any missing ke
 Check for missing keys:
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c missingKeys
+yarn i18n:check --locales translations/messageExamples -s en-US -c missingKeys
 ```
 
 Check for invalid keys:
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c invalidKeys
+yarn i18n:check --locales translations/messageExamples -s en-US -c invalidKeys
 ```
 
 Check for missing and invalid keys (which is the default):
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -c missingKeys,invalidKeys
+yarn i18n:check --locales translations/messageExamples -s en-US -c missingKeys,invalidKeys
 ```
 
 ### --unused, -u
@@ -143,7 +143,7 @@ This feature is currently only supported for react-intl and is useful if you nee
 It is important to note that you must also provide the `-f` or `--format` option with `react-intl` as value. See the [`format` section](#--format) for more information.
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -u client/ -f react-intl
+yarn i18n:check --locales translations/messageExamples -s en-US -u client/ -f react-intl
 ```
 
 ### --reporter, -r
@@ -152,7 +152,7 @@ The standard reporting prints out all the missing or invalid keys.
 Using the `-r` or `--reporter` option enables to override the standard error reporting. Passing the `summary` option will print a summary of the missing or invalid keys.
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -r summary
+yarn i18n:check --locales translations/messageExamples -s en-US -r summary
 ```
 
 ### --exclude, -e
@@ -162,25 +162,25 @@ There are situations where we want to exclude a single or multiple files or a si
 To exclude a single file:
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -e translations/messageExamples/fr-fr.json
+yarn i18n:check --locales translations/messageExamples -s en-US -e translations/messageExamples/fr-fr.json
 ```
 
 To exclude multiple files, provide a comma-separated list:
 
 ```bash
-yarn i18n:check -t translations/messageExamples -s translations/messageExamples/en-us.json -e translations/messageExamples/fr-fr.json,translations/messageExamples/de-at.json
+yarn i18n:check --locales translations/messageExamples -s en-US -e translations/messageExamples/fr-fr.json,translations/messageExamples/de-at.json
 ```
 
 To exclude a single folder:
 
 ```bash
-yarn i18n:check -t translations/folderExamples -s translations/folderExamples/en -e translations/folderExamples/fr/*
+yarn i18n:check --locales translations/folderExamples -s en-US -e translations/folderExamples/fr/*
 ```
 
 Alternatively you can exclude multiple folders by providing a comma-separated list of folders to be excluded:
 
 ```bash
-yarn i18n:check -t translations/folderExamples -s translations/folderExamples/en -e translations/folderExamples/fr/*,translations/folderExample/it/*
+yarn i18n:check --locales translations/folderExamples -s en-US -e translations/folderExamples/fr/*,translations/folderExample/it/*
 ```
 
 The `--exclude` option also accepts a mix of files and folders, which follows the same pattern as above and can be defined as a comma-separated list, i.e.
@@ -203,7 +203,7 @@ locales/
 Use the `t` or `target` option to define the directory that should be checked for target files. With the `s` or `source` option you can specify the base/reference file to compare the target files against.
 
 ```bash
-yarn i18n:check -t locales -s locales/en-us.json
+yarn i18n:check --locales locales -s locales/en-us.json
 ```
 
 ### Folder per locale
@@ -221,7 +221,7 @@ locales/
 Define the `locales` folder as the directory to look for target files.
 
 ```bash
-yarn i18n:check -t locales -s locales/en-US/index.json
+yarn i18n:check --locales locales -s en-US
 ```
 
 ### Folder per locale with multiple files
@@ -243,7 +243,7 @@ locales/
 Define the `locales` folder as the directory to look for target files and pass `locales/en-US/` as the `source` option. i18n-check will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
 
 ```bash
-yarn i18n:check -t locales -s locales/en-US/
+yarn i18n:check --locales locales -s en-US
 ```
 
 ## As Github Action
@@ -274,7 +274,7 @@ jobs:
 
       - name: yarn i18n-check
         run: |
-          yarn i18n-check -t translations/messageExamples -s translations/messageExamples/en-us.json
+          yarn i18n-check --locales translations/messageExamples -s en-US
 ```
 
 ## API
@@ -387,37 +387,37 @@ Run `yarn build`, `pnpm run build` or `npm run build` and then depending on the 
 Basic icu translation example:
 
 ```bash
-node dist/bin/index.js -t translations/messageExamples -s translations/messageExamples/en-us.json
+node dist/bin/index.js --locales translations/messageExamples -s en-US
 ```
 
 Flatted translation keys example:
 
 ```bash
-node dist/bin/index.js -t translations/flattenExamples -s translations/flattenExamples/en-us.json
+node dist/bin/index.js --locales translations/flattenExamples -s en-US
 ```
 
 i18next translation example:
 
 ```bash
-node dist/bin/index.js -t translations/i18NextMessageExamples -s translations/i18NextMessageExamples/en-us.json -f i18next
+node dist/bin/index.js --locales translations/i18NextMessageExamples -s en-US -f i18next
 ```
 
 Single file translation example:
 
 ```bash
-node dist/bin/index.js -t translations/folderExample -s translations/folderExample/en-US/
+node dist/bin/index.js --locales translations/folderExample -s en-US
 ```
 
 Multiple files per folder translation example:
 
 ```bash
-node dist/bin/index.js -t translations/multipleFilesFolderExample/ -s translations/multipleFilesFolderExample/en-US/
+node dist/bin/index.js --locales translations/multipleFilesFolderExample/ -s en-US
 ```
 
 Multiple folders containing locales translation example:
 
 ```bash
-node dist/bin/index.js -t translations/folderExample,translations/messageExamples -s translations/folderExample/en-US/,translations/messageExamples/en-us.json
+node dist/bin/index.js --locales translations/folderExample,translations/messageExamples -s en-US
 ```
 
 ### Tests
