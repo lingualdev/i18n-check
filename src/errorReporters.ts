@@ -46,5 +46,6 @@ export const createTable = (input: unknown[]) => {
       .replace(/^└─*┴/, "└")
       .replace(/'/g, " ")}\n`;
   }
-  return output;
+
+  return output.replace(/\n\n$/, "");
 };

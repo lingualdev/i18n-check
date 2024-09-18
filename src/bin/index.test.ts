@@ -17,8 +17,6 @@ Found missing keys!
 │  translations/flattenExamples/de-de.json  │  other.nested.deep.more.final  │
 └───────────────────────────────────────────┴────────────────────────────────┘
 
-
-
 No invalid translations found!
 
 `);
@@ -42,16 +40,12 @@ Found missing keys!
 │  translations/folderExample/de-DE/index.json  │  message.text-format  │
 └───────────────────────────────────────────────┴───────────────────────┘
 
-
-
 Found invalid keys!
 ┌───────────────────────────────────────────────┬──────────────────┐
 │ file                                          │ key              │
 ├───────────────────────────────────────────────┼──────────────────┤
 │  translations/folderExample/de-DE/index.json  │  message.select  │
 └───────────────────────────────────────────────┴──────────────────┘
-
-
 
 `);
         done();
@@ -75,8 +69,6 @@ Found missing keys!
 │  translations/multipleFilesFolderExample/de-DE/one.json  │  message.text-format  │
 └──────────────────────────────────────────────────────────┴───────────────────────┘
 
-
-
 Found invalid keys!
 ┌────────────────────────────────────────────────────────────┬─────────────────────┐
 │ file                                                       │ key                 │
@@ -84,8 +76,6 @@ Found invalid keys!
 │  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
 │  translations/multipleFilesFolderExample/de-DE/one.json    │  message.select     │
 └────────────────────────────────────────────────────────────┴─────────────────────┘
-
-
 
 `);
         done();
@@ -115,16 +105,12 @@ Found missing keys!
 │  translations/messageExamples/de-de.json  │  key1                          │
 └───────────────────────────────────────────┴────────────────────────────────┘
 
-
-
 Found invalid keys!
 ┌───────────────────────────────────────────┬─────────────────────┐
 │ file                                      │ key                 │
 ├───────────────────────────────────────────┼─────────────────────┤
 │  translations/messageExamples/de-de.json  │  multipleVariables  │
 └───────────────────────────────────────────┴─────────────────────┘
-
-
 
 `);
         done();
@@ -152,16 +138,12 @@ Found missing keys!
 │  translations/messageExamples/de-de.json  │  key1      │
 └───────────────────────────────────────────┴────────────┘
 
-
-
 Found invalid keys!
 ┌───────────────────────────────────────────┬─────────────────────┐
 │ file                                      │ key                 │
 ├───────────────────────────────────────────┼─────────────────────┤
 │  translations/messageExamples/de-de.json  │  multipleVariables  │
 └───────────────────────────────────────────┴─────────────────────┘
-
-
 
 `);
         done();
@@ -189,16 +171,12 @@ Found missing keys!
 │  translations/messageExamples/de-de.json  │  key1      │
 └───────────────────────────────────────────┴────────────┘
 
-
-
 Found invalid keys!
 ┌───────────────────────────────────────────┬─────────────────────┐
 │ file                                      │ key                 │
 ├───────────────────────────────────────────┼─────────────────────┤
 │  translations/messageExamples/de-de.json  │  multipleVariables  │
 └───────────────────────────────────────────┴─────────────────────┘
-
-
 
 `);
         done();
