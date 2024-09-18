@@ -33,7 +33,7 @@ program
     "define the reporting style: standard or summary"
   )
   .option(
-    "-e, --exclude [file(s), folder(s)]",
+    "-e, --exclude <exclude...>",
     "define the file(s) and/or folders(s) that should be excluded from the check"
   )
   .option(
@@ -62,21 +62,6 @@ const getSourcePath = (source: string, fileName: string) => {
   return fileName.toLowerCase().includes(source.toLowerCase());
 };
 
-/* const getLocalesPath = (paths: string[], source: string, fileName: string) => {
-  const basePath = paths.find((path: string) => {
-    return fileName.includes(path);
-  });
-
-  return basePath;
-}; */
-
-const toArray = (input: string): string[] => {
-  return input
-    .trim()
-    .split(",")
-    .filter((a: string) => a);
-};
-
 const main = async () => {
   const start = performance.now();
   const srcPath = program.getOptionValue("source");
@@ -103,7 +88,7 @@ const main = async () => {
     exit(1);
   }
 
-  const excludedPaths = exclude ? toArray(exclude) : [];
+  const excludedPaths = exclude ?? [];
   const localePathFolders: string[] = localePath;
 
   const isMultiFolders = localePathFolders.length > 1;

@@ -17,8 +17,6 @@ Found missing keys!
 │  translations/flattenExamples/de-de.json  │  other.nested.deep.more.final  │
 └───────────────────────────────────────────┴────────────────────────────────┘
 
-
-
 No invalid translations found!
 
 `);
@@ -42,16 +40,12 @@ Found missing keys!
 │  translations/folderExample/de-DE/index.json  │  message.text-format  │
 └───────────────────────────────────────────────┴───────────────────────┘
 
-
-
 Found invalid keys!
 ┌───────────────────────────────────────────────┬──────────────────┐
 │ file                                          │ key              │
 ├───────────────────────────────────────────────┼──────────────────┤
 │  translations/folderExample/de-DE/index.json  │  message.select  │
 └───────────────────────────────────────────────┴──────────────────┘
-
-
 
 `);
         done();
@@ -75,8 +69,6 @@ Found missing keys!
 │  translations/multipleFilesFolderExample/de-DE/one.json  │  message.text-format  │
 └──────────────────────────────────────────────────────────┴───────────────────────┘
 
-
-
 Found invalid keys!
 ┌────────────────────────────────────────────────────────────┬─────────────────────┐
 │ file                                                       │ key                 │
@@ -84,8 +76,6 @@ Found invalid keys!
 │  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
 │  translations/multipleFilesFolderExample/de-DE/one.json    │  message.select     │
 └────────────────────────────────────────────────────────────┴─────────────────────┘
-
-
 
 `);
         done();
@@ -115,7 +105,38 @@ Found missing keys!
 │  translations/messageExamples/de-de.json  │  key1                          │
 └───────────────────────────────────────────┴────────────────────────────────┘
 
+Found invalid keys!
+┌───────────────────────────────────────────┬─────────────────────┐
+│ file                                      │ key                 │
+├───────────────────────────────────────────┼─────────────────────┤
+│  translations/messageExamples/de-de.json  │  multipleVariables  │
+└───────────────────────────────────────────┴─────────────────────┘
 
+`);
+        done();
+      }
+    );
+  });
+
+  it("should ignore the excluded file", (done) => {
+    exec(
+      "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/de-de.json",
+      (_error, stdout, _stderr) => {
+        const result = stdout.split("Done")[0];
+        expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌───────────────────────────────────────────┬────────────┐
+│ file                                      │ key        │
+├───────────────────────────────────────────┼────────────┤
+│  translations/messageExamples/de-de.json  │  richText  │
+│  translations/messageExamples/de-de.json  │  yo        │
+│  translations/messageExamples/de-de.json  │  nesting1  │
+│  translations/messageExamples/de-de.json  │  nesting2  │
+│  translations/messageExamples/de-de.json  │  nesting3  │
+│  translations/messageExamples/de-de.json  │  key1      │
+└───────────────────────────────────────────┴────────────┘
 
 Found invalid keys!
 ┌───────────────────────────────────────────┬─────────────────────┐
@@ -124,7 +145,56 @@ Found invalid keys!
 │  translations/messageExamples/de-de.json  │  multipleVariables  │
 └───────────────────────────────────────────┴─────────────────────┘
 
+`);
+        done();
+      }
+    );
+  });
 
+  it("should ignore the excluded folder", (done) => {
+    exec(
+      "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/*",
+      (_error, stdout, _stderr) => {
+        const result = stdout.split("Done")[0];
+        expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌───────────────────────────────────────────┬────────────┐
+│ file                                      │ key        │
+├───────────────────────────────────────────┼────────────┤
+│  translations/messageExamples/de-de.json  │  richText  │
+│  translations/messageExamples/de-de.json  │  yo        │
+│  translations/messageExamples/de-de.json  │  nesting1  │
+│  translations/messageExamples/de-de.json  │  nesting2  │
+│  translations/messageExamples/de-de.json  │  nesting3  │
+│  translations/messageExamples/de-de.json  │  key1      │
+└───────────────────────────────────────────┴────────────┘
+
+Found invalid keys!
+┌───────────────────────────────────────────┬─────────────────────┐
+│ file                                      │ key                 │
+├───────────────────────────────────────────┼─────────────────────┤
+│  translations/messageExamples/de-de.json  │  multipleVariables  │
+└───────────────────────────────────────────┴─────────────────────┘
+
+`);
+        done();
+      }
+    );
+  });
+
+  it("should ignore the excluded multiple files", (done) => {
+    exec(
+      "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/de-de.json translations/messageExamples/de-de.json",
+      (_error, stdout, _stderr) => {
+        const result = stdout.split("Done")[0];
+        expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+No missing keys found!
+
+No invalid translations found!
 
 `);
         done();
