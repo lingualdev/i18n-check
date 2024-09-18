@@ -157,7 +157,7 @@ yarn i18n:check --locales translations/messageExamples -s en-US -r summary
 
 ### --exclude, -e
 
-There are situations where we want to exclude a single or multiple files or a single folder or a group of folders. A typical scenario would be that some keys are missing in a specific folder, as they are being work in progress for example. To exclude this or these files/folders you can use the `-e` or `--exclude` option. It expects a comma separated string of files and/or folders.
+There are situations where we want to exclude a single or multiple files or a single folder or a group of folders. A typical scenario would be that some keys are missing in a specific folder, as they are being work in progress for example. To exclude this or these files/folders you can use the `-e` or `--exclude` option. It expects one or more files and/or folders.
 
 To exclude a single file:
 
@@ -165,10 +165,10 @@ To exclude a single file:
 yarn i18n:check --locales translations/messageExamples -s en-US -e translations/messageExamples/fr-fr.json
 ```
 
-To exclude multiple files, provide a comma-separated list:
+To exclude multiple files provide all files:
 
 ```bash
-yarn i18n:check --locales translations/messageExamples -s en-US -e translations/messageExamples/fr-fr.json,translations/messageExamples/de-at.json
+yarn i18n:check --locales translations/messageExamples -s en-US -e translations/messageExamples/fr-fr.json translations/messageExamples/de-at.json
 ```
 
 To exclude a single folder:
@@ -177,14 +177,14 @@ To exclude a single folder:
 yarn i18n:check --locales translations/folderExamples -s en-US -e translations/folderExamples/fr/*
 ```
 
-Alternatively you can exclude multiple folders by providing a comma-separated list of folders to be excluded:
+Alternatively you can exclude multiple folders by providing the folders to be excluded:
 
 ```bash
-yarn i18n:check --locales translations/folderExamples -s en-US -e translations/folderExamples/fr/*,translations/folderExample/it/*
+yarn i18n:check --locales translations/folderExamples -s en-US -e translations/folderExamples/fr/* translations/folderExample/it/*
 ```
 
-The `--exclude` option also accepts a mix of files and folders, which follows the same pattern as above and can be defined as a comma-separated list, i.e.
-`-e translations/folderExamples/fr/*,translations/messageExamples/it.json`
+The `--exclude` option also accepts a mix of files and folders, which follows the same pattern as above, i.e.
+`-e translations/folderExamples/fr/* translations/messageExamples/it.json`
 
 ## Examples
 
