@@ -12,7 +12,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest src/ --testPathIgnorePatterns src/bin/*",
-    "test:cli": "tsc && jest src/bin/index.test.ts"
+    "test:cli": "tsc && jest src/bin/index.test.ts",
+    "i18n:check": "node dist/bin/index.js"
   },
   "files": [
     "dist/"
