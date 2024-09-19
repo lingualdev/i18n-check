@@ -246,6 +246,39 @@ Define the `locales` folder as the directory to look for target files and pass `
 yarn i18n:check --locales locales -s en-US
 ```
 
+#### Multiple folders containing locales
+
+If the locales are **organised as folders** containing multiple json files:
+
+```
+- spaceOne
+  - locales/
+    - en-US/
+      - one.json
+      - two.json
+      - three.json
+    - de-DE/
+      - one.json
+      - two.json
+      - three.json
+- spaceTwo
+  - locales/
+    - en-US/
+      - one.json
+      - two.json
+      - three.json
+    - de-DE/
+      - one.json
+      - two.json
+      - three.json
+```
+
+Define the `locales` folder as the directory to look for target files and pass `en-US` as the `source` option. i18n-check will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
+
+```bash
+yarn i18n:check -l spaceOne spaceTwo -s en-US
+```
+
 ## As Github Action
 
 We currently do not offer an explicit **Github Action** you can use out of the box, but if you have i18n-check already installed, you can define your own **YAML** file. The following example can be starting point that you can adapt to your current setup:
