@@ -250,6 +250,7 @@ yarn i18n:check --locales locales -s en-US
 
 If the locales are **organised as folders** containing multiple json files:
 
+```
 - spaceOne
   - locales/
     - en-US/
@@ -270,6 +271,7 @@ If the locales are **organised as folders** containing multiple json files:
       - one.json
       - two.json
       - three.json
+```
 
 Define the `locales` folder as the directory to look for target files and pass `en-US` as the `source` option. i18n-check will try to collect all the files in the provided source directory and compare each one against the corresponding files in the target locales.
 
