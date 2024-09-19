@@ -118,7 +118,7 @@ const main = async () => {
 
   const fileInfos: { file: string; name: string; path: string[] }[] = [];
 
-  files.forEach((file) => {
+  files.sort().forEach((file) => {
     const path = file.split("/");
     const name = path.pop() ?? "";
 
@@ -142,12 +142,36 @@ const main = async () => {
     } else {
       const fullPath = path.join("-");
       const reference = fileInfos.find((fileInfo) => {
-        if (
-          !fileInfo.file.toLocaleLowerCase().includes(srcPath.toLowerCase())
-        ) {
+        if (!fileInfo.file.toLowerCase().includes(srcPath.toLowerCase())) {
           return false;
         }
-        return fileInfo.path.join("-") === fullPath || fileInfo.name === name;
+        if (fileInfo.path.join("-") === fullPath) {
+          return true;
+        }
+
+        // Check if the folder path matches - ignoring the last folder
+        // Then check if the file names are the same
+        // Example folder structure:
+        // path/to/locales/
+        //   en-US/
+        //      one.json
+        //      two.json
+        //      three.json
+        //   de-DE/
+        //      one.json
+        //      two.json
+        //      three.json
+        //
+        // Referencing: `path/to/locales/en-US/one.json`, `path/to/locales/de-DE/one.json`
+        // Non Referencing: `path/to/locales/en-US/one.json`, `path/to/other/locales/de-DE/one.json`
+        if (
+          fileInfo.path.slice(0, fileInfo.path.length - 1).join("-") ===
+          path.slice(0, path.length - 1).join("-")
+        ) {
+          return fileInfo.name === name;
+        }
+
+        return false;
       });
 
       if (reference) {
