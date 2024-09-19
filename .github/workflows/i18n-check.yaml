@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: pnpm install & build
+      - name: yarn install & build
         run: |
-          pnpm install
-          pnpm build
-      - name: pnpm i18n:check
+          yarn install
+          yarn build
+      - name: yarn i18n:check
         run: |
-          pnpm i18n:check --locales translations/messageExamples --source en-US
+          yarn i18n:check --locales translations/messageExamples --source en-US
