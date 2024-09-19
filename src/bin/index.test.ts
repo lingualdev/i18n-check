@@ -25,7 +25,7 @@ No invalid translations found!
     );
   });
 
-  it("should return the missing and invalid keys for folder per locale with single file", (done) => {
+  it("should return the missing/invalid keys for folder per locale with single file", (done) => {
     exec(
       "node dist/bin/index.js -l translations/folderExample/ -s en-US",
       (_error, stdout, _stderr) => {
@@ -53,7 +53,7 @@ Found invalid keys!
     );
   });
 
-  it("should return the missing and invalid keys for folder per locale with multiple files", (done) => {
+  it("should return the missing/invalid keys for folder per locale with multiple files", (done) => {
     exec(
       "node dist/bin/index.js -l translations/multipleFilesFolderExample/ -s en-US",
       (_error, stdout, _stderr) => {
@@ -65,16 +65,16 @@ Found missing keys!
 ┌──────────────────────────────────────────────────────────┬───────────────────────┐
 │ file                                                     │ key                   │
 ├──────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/multipleFilesFolderExample/de-DE/two.json  │  test.drive.four      │
 │  translations/multipleFilesFolderExample/de-DE/one.json  │  message.text-format  │
+│  translations/multipleFilesFolderExample/de-DE/two.json  │  test.drive.four      │
 └──────────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
 ┌────────────────────────────────────────────────────────────┬─────────────────────┐
 │ file                                                       │ key                 │
 ├────────────────────────────────────────────────────────────┼─────────────────────┤
-│  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
 │  translations/multipleFilesFolderExample/de-DE/one.json    │  message.select     │
+│  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
 └────────────────────────────────────────────────────────────┴─────────────────────┘
 
 `);
@@ -83,7 +83,75 @@ Found invalid keys!
     );
   });
 
-  it("should return the missing keys for all files in the provided locale folders", (done) => {
+  it("should return the missing/invalid keys for folder containing multiple locale folders", (done) => {
+    exec(
+      "node dist/bin/index.js -l translations/multipleFoldersExample -s en-US",
+      (_error, stdout, _stderr) => {
+        const result = stdout.split("Done")[0];
+        expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌───────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                  │ key                   │
+├───────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json  │  message.text-format  │
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/two.json  │  test.drive.four      │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json  │  message.plural       │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/two.json  │  test.drive.two       │
+└───────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+Found invalid keys!
+┌─────────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                    │ key                   │
+├─────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json    │  message.select       │
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json  │  multipleVariables    │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json    │  message.text-format  │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json  │  numberFormat         │
+└─────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+`);
+        done();
+      }
+    );
+  });
+
+  it("should return the missing/invalid keys for multiple locale folders", (done) => {
+    exec(
+      "node dist/bin/index.js -l translations/multipleFoldersExample/spaceOne translations/multipleFoldersExample/spaceTwo -s en-US",
+      (_error, stdout, _stderr) => {
+        const result = stdout.split("Done")[0];
+        expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌───────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                  │ key                   │
+├───────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json  │  message.text-format  │
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/two.json  │  test.drive.four      │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json  │  message.plural       │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/two.json  │  test.drive.two       │
+└───────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+Found invalid keys!
+┌─────────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                    │ key                   │
+├─────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json    │  message.select       │
+│  translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json  │  multipleVariables    │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json    │  message.text-format  │
+│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json  │  numberFormat         │
+└─────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+`);
+        done();
+      }
+    );
+  });
+
+  it("should return the missing/invalid keys for all files in the provided locale folders", (done) => {
     exec(
       "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples",
       (_error, stdout, _stderr) => {
@@ -111,6 +179,38 @@ Found invalid keys!
 ├───────────────────────────────────────────┼─────────────────────┤
 │  translations/messageExamples/de-de.json  │  multipleVariables  │
 └───────────────────────────────────────────┴─────────────────────┘
+
+`);
+        done();
+      }
+    );
+  });
+
+  it("should return the missing/invalid keys for all files with source matching folder and source matching file", (done) => {
+    exec(
+      "node dist/bin/index.js -l translations/multipleFilesFolderExample translations/flattenExamples -s en-US",
+      (_error, stdout, _stderr) => {
+        const result = stdout.split("Done")[0];
+        expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌──────────────────────────────────────────────────────────┬────────────────────────────────┐
+│ file                                                     │ key                            │
+├──────────────────────────────────────────────────────────┼────────────────────────────────┤
+│  translations/flattenExamples/de-de.json                 │  other.nested.three            │
+│  translations/flattenExamples/de-de.json                 │  other.nested.deep.more.final  │
+│  translations/multipleFilesFolderExample/de-DE/one.json  │  message.text-format           │
+│  translations/multipleFilesFolderExample/de-DE/two.json  │  test.drive.four               │
+└──────────────────────────────────────────────────────────┴────────────────────────────────┘
+
+Found invalid keys!
+┌────────────────────────────────────────────────────────────┬─────────────────────┐
+│ file                                                       │ key                 │
+├────────────────────────────────────────────────────────────┼─────────────────────┤
+│  translations/multipleFilesFolderExample/de-DE/one.json    │  message.select     │
+│  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
+└────────────────────────────────────────────────────────────┴─────────────────────┘
 
 `);
         done();
