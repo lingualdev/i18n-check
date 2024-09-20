@@ -4,9 +4,9 @@
 It compares the defined source language with all target translation files and finds inconsistencies between source and target files.
 You can run these checks as a pre-commit hook or on the CI depending on your use-case and setup.
 
-![example 1](./assets/i18n-check-example-one.png)
+![example 1](./assets/i18n-check-screenshot-full.png)
 
-![example 2](./assets/i18n-check-example-two.png)
+![example 2](./assets/i18n-check-screenshot-summary.png)
 
 ## Table of Contents
 
@@ -281,7 +281,7 @@ yarn i18n:check -l spaceOne spaceTwo -s en-US
 
 ## As Github Action
 
-We currently do not offer an explicit **Github Action** you can use out of the box, but if you have i18n-check already installed, you can define your own **YAML** file. The following example can be starting point that you can adapt to your current setup:
+We currently do not offer an explicit **Github Action** you can use out of the box, but if you have i18n-check already installed, you can define your own **YAML** file. The following example can be seen as a starting point that you can adapt to your current setup:
 
 ```yml
 name: i18n Check
@@ -307,8 +307,12 @@ jobs:
 
       - name: yarn i18n-check
         run: |
-          yarn i18n-check --locales translations/messageExamples -s en-US
+          yarn i18n-check --locales translations/messageExamples --source en-US
 ```
+
+The above workflow will return any missing or invalid keys and the action would fail if missing/invalid keys are found:
+
+![i18n-check Github workflow example out](./assets/i18n-check-workflow-example.png)
 
 ## API
 
