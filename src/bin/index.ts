@@ -5,7 +5,7 @@ import chalk from "chalk";
 import fs from "fs";
 import { exit } from "process";
 import { program } from "commander";
-import { CheckResult, TranslationFile } from "../types";
+import { CheckResult, FileInfo, TranslationFile } from "../types";
 import { checkTranslations, checkUnusedKeys } from "..";
 import { Context, standardReporter, summaryReporter } from "../errorReporters";
 import { flattenTranslations } from "../utils/flattenTranslations";
@@ -58,10 +58,13 @@ const getCheckOptions = (): Context[] => {
   return checks.length > 0 ? checks : ["invalidKeys", "missingKeys"];
 };
 
-const getSourcePath = (source: string, fileName: string) => {
-  return fileName.toLowerCase().includes(source.toLowerCase());
+const isSource = (fileInfo: FileInfo, srcPath: string) => {
+  return (
+    fileInfo.path.some(
+      (path) => path.toLowerCase() === srcPath.toLowerCase()
+    ) || fileInfo.name.toLowerCase().slice(0, -5) === srcPath.toLowerCase()
+  );
 };
-
 const main = async () => {
   const start = performance.now();
   const srcPath = program.getOptionValue("source");
@@ -132,8 +135,7 @@ const main = async () => {
   fileInfos.forEach(({ file, name, path }) => {
     const rawContent = JSON.parse(fs.readFileSync(file, "utf-8"));
     const content = flattenTranslations(rawContent);
-    const sourcePath = getSourcePath(srcPath, file);
-    if (sourcePath) {
+    if (isSource({ file, name, path }, srcPath)) {
       srcFiles.push({
         reference: null,
         name: file,
@@ -142,7 +144,7 @@ const main = async () => {
     } else {
       const fullPath = path.join("-");
       const reference = fileInfos.find((fileInfo) => {
-        if (!fileInfo.file.toLowerCase().includes(srcPath.toLowerCase())) {
+        if (!isSource(fileInfo, srcPath)) {
           return false;
         }
         if (fileInfo.path.join("-") === fullPath) {

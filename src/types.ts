@@ -7,3 +7,5 @@ export type TranslationFile = {
   name: string;
   content: Translation;
 };
+
+export type FileInfo = { file: string; name: string; path: string[] };
