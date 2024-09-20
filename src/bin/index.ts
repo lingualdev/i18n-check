@@ -11,12 +11,15 @@ import { Context, standardReporter, summaryReporter } from "../errorReporters";
 import { flattenTranslations } from "../utils/flattenTranslations";
 
 program
-  .version("0.1.0")
+  .version("0.3.0")
   .option(
-    "-t, --target [directory]",
-    "name of the directory containing the JSON files to validate"
+    "-l, --locales <locales...>",
+    "name of the directory containing the locales to validate"
   )
-  .option("-s, --source [source file(s)]", "path to the reference file(s)")
+  .option(
+    "-s, --source [source locale]",
+    "the source locale to validate against"
+  )
   .option(
     "-f, --format [format type]",
     "define the specific format, i.e. i18next"
@@ -30,7 +33,7 @@ program
     "define the reporting style: standard or summary"
   )
   .option(
-    "-e, --exclude [file(s), folder(s)]",
+    "-e, --exclude <exclude...>",
     "define the file(s) and/or folders(s) that should be excluded from the check"
   )
   .option(
@@ -55,38 +58,14 @@ const getCheckOptions = (): Context[] => {
   return checks.length > 0 ? checks : ["invalidKeys", "missingKeys"];
 };
 
-const getSourcePath = (sourcePaths: string[], fileName: string) => {
-  return sourcePaths.find((basePathName: string) => {
-    return fileName.includes(basePathName);
-  });
-};
-
-const getTargetPath = (
-  paths: string[],
-  sourcePaths: string[],
-  fileName: string
-) => {
-  const basePath = paths.find((path: string) => {
-    return fileName.includes(path);
-  });
-  if (!basePath) {
-    return null;
-  }
-
-  return sourcePaths.find((path) => path.includes(basePath));
-};
-
-const toArray = (input: string): string[] => {
-  return input
-    .trim()
-    .split(",")
-    .filter((a: string) => a);
+const getSourcePath = (source: string, fileName: string) => {
+  return fileName.toLowerCase().includes(source.toLowerCase());
 };
 
 const main = async () => {
   const start = performance.now();
   const srcPath = program.getOptionValue("source");
-  const targetPath = program.getOptionValue("target");
+  const localePath = program.getOptionValue("locales");
   const format = program.getOptionValue("format");
   const exclude = program.getOptionValue("exclude");
   const unusedSrcPath = program.getOptionValue("unused");
@@ -94,40 +73,39 @@ const main = async () => {
   if (!srcPath) {
     console.log(
       chalk.red(
-        "Source file(s) not found. Please provide valid source file(s), i.e. -s translations/en-us.json"
+        "Source not found. Please provide a valid source locale, i.e. -s en-US"
       )
     );
     exit(1);
   }
 
-  if (!targetPath) {
+  if (!localePath || localePath.length === 0) {
     console.log(
       chalk.red(
-        "Target file(s) not found. Please provide valid target file(s), i.e. -t translations/"
+        "Locale file(s) not found. Please provide valid locale file(s), i.e. -locales translations/"
       )
     );
     exit(1);
   }
 
-  const excludedPaths = exclude ? toArray(exclude) : [];
-  const targetPathFolders: string[] = toArray(targetPath);
-  const srcPaths: string[] = toArray(srcPath);
+  const excludedPaths = exclude ?? [];
+  const localePathFolders: string[] = localePath;
 
-  const isMultiFolders = targetPathFolders.length > 1;
+  const isMultiFolders = localePathFolders.length > 1;
 
   let srcFiles: TranslationFile[] = [];
-  let targetFiles: TranslationFile[] = [];
+  let localeFiles: TranslationFile[] = [];
 
   const pattern = isMultiFolders
-    ? `{${targetPath.trim()}}/**/*.json`
-    : `${targetPath.trim()}/**/*.json`;
+    ? `{${localePath.join(",").trim()}}/**/*.json`
+    : `${localePath.join(",").trim()}/**/*.json`;
 
   const files = await glob(pattern, {
     ignore: ["node_modules/**"].concat(excludedPaths),
   });
 
   console.log("i18n translations checker");
-  console.log(chalk.gray(`Source file(s): ${srcPath}`));
+  console.log(chalk.gray(`Source: ${srcPath}`));
 
   if (format) {
     console.log(chalk.blackBright(`Selected format is: ${format}`));
@@ -138,48 +116,93 @@ const main = async () => {
     format: format ?? undefined,
   };
 
-  files.forEach((file) => {
-    const content = JSON.parse(fs.readFileSync(file, "utf-8"));
-    const sourcePath = getSourcePath(srcPaths, file);
+  const fileInfos: { file: string; name: string; path: string[] }[] = [];
+
+  files.sort().forEach((file) => {
+    const path = file.split("/");
+    const name = path.pop() ?? "";
+
+    fileInfos.push({
+      file,
+      path,
+      name,
+    });
+  });
+
+  fileInfos.forEach(({ file, name, path }) => {
+    const rawContent = JSON.parse(fs.readFileSync(file, "utf-8"));
+    const content = flattenTranslations(rawContent);
+    const sourcePath = getSourcePath(srcPath, file);
     if (sourcePath) {
       srcFiles.push({
         reference: null,
         name: file,
-        content: flattenTranslations(content),
+        content,
       });
     } else {
-      const targetPath = getTargetPath(targetPathFolders, srcPaths, file);
-      const reference = targetPath?.includes(".json")
-        ? targetPath
-        : `${targetPath}${file.split("/").pop()}`;
+      const fullPath = path.join("-");
+      const reference = fileInfos.find((fileInfo) => {
+        if (!fileInfo.file.toLowerCase().includes(srcPath.toLowerCase())) {
+          return false;
+        }
+        if (fileInfo.path.join("-") === fullPath) {
+          return true;
+        }
 
-      targetFiles.push({
-        reference,
-        name: file,
-        content: flattenTranslations(content),
+        // Check if the folder path matches - ignoring the last folder
+        // Then check if the file names are the same
+        // Example folder structure:
+        // path/to/locales/
+        //   en-US/
+        //      one.json
+        //      two.json
+        //      three.json
+        //   de-DE/
+        //      one.json
+        //      two.json
+        //      three.json
+        //
+        // Referencing: `path/to/locales/en-US/one.json`, `path/to/locales/de-DE/one.json`
+        // Non Referencing: `path/to/locales/en-US/one.json`, `path/to/other/locales/de-DE/one.json`
+        if (
+          fileInfo.path.slice(0, fileInfo.path.length - 1).join("-") ===
+          path.slice(0, path.length - 1).join("-")
+        ) {
+          return fileInfo.name === name;
+        }
+
+        return false;
       });
+
+      if (reference) {
+        localeFiles.push({
+          reference: reference.file,
+          name: file,
+          content,
+        });
+      }
     }
   });
 
   if (srcFiles.length === 0) {
     console.log(
       chalk.red(
-        "Source file(s) not found. Please provide valid source file(s), i.e. -s translations/en-us.json"
+        "Source not found. Please provide a valid source locale, i.e. -s en-US"
       )
     );
     exit(1);
   }
 
-  if (targetFiles.length === 0) {
+  if (localeFiles.length === 0) {
     console.log(
       chalk.red(
-        "Target file(s) not found. Please provide valid target file(s), i.e. -t translations/"
+        "Locale file(s) not found. Please provide valid locale file(s), i.e. --locales translations/"
       )
     );
     exit(1);
   }
   try {
-    const result = checkTranslations(srcFiles, targetFiles, options);
+    const result = checkTranslations(srcFiles, localeFiles, options);
 
     printTranslationResult(result);
 
