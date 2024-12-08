@@ -301,4 +301,31 @@ No invalid translations found!
       }
     );
   });
+
+  it("should find unused keys for react-i18next applications", (done) => {
+    exec(
+      "node dist/bin/index.js --source en --locales translations/codeExamples/reacti18next/locales -f i18next -u translations/codeExamples/reacti18next/src",
+      (_error, stdout, _stderr) => {
+        const result = stdout.split("Done")[0];
+        expect(result).toEqual(`i18n translations checker
+Source: en
+Selected format is: i18next
+
+No missing keys found!
+
+No invalid translations found!
+
+Found unused keys!
+┌──────────────────────────────────────────────────────────────────────┬──────────────────┐
+│ file                                                                 │ key              │
+├──────────────────────────────────────────────────────────────────────┼──────────────────┤
+│  translations/codeExamples/reacti18next/locales/en/translation.json  │  format.ebook    │
+│  translations/codeExamples/reacti18next/locales/en/translation.json  │  nonExistentKey  │
+└──────────────────────────────────────────────────────────────────────┴──────────────────┘
+
+`);
+        done();
+      }
+    );
+  });
 });
