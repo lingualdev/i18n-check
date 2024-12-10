@@ -19,17 +19,17 @@
   ],
   "dependencies": {
     "@formatjs/cli-lib": "^6.4.2",
-    "@formatjs/icu-messageformat-parser": "^2.7.8",
+    "@formatjs/icu-messageformat-parser": "^2.9.7",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
     "glob": "^11.0.0",
     "i18next-parser": "^9.0.2",
-    "typescript": "^5.6.2",
+    "typescript": "^5.7.2",
     "vinyl": "^3.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.13",
-    "@types/node": "^22.5.5",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.1",
     "@types/vinyl": "^2.0.12",
     "braces": "^3.0.3",
     "jest": "^29.7.0",
