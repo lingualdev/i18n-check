@@ -103,7 +103,7 @@ const findUnusedReactIntlTranslations = async (
 
   source.forEach(({ name, content }) => {
     const keysInSource = Object.keys(content);
-    const found = [];
+    const found: string[] = [];
     for (const keyInSource of keysInSource) {
       if (!extractedResultSet.has(keyInSource)) {
         found.push(keyInSource);
@@ -154,7 +154,7 @@ const findUnusedi18NextTranslations = async (
 
   source.forEach(({ name, content }) => {
     const keysInSource = Object.keys(content);
-    const found = [];
+    const found: string[] = [];
     for (const keyInSource of keysInSource) {
       if (!extractedResultSet.has(keyInSource)) {
         found.push(keyInSource);

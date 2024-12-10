@@ -106,7 +106,7 @@ Additionally the `i18next` format is supported and can be set via the `-f` or `-
 
 There are i18n libraries that have their own specific format, which might not be based on ICU and therefore can not be validated against currently. On a side-note: there might be future support for more specific formats.
 
-Hint: If you want to use the `--unused` flag, you should provide react-intl as the format. Also see the [`unused` section](#--unused) for more details.
+Hint: If you want to use the `--unused` flag, you should provide `react-intl` or `i18-next` as the format. Also see the [`unused` section](#--unused) for more details.
 
 ```bash
 yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
@@ -138,12 +138,18 @@ yarn i18n:check --locales translations/messageExamples -s en-US -c missingKeys,i
 
 ### --unused, -u
 
-This feature is currently only supported for react-intl and is useful if you need to know which keys exist in your translation files but not in your codebase. Via the `-u` or `--unused` option you provide a source path to the code, which will be parsed to find all unused keys in the primary target language.
+This feature is currently only supported for `react-intl` and `i18next` based React applications and is useful when you need to know which keys exist in your translation files but not in your codebase. Via the `-u` or `--unused` option you provide a source path to the code, which will be parsed to find all unused keys in the primary target language.
 
-It is important to note that you must also provide the `-f` or `--format` option with `react-intl` as value. See the [`format` section](#--format) for more information.
+It is important to note that you must also provide the `-f` or `--format` option with `react-intl` or `i18next` as value. See the [`format` section](#--format) for more information.
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -u client/ -f react-intl
+```
+
+or
+
+```bash
+yarn i18n:check --locales translations/messageExamples -s en-US -u client/ -f i18next
 ```
 
 ### --reporter, -r
