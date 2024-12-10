@@ -1,0 +1,22 @@
+{
+  "some_placeholder": "A fallback {{ val }} - just in case",
+  "one": "Value one",
+  "two": "Value two",
+  "three": "Value three",
+  "more": "More!",
+  "testing": {
+    "one": "Some default value"
+  },
+  "moreInformationLink": "Welcome <1>{{userName}}</1>, you can check for more information <4>here</4>!",
+  "content": {
+    "intro": "intro",
+    "outro": "outro"
+  },
+  "audio": "audo",
+  "format": {
+    "pdf": "A pdf format",
+    "audio": "An audio format",
+    "ebook": "An e-book formt"
+  },
+  "nonExistentKey": "Key does not exist"
+}

@@ -5,6 +5,8 @@ import { findInvalid18nTranslations } from "./utils/findInvalidi18nTranslations"
 import { Context } from "./errorReporters";
 import { globSync } from "glob";
 import { extract } from "@formatjs/cli-lib";
+import fs from "fs";
+import Vinyl from "vinyl";
 
 export type Options = {
   format?: "icu" | "i18next" | "react-intl" | "react-i18next";
@@ -82,7 +84,7 @@ export const checkUnusedKeys = async (
 
   return options.format === "react-intl"
     ? findUnusedReactIntlTranslations(source, codebaseSrc)
-    : undefined;
+    : findUnusedi18NextTranslations(source, codebaseSrc);
 };
 
 const findUnusedReactIntlTranslations = async (
@@ -113,3 +115,80 @@ const findUnusedReactIntlTranslations = async (
 
   return unusedKeys;
 };
+
+const findUnusedi18NextTranslations = async (
+  source: TranslationFile[],
+  codebaseSrc: string
+) => {
+  let unusedKeys = {};
+
+  // find any unused keys in a react-i18next code base
+  const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.tsx`, {
+    ignore: ["node_modules/**"],
+  });
+
+  let extractedResult: string[] = [];
+
+  // @ts-ignore
+  const { transform } = await import("i18next-parser");
+
+  unusedKeysFiles.forEach((file) => {
+    const rawContent = fs.readFileSync(file);
+
+    const i18nextParser = new transform();
+    i18nextParser.once("data", (file: { contents: any }) => {
+      extractedResult = extractedResult.concat(
+        Object.keys(flatten(JSON.parse(file.contents)))
+      );
+    });
+
+    i18nextParser.end(
+      new Vinyl({
+        contents: rawContent,
+        path: file,
+      })
+    );
+  });
+
+  const extractedResultSet = new Set(extractedResult);
+
+  source.forEach(({ name, content }) => {
+    const keysInSource = Object.keys(content);
+    const found = [];
+    for (const keyInSource of keysInSource) {
+      if (!extractedResultSet.has(keyInSource)) {
+        found.push(keyInSource);
+      }
+    }
+
+    Object.assign(unusedKeys, { [name]: found });
+  });
+
+  return unusedKeys;
+};
+
+const isRecord = (data: unknown): data is Record<string, unknown> => {
+  return (
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    data !== null &&
+    data !== undefined
+  );
+};
+
+function flatten(
+  object: Record<string, unknown>,
+  prefix: string | null = null,
+  result: Record<string, unknown> = {}
+) {
+  for (let key in object) {
+    let propName = prefix ? `${prefix}.${key}` : key;
+    const data = object[key];
+    if (isRecord(data)) {
+      flatten(data, propName, result);
+    } else {
+      result[propName] = data;
+    }
+  }
+  return result;
+}
