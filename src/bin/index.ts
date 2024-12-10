@@ -22,7 +22,7 @@ program
   )
   .option(
     "-f, --format [format type]",
-    "define the specific format, i.e. i18next"
+    "define the specific format: i18next or react-intl"
   )
   .option(
     "-c, --check [checks]",
@@ -301,7 +301,7 @@ const truncate = (chars: string) =>
   chars.length > 80 ? `${chars.substring(0, 80)}...` : chars;
 
 const getSummaryRows = (checkResult: CheckResult) => {
-  const formattedRows = [];
+  const formattedRows: { file: string; total: number }[] = [];
 
   for (const [file, keys] of Object.entries<string[]>(checkResult)) {
     formattedRows.push({
@@ -313,7 +313,7 @@ const getSummaryRows = (checkResult: CheckResult) => {
 };
 
 const getStandardRows = (checkResult: CheckResult) => {
-  const formattedRows = [];
+  const formattedRows: { file: string; key: string }[] = [];
 
   for (const [file, keys] of Object.entries<string[]>(checkResult)) {
     for (const key of keys) {
