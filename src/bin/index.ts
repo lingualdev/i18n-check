@@ -1,13 +1,14 @@
 #! /usr/bin/env node
 
-import { glob } from "glob";
 import chalk from "chalk";
-import fs from "fs";
-import { exit } from "process";
 import { program } from "commander";
-import { CheckResult, FileInfo, TranslationFile } from "../types";
+import fs from "fs";
+import { glob } from "glob";
+import yaml from 'js-yaml';
+import { exit } from "process";
 import { checkTranslations, checkUnusedKeys } from "..";
 import { Context, standardReporter, summaryReporter } from "../errorReporters";
+import { CheckResult, FileInfo, TranslationFile } from "../types";
 import { flattenTranslations } from "../utils/flattenTranslations";
 
 program
@@ -100,8 +101,8 @@ const main = async () => {
   let localeFiles: TranslationFile[] = [];
 
   const pattern = isMultiFolders
-    ? `{${localePath.join(",").trim()}}/**/*.json`
-    : `${localePath.join(",").trim()}/**/*.json`;
+    ? `{${localePath.join(",").trim()}}/**/*.{json,yaml,yml}`
+    : `${localePath.join(",").trim()}/**/*.{json,yaml,yml}`;
 
   const files = await glob(pattern, {
     ignore: ["node_modules/**"].concat(excludedPaths),
@@ -119,21 +120,29 @@ const main = async () => {
     format: format ?? undefined,
   };
 
-  const fileInfos: { file: string; name: string; path: string[] }[] = [];
+  const fileInfos: { extension: string, file: string; name: string; path: string[],  }[] = [];
 
   files.sort().forEach((file) => {
     const path = file.split("/");
     const name = path.pop() ?? "";
+    const extension = name.split(".").pop() ?? "json";
 
     fileInfos.push({
+      extension,
       file,
-      path,
       name,
+      path,
     });
   });
 
-  fileInfos.forEach(({ file, name, path }) => {
-    const rawContent = JSON.parse(fs.readFileSync(file, "utf-8"));
+  fileInfos.forEach(({ extension, file, name, path }) => {
+    let rawContent;
+    if(extension === "json") {
+      rawContent = JSON.parse(fs.readFileSync(file, "utf-8"));
+    }
+    else {
+      rawContent = yaml.load(fs.readFileSync(file, "utf-8"));
+    }
     const content = flattenTranslations(rawContent);
     if (isSource({ file, name, path }, srcPath)) {
       srcFiles.push({
