@@ -137,11 +137,10 @@ const main = async () => {
 
   fileInfos.forEach(({ extension, file, name, path }) => {
     let rawContent;
-    if(extension === "json") {
-      rawContent = JSON.parse(fs.readFileSync(file, "utf-8"));
-    }
-    else {
+    if (extension === "yaml") {
       rawContent = yaml.load(fs.readFileSync(file, "utf-8"));
+    } else {
+      rawContent = JSON.parse(fs.readFileSync(file, "utf-8"));
     }
     const content = flattenTranslations(rawContent);
     if (isSource({ file, name, path }, srcPath)) {
