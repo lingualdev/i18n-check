@@ -1,12 +1,13 @@
 import { exec } from "child_process";
 
 describe("CLI", () => {
-  it("should return the missing keys for single folder translations", (done) => {
-    exec(
-      "node dist/bin/index.js -s en-US -l translations/flattenExamples",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+  describe("JSON", () => {
+    it("should return the missing keys for single folder translations", (done) => {
+      exec(
+        "node dist/bin/index.js -s en-US -l translations/flattenExamples",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -20,17 +21,17 @@ Found missing keys!
 No invalid translations found!
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should return the missing/invalid keys for folder per locale with single file", (done) => {
-    exec(
-      "node dist/bin/index.js -l translations/folderExample/ -s en-US",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should return the missing/invalid keys for folder per locale with single file", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/folderExample/ -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -48,17 +49,17 @@ Found invalid keys!
 └───────────────────────────────────────────────┴──────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should return the missing/invalid keys for folder per locale with multiple files", (done) => {
-    exec(
-      "node dist/bin/index.js -l translations/multipleFilesFolderExample/ -s en-US",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should return the missing/invalid keys for folder per locale with multiple files", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/multipleFilesFolderExample/ -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -78,17 +79,17 @@ Found invalid keys!
 └────────────────────────────────────────────────────────────┴─────────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should return the missing/invalid keys for folder containing multiple locale folders", (done) => {
-    exec(
-      "node dist/bin/index.js -l translations/multipleFoldersExample -s en-US",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should return the missing/invalid keys for folder containing multiple locale folders", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/multipleFoldersExample -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -112,17 +113,17 @@ Found invalid keys!
 └─────────────────────────────────────────────────────────────────────────┴───────────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should return the missing/invalid keys for multiple locale folders", (done) => {
-    exec(
-      "node dist/bin/index.js -l translations/multipleFoldersExample/spaceOne translations/multipleFoldersExample/spaceTwo -s en-US",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should return the missing/invalid keys for multiple locale folders", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/multipleFoldersExample/spaceOne translations/multipleFoldersExample/spaceTwo -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -146,17 +147,17 @@ Found invalid keys!
 └─────────────────────────────────────────────────────────────────────────┴───────────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should return the missing/invalid keys for all files in the provided locale folders", (done) => {
-    exec(
-      "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should return the missing/invalid keys for all files in the provided locale folders", (done) => {
+      exec(
+        "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -181,17 +182,17 @@ Found invalid keys!
 └───────────────────────────────────────────┴─────────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should return the missing/invalid keys for all files with source matching folder and source matching file", (done) => {
-    exec(
-      "node dist/bin/index.js -l translations/multipleFilesFolderExample translations/flattenExamples -s en-US",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should return the missing/invalid keys for all files with source matching folder and source matching file", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/multipleFilesFolderExample translations/flattenExamples -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -213,17 +214,17 @@ Found invalid keys!
 └────────────────────────────────────────────────────────────┴─────────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should ignore the excluded file", (done) => {
-    exec(
-      "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/de-de.json",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should ignore the excluded file", (done) => {
+      exec(
+        "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/de-de.json",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -246,17 +247,17 @@ Found invalid keys!
 └───────────────────────────────────────────┴─────────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should ignore the excluded folder", (done) => {
-    exec(
-      "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/*",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should ignore the excluded folder", (done) => {
+      exec(
+        "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/*",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
@@ -279,17 +280,17 @@ Found invalid keys!
 └───────────────────────────────────────────┴─────────────────────┘
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should ignore the excluded multiple files", (done) => {
-    exec(
-      "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/de-de.json translations/messageExamples/de-de.json",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should ignore the excluded multiple files", (done) => {
+      exec(
+        "node dist/bin/index.js --source en-US --locales translations/flattenExamples translations/messageExamples --exclude translations/flattenExamples/de-de.json translations/messageExamples/de-de.json",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 No missing keys found!
@@ -297,17 +298,17 @@ No missing keys found!
 No invalid translations found!
 
 `);
-        done();
-      }
-    );
-  });
+          done();
+        }
+      );
+    });
 
-  it("should find unused keys for react-i18next applications", (done) => {
-    exec(
-      "node dist/bin/index.js --source en --locales translations/codeExamples/reacti18next/locales -f i18next -u translations/codeExamples/reacti18next/src",
-      (_error, stdout, _stderr) => {
-        const result = stdout.split("Done")[0];
-        expect(result).toEqual(`i18n translations checker
+    it("should find unused keys for react-i18next applications", (done) => {
+      exec(
+        "node dist/bin/index.js --source en --locales translations/codeExamples/reacti18next/locales -f i18next -u translations/codeExamples/reacti18next/src",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
 Source: en
 Selected format is: i18next
 
@@ -324,8 +325,228 @@ Found unused keys!
 └──────────────────────────────────────────────────────────────────────┴──────────────────┘
 
 `);
-        done();
-      }
-    );
+          done();
+        }
+      );
+    });
+  });
+
+  describe("YAML", () => {
+    it("should return the missing keys for single folder translations", (done) => {
+      exec(
+        "node dist/bin/index.js -s en-US -l translations/yaml/flattenExamples",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌────────────────────────────────────────────────┬────────────────────────────────┐
+│ file                                           │ key                            │
+├────────────────────────────────────────────────┼────────────────────────────────┤
+│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.three            │
+│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.deep.more.final  │
+└────────────────────────────────────────────────┴────────────────────────────────┘
+
+No invalid translations found!
+
+`);
+          done();
+        }
+      );
+    });
+
+    it("should return the missing/invalid keys for folder per locale with single file", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/yaml/folderExample/ -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                               │ key                   │
+├────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/yaml/folderExample/de-DE/index.yaml  │  message.text-format  │
+└────────────────────────────────────────────────────┴───────────────────────┘
+
+Found invalid keys!
+┌────────────────────────────────────────────────────┬──────────────────┐
+│ file                                               │ key              │
+├────────────────────────────────────────────────────┼──────────────────┤
+│  translations/yaml/folderExample/de-DE/index.yaml  │  message.select  │
+└────────────────────────────────────────────────────┴──────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
+
+    it("should return the missing/invalid keys for folder per locale with multiple files", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/yaml/multipleFilesFolderExample/ -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌───────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                          │ key                   │
+├───────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml  │  message.text-format  │
+│  translations/yaml/multipleFilesFolderExample/de-DE/two.yaml  │  test.drive.four      │
+└───────────────────────────────────────────────────────────────┴───────────────────────┘
+
+Found invalid keys!
+┌─────────────────────────────────────────────────────────────────┬─────────────────────┐
+│ file                                                            │ key                 │
+├─────────────────────────────────────────────────────────────────┼─────────────────────┤
+│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml    │  message.select     │
+│  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml  │  multipleVariables  │
+└─────────────────────────────────────────────────────────────────┴─────────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
+
+    it("should return the missing/invalid keys for folder containing multiple locale folders", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/yaml/multipleFoldersExample -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                       │ key                   │
+├────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml  │  message.text-format  │
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/two.yaml  │  test.drive.four      │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml  │  message.plural       │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/two.yaml  │  test.drive.two       │
+└────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+Found invalid keys!
+┌──────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                         │ key                   │
+├──────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml    │  message.select       │
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml  │  multipleVariables    │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml    │  message.text-format  │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml  │  numberFormat         │
+└──────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
+
+    it("should return the missing/invalid keys for multiple locale folders", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/yaml/multipleFoldersExample/spaceOne translations/yaml/multipleFoldersExample/spaceTwo -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                       │ key                   │
+├────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml  │  message.text-format  │
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/two.yaml  │  test.drive.four      │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml  │  message.plural       │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/two.yaml  │  test.drive.two       │
+└────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+Found invalid keys!
+┌──────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
+│ file                                                                         │ key                   │
+├──────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml    │  message.select       │
+│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml  │  multipleVariables    │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml    │  message.text-format  │
+│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml  │  numberFormat         │
+└──────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
+
+    it("should return the missing/invalid keys for all files in the provided locale folders", (done) => {
+      exec(
+        "node dist/bin/index.js --source en-US --locales translations/yaml/flattenExamples translations/yaml/messageExamples",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌────────────────────────────────────────────────┬────────────────────────────────┐
+│ file                                           │ key                            │
+├────────────────────────────────────────────────┼────────────────────────────────┤
+│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.three            │
+│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.deep.more.final  │
+│  translations/yaml/messageExamples/de-de.yaml  │  richText                      │
+│  translations/yaml/messageExamples/de-de.yaml  │  yo                            │
+│  translations/yaml/messageExamples/de-de.yaml  │  nesting1                      │
+│  translations/yaml/messageExamples/de-de.yaml  │  nesting2                      │
+│  translations/yaml/messageExamples/de-de.yaml  │  nesting3                      │
+│  translations/yaml/messageExamples/de-de.yaml  │  key1                          │
+└────────────────────────────────────────────────┴────────────────────────────────┘
+
+Found invalid keys!
+┌────────────────────────────────────────────────┬─────────────────────┐
+│ file                                           │ key                 │
+├────────────────────────────────────────────────┼─────────────────────┤
+│  translations/yaml/messageExamples/de-de.yaml  │  multipleVariables  │
+└────────────────────────────────────────────────┴─────────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
+
+    it("should return the missing/invalid keys for all files with source matching folder and source matching file", (done) => {
+      exec(
+        "node dist/bin/index.js -l translations/yaml/multipleFilesFolderExample translations/yaml/flattenExamples -s en-US",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+┌───────────────────────────────────────────────────────────────┬────────────────────────────────┐
+│ file                                                          │ key                            │
+├───────────────────────────────────────────────────────────────┼────────────────────────────────┤
+│  translations/yaml/flattenExamples/de-de.yaml                 │  other.nested.three            │
+│  translations/yaml/flattenExamples/de-de.yaml                 │  other.nested.deep.more.final  │
+│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml  │  message.text-format           │
+│  translations/yaml/multipleFilesFolderExample/de-DE/two.yaml  │  test.drive.four               │
+└───────────────────────────────────────────────────────────────┴────────────────────────────────┘
+
+Found invalid keys!
+┌─────────────────────────────────────────────────────────────────┬─────────────────────┐
+│ file                                                            │ key                 │
+├─────────────────────────────────────────────────────────────────┼─────────────────────┤
+│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml    │  message.select     │
+│  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml  │  multipleVariables  │
+└─────────────────────────────────────────────────────────────────┴─────────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
   });
 });
