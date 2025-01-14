@@ -63,7 +63,7 @@ node_modules/.bin/i18n-check
 
 ## General Usage
 
-For i18n-check to work you need to provide it at a minimum the source locale (`--source, -s`) for the primary language and the path to the locale translation files (`--locales, -l`).
+For i18n-check to work you need to provide it at a minimum the source locale (`--source, -s`) for the primary language and the path to the locale translation files (`--locales, -l`). Currently supported file formats are JSON and YAML.
 
 Example:
 
@@ -214,7 +214,7 @@ yarn i18n:check --locales locales -s locales/en-us.json
 
 ### Folder per locale
 
-If the locales are **organised as folders** containing a single json file:
+If the locales are **organised as folders** containing a single JSON/YAML file:
 
 ```
 locales/
@@ -232,7 +232,7 @@ yarn i18n:check --locales locales -s en-US
 
 ### Folder per locale with multiple files
 
-If the locales are **organised as folders** containing multiple json files:
+If the locales are **organised as folders** containing multiple JSON/YAML files:
 
 ```
 locales/
@@ -254,7 +254,7 @@ yarn i18n:check --locales locales -s en-US
 
 #### Multiple folders containing locales
 
-If the locales are **organised as folders** containing multiple json files:
+If the locales are **organised as folders** containing multiple JSON/YAML files:
 
 ```
 - spaceOne
