@@ -29,6 +29,17 @@ describe("findInvalid18nTranslations:compareTranslationFiles", () => {
     ).toEqual(["key_with_broken_de", "intlNumber_broken_de"]);
   });
 
+  it("should return an empty array if the strings contain paranthesis that have different content", () => {
+    expect(
+      compareTranslationFiles(
+        flattenTranslations({
+          keyText: "Key(s)",
+        }),
+        flattenTranslations({ keyText: "Taste(n)" })
+      )
+    ).toEqual([]);
+  });
+
   it("should return empty array if placeholders are identical but in different positions", () => {
     expect(
       compareTranslationFiles(
