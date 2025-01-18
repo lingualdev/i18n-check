@@ -1,36 +1,35 @@
 #! /usr/bin/env node
 
+import fs from "node:fs";
+import { exit } from "node:process";
 import chalk from "chalk";
 import { program } from "commander";
-import fs from "fs";
 import { glob } from "glob";
-import yaml from 'js-yaml';
-import { exit } from "process";
+import yaml from "js-yaml";
 import { checkTranslations, checkUnusedKeys } from "..";
 import { Context, standardReporter, summaryReporter } from "../errorReporters";
 import { CheckResult, FileInfo, TranslationFile } from "../types";
 import { flattenTranslations } from "../utils/flattenTranslations";
 
+const version = require("../../package.json").version;
+
 program
-  .version("0.3.0")
+  .version(version)
   .option(
     "-l, --locales <locales...>",
     "name of the directory containing the locales to validate"
   )
+  .option("-s, --source <locale>", "the source locale to validate against")
   .option(
-    "-s, --source [source locale]",
-    "the source locale to validate against"
-  )
-  .option(
-    "-f, --format [format type]",
+    "-f, --format <type>",
     "define the specific format: i18next or react-intl"
   )
   .option(
-    "-c, --check [checks]",
-    "define the specific checks you want to run: invalid, missing. By default the check will validate against missing and invalid keys, i.e. --check invalidKeys,missingKeys"
+    "-o, --only <only...>",
+    "define the specific checks you want to run: invalid, missing. By default the check will validate against missing and invalid keys, i.e. --only invalidKeys,missingKeys"
   )
   .option(
-    "-r, --reporter [error reporting style]",
+    "-r, --reporter <style>",
     "define the reporting style: standard or summary"
   )
   .option(
@@ -38,23 +37,25 @@ program
     "define the file(s) and/or folders(s) that should be excluded from the check"
   )
   .option(
-    "-u, --unused [folder]",
+    "-u, --unused <path>",
     "define the source path to find all unused keys"
+  )
+  .option(
+    "--parser-component-functions <components...>",
+    "A list of components to parse"
   )
   .parse();
 
 const getCheckOptions = (): Context[] => {
-  const checkOption = program.getOptionValue("check");
+  const checkOption = program.getOptionValue("only");
 
   if (!checkOption) {
     return ["invalidKeys", "missingKeys"];
   }
 
-  const checks = checkOption
-    .split(",")
-    .filter((check: string) =>
-      ["invalidKeys", "missingKeys"].includes(check.trim())
-    );
+  const checks = checkOption.filter((check: string) =>
+    ["invalidKeys", "missingKeys"].includes(check.trim())
+  );
 
   return checks.length > 0 ? checks : ["invalidKeys", "missingKeys"];
 };
@@ -66,6 +67,7 @@ const isSource = (fileInfo: FileInfo, srcPath: string) => {
     ) || fileInfo.name.toLowerCase().slice(0, -5) === srcPath.toLowerCase()
   );
 };
+
 const main = async () => {
   const start = performance.now();
   const srcPath = program.getOptionValue("source");
@@ -73,6 +75,7 @@ const main = async () => {
   const format = program.getOptionValue("format");
   const exclude = program.getOptionValue("exclude");
   const unusedSrcPath = program.getOptionValue("unused");
+  const componentFunctions = program.getOptionValue("parserComponentFunctions");
 
   if (!srcPath) {
     console.log(
@@ -120,7 +123,12 @@ const main = async () => {
     format: format ?? undefined,
   };
 
-  const fileInfos: { extension: string, file: string; name: string; path: string[],  }[] = [];
+  const fileInfos: {
+    extension: string;
+    file: string;
+    name: string;
+    path: string[];
+  }[] = [];
 
   files.sort().forEach((file) => {
     const path = file.split("/");
@@ -220,7 +228,8 @@ const main = async () => {
       const unusedKeys = await checkUnusedKeys(
         srcFiles,
         unusedSrcPath,
-        options
+        options,
+        componentFunctions
       );
       printUnusedKeysResult({ unusedKeys });
     }

@@ -76,7 +76,8 @@ export const checkUnusedKeys = async (
   codebaseSrc: string,
   options: Options = {
     format: "react-intl",
-  }
+  },
+  componentFunctions = []
 ): Promise<CheckResult | undefined> => {
   if (!options.format || !["react-intl", "i18next"].includes(options.format)) {
     return undefined;
@@ -84,7 +85,7 @@ export const checkUnusedKeys = async (
 
   return options.format === "react-intl"
     ? findUnusedReactIntlTranslations(source, codebaseSrc)
-    : findUnusedi18NextTranslations(source, codebaseSrc);
+    : findUnusedI18NextTranslations(source, codebaseSrc, componentFunctions);
 };
 
 const findUnusedReactIntlTranslations = async (
@@ -94,11 +95,11 @@ const findUnusedReactIntlTranslations = async (
   let unusedKeys = {};
 
   // find any unused keys in a react-intl code base
-  const unsuedKeysFiles = globSync(codebaseSrc, {
+  const unusedKeysFiles = globSync(codebaseSrc, {
     ignore: ["node_modules/**"],
   });
 
-  const extracted = await extract(unsuedKeysFiles, {});
+  const extracted = await extract(unusedKeysFiles, {});
   const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
 
   source.forEach(({ name, content }) => {
@@ -116,9 +117,10 @@ const findUnusedReactIntlTranslations = async (
   return unusedKeys;
 };
 
-const findUnusedi18NextTranslations = async (
+const findUnusedI18NextTranslations = async (
   source: TranslationFile[],
-  codebaseSrc: string
+  codebaseSrc: string,
+  componentFunctions: string[] = []
 ) => {
   let unusedKeys = {};
 
@@ -135,7 +137,22 @@ const findUnusedi18NextTranslations = async (
   unusedKeysFiles.forEach((file) => {
     const rawContent = fs.readFileSync(file);
 
-    const i18nextParser = new transform();
+    const i18nextParser = new transform({
+      lexers: {
+        jsx: [
+          {
+            lexer: "JsxLexer",
+            componentFunctions: componentFunctions.concat(["Trans"]),
+          },
+        ],
+        tsx: [
+          {
+            lexer: "JsxLexer",
+            componentFunctions: componentFunctions.concat(["Trans"]),
+          },
+        ],
+      },
+    });
     i18nextParser.once("data", (file: { contents: any }) => {
       extractedResult = extractedResult.concat(
         Object.keys(flatten(JSON.parse(file.contents)))

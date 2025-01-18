@@ -18,5 +18,8 @@
     "audio": "An audio format",
     "ebook": "An e-book formt"
   },
-  "nonExistentKey": "Key does not exist"
+  "nonExistentKey": "Key does not exist",
+  "test": {
+    "one": "one"
+  }
 }

@@ -40,5 +40,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/lingualdev/i18n-check.git"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

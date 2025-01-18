@@ -112,28 +112,28 @@ Hint: If you want to use the `--unused` flag, you should provide `react-intl` or
 yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
 ```
 
-### --check, -c
+### --only, -o
 
-By default i18n-check will perform a validation against any **missing** and/or **invalid** keys. There are situations where only a specific check should run. By using the `-c` or `--check` option you can specify a specific check to run.
+By default i18n-check will perform a validation against any **missing** and/or **invalid** keys. There are situations where only a specific check should run. By using the `-o` or `--only` option you can specify a specific check to run.
 
 The available options are `missingKeys`, which will check against any missing keys in the target files and `invalidKeys` will check for invalid keys, where the target translations has a different type then the one defined in the source file.
 
 Check for missing keys:
 
 ```bash
-yarn i18n:check --locales translations/messageExamples -s en-US -c missingKeys
+yarn i18n:check --locales translations/messageExamples -s en-US -o missingKeys
 ```
 
 Check for invalid keys:
 
 ```bash
-yarn i18n:check --locales translations/messageExamples -s en-US -c invalidKeys
+yarn i18n:check --locales translations/messageExamples -s en-US -o invalidKeys
 ```
 
 Check for missing and invalid keys (which is the default):
 
 ```bash
-yarn i18n:check --locales translations/messageExamples -s en-US -c missingKeys,invalidKeys
+yarn i18n:check --locales translations/messageExamples -s en-US -o missingKeys,invalidKeys
 ```
 
 ### --unused, -u
@@ -159,6 +159,20 @@ Using the `-r` or `--reporter` option enables to override the standard error rep
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -r summary
+```
+
+### --parser-component-functions
+
+When using the `unused` option, there will be situations where the i18next-parser will not be able to find components that wrap a `Trans` component.The component names for i18next-parser to match should be provided via the `--parser-component-functions` option. By default `Trans` will always be matched and can be used to define additional names for matching.
+
+```bash
+yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
+-u src --parser-component-functions WrappedTransComponent
+```
+
+```bash
+yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
+-u src --parser-component-functions WrappedTransComponent AnotherWrappedTransComponent
 ```
 
 ### --exclude, -e
@@ -206,7 +220,7 @@ locales/
   de-de.json
 ```
 
-Use the `t` or `target` option to define the directory that should be checked for target files. With the `s` or `source` option you can specify the base/reference file to compare the target files against.
+Use the `-l` or `--locales` option to define the directory that should be checked for target files. With the `s` or `source` option you can specify the base/reference file to compare the target files against.
 
 ```bash
 yarn i18n:check --locales locales -s locales/en-us.json
