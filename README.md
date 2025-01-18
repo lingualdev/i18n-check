@@ -133,7 +133,7 @@ yarn i18n:check --locales translations/messageExamples -s en-US -o invalidKeys
 Check for missing and invalid keys (which is the default):
 
 ```bash
-yarn i18n:check --locales translations/messageExamples -s en-US -o missingKeys,invalidKeys
+yarn i18n:check --locales translations/messageExamples -s en-US -o missingKeys invalidKeys
 ```
 
 ### --unused, -u
@@ -159,20 +159,6 @@ Using the `-r` or `--reporter` option enables to override the standard error rep
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -r summary
-```
-
-### --parser-component-functions
-
-When using the `unused` option, there will be situations where the i18next-parser will not be able to find components that wrap a `Trans` component.The component names for i18next-parser to match should be provided via the `--parser-component-functions` option. By default `Trans` will always be matched and can be used to define additional names for matching.
-
-```bash
-yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
--u src --parser-component-functions WrappedTransComponent
-```
-
-```bash
-yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
--u src --parser-component-functions WrappedTransComponent AnotherWrappedTransComponent
 ```
 
 ### --exclude, -e
@@ -205,6 +191,20 @@ yarn i18n:check --locales translations/folderExamples -s en-US -e translations/f
 
 The `--exclude` option also accepts a mix of files and folders, which follows the same pattern as above, i.e.
 `-e translations/folderExamples/fr/* translations/messageExamples/it.json`
+
+### --parser-component-functions
+
+When using the `--unused` option, there will be situations where the i18next-parser will not be able to find components that wrap a `Trans` component.The component names for i18next-parser to match should be provided via the `--parser-component-functions` option. This option should onlybe used to define additional names for matching, a by default `Trans` will always be matched.
+
+```bash
+yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
+-u src --parser-component-functions WrappedTransComponent
+```
+
+```bash
+yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
+-u src --parser-component-functions WrappedTransComponent AnotherWrappedTransComponent
+```
 
 ## Examples
 

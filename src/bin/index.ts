@@ -25,6 +25,10 @@ program
     "define the specific format: i18next or react-intl"
   )
   .option(
+    "-c, --check <checks...>",
+    "this option is deprecated - use -o or --only instead"
+  )
+  .option(
     "-o, --only <only...>",
     "define the specific checks you want to run: invalid, missing. By default the check will validate against missing and invalid keys, i.e. --only invalidKeys,missingKeys"
   )
@@ -42,12 +46,21 @@ program
   )
   .option(
     "--parser-component-functions <components...>",
-    "A list of components to parse"
+    "a list of component names to parse when using the --unused option"
   )
   .parse();
 
 const getCheckOptions = (): Context[] => {
-  const checkOption = program.getOptionValue("only");
+  const checkOption =
+    program.getOptionValue("only") || program.getOptionValue("check");
+
+  if (program.getOptionValue("check")) {
+    console.log(
+      chalk.yellow(
+        "The --check option has been deprecated, use the --only option instead."
+      )
+    );
+  }
 
   if (!checkOption) {
     return ["invalidKeys", "missingKeys"];
