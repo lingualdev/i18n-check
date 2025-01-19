@@ -3,6 +3,10 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Content } from "./Content";
 
+const WrappedTransComponent = (props) => {
+  return <Trans {...props} />;
+};
+
 export const I18NextExample = () => {
   const { t } = useTranslation();
 
@@ -27,6 +31,11 @@ export const I18NextExample = () => {
         Welcome <b>{{ userName }}</b>, you can check for more information{" "}
         <a href="some-link">here</a>!
       </Trans>
+
+      <WrappedTransComponent i18nKey="test.one">
+        Welcome <b>{{ userName }}</b>, you can check for more information{" "}
+        <a href="some-link">here</a>!
+      </WrappedTransComponent>
 
       <div>
         <Trans i18nKey="content.intro" />

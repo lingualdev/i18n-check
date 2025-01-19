@@ -305,7 +305,7 @@ No invalid translations found!
 
     it("should find unused keys for react-i18next applications", (done) => {
       exec(
-        "node dist/bin/index.js --source en --locales translations/codeExamples/reacti18next/locales -f i18next -u translations/codeExamples/reacti18next/src",
+        "node dist/bin/index.js --source en --locales translations/codeExamples/reacti18next/locales -f i18next -u translations/codeExamples/reacti18next/src --parser-component-functions WrappedTransComponent",
         (_error, stdout, _stderr) => {
           const result = stdout.split("Done")[0];
           expect(result).toEqual(`i18n translations checker
