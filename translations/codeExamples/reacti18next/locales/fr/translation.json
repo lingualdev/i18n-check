@@ -22,13 +22,6 @@
   "test": {
     "one": "one"
   },
-  "account": {
-    "tabs": {
-      "positions": {
-        "table": { "footer": { "closeAll": { "modal": { "subtitle": "a" } } } }
-      }
-    }
-  },
   "some": {
     "deep": {
       "nested": {
