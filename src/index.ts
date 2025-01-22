@@ -6,7 +6,6 @@ import { Context } from "./errorReporters";
 import { globSync } from "glob";
 import { extract } from "@formatjs/cli-lib";
 import fs from "fs";
-import Vinyl from "vinyl";
 
 export type Options = {
   format?: "icu" | "i18next" | "react-intl" | "react-i18next";
@@ -134,37 +133,35 @@ const findUnusedI18NextTranslations = async (
   // @ts-ignore
   const { transform } = await import("i18next-parser");
 
+  const i18nextParser = new transform({
+    lexers: {
+      jsx: [
+        {
+          lexer: "JsxLexer",
+          componentFunctions: componentFunctions.concat(["Trans"]),
+        },
+      ],
+      tsx: [
+        {
+          lexer: "JsxLexer",
+          componentFunctions: componentFunctions.concat(["Trans"]),
+        },
+      ],
+    },
+  });
+
   unusedKeysFiles.forEach((file) => {
-    const rawContent = fs.readFileSync(file);
+    const rawContent = fs.readFileSync(file, "utf-8");
 
-    const i18nextParser = new transform({
-      lexers: {
-        jsx: [
-          {
-            lexer: "JsxLexer",
-            componentFunctions: componentFunctions.concat(["Trans"]),
-          },
-        ],
-        tsx: [
-          {
-            lexer: "JsxLexer",
-            componentFunctions: componentFunctions.concat(["Trans"]),
-          },
-        ],
-      },
-    });
-    i18nextParser.once("data", (file: { contents: any }) => {
-      extractedResult = extractedResult.concat(
-        Object.keys(flatten(JSON.parse(file.contents)))
-      );
-    });
+    const entries = i18nextParser.parser.parse(rawContent, file);
 
-    i18nextParser.end(
-      new Vinyl({
-        contents: rawContent,
-        path: file,
-      })
-    );
+    // Intermediate solution to retrieve all keys from the parser.
+    // This will be built out to also include the namespace and check
+    // the key against the namespace corresponding file.
+    // The current implementation considers the key as used no matter the namespace.
+    for (const entry of entries) {
+      extractedResult.push(entry.key);
+    }
   });
 
   const extractedResultSet = new Set(extractedResult);

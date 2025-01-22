@@ -21,5 +21,15 @@
   "nonExistentKey": "Key does not exist",
   "test": {
     "one": "one"
+  },
+  "some": {
+    "deep": {
+      "nested": {
+        "key": "Some deep nested key"
+      }
+    }
+  },
+  "user": {
+    "one": "some id"
   }
 }

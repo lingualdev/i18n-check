@@ -33,9 +33,23 @@ export const I18NextExample = () => {
       </Trans>
 
       <WrappedTransComponent i18nKey="test.one">
-        Welcome <b>{{ userName }}</b>, you can check for more information{" "}
+        Welcome <b>{userName}</b>, you can check for more information{" "}
         <a href="some-link">here</a>!
       </WrappedTransComponent>
+
+      <WrappedTransComponent i18nKey="user.one" ns="one">
+        Welcome <b>{user}</b>!
+      </WrappedTransComponent>
+
+      <WrappedTransComponent
+        i18nKey="some.deep.nested.key"
+        ns="two"
+        components={[
+          <>
+            <div />
+          </>,
+        ]}
+      />
 
       <div>
         <Trans i18nKey="content.intro" />

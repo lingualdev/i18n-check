@@ -21,5 +21,22 @@
   "nonExistentKey": "Key does not exist",
   "test": {
     "one": "one"
+  },
+  "account": {
+    "tabs": {
+      "positions": {
+        "table": { "footer": { "closeAll": { "modal": { "subtitle": "a" } } } }
+      }
+    }
+  },
+  "some": {
+    "deep": {
+      "nested": {
+        "key": "Some deep nested key"
+      }
+    }
+  },
+  "user": {
+    "one": "some id"
   }
 }
