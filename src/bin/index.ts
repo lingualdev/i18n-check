@@ -315,7 +315,7 @@ const printUnusedKeysResult = ({
 
   const isSummary = reporter === "summary";
 
-  if (unusedKeys && Object.keys(unusedKeys).length > 0) {
+  if (unusedKeys && hasUnusedKeys(unusedKeys)) {
     console.log(chalk.red("\nFound unused keys!"));
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(unusedKeys))));
@@ -323,7 +323,7 @@ const printUnusedKeysResult = ({
       console.log(chalk.red(standardReporter(getStandardRows(unusedKeys))));
     }
   } else if (unusedKeys) {
-    console.log(chalk.green("\nNo unused found!"));
+    console.log(chalk.green("\nNo unused keys found!"));
   }
 };
 
@@ -354,6 +354,15 @@ const getStandardRows = (checkResult: CheckResult) => {
     }
   }
   return formattedRows;
+};
+
+const hasUnusedKeys = (checkResult: CheckResult) => {
+  for (const [_, keys] of Object.entries<string[]>(checkResult)) {
+    if (keys.length > 0) {
+      return true;
+    }
+  }
+  return false;
 };
 
 main();
