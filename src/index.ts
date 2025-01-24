@@ -150,6 +150,11 @@ const findUnusedI18NextTranslations = async (
     },
   });
 
+  // Skip any parsed keys that have the `returnObjects` property set to true
+  // As these are used dynamically, they will be skipped to prevent
+  // these keys from being marked as unused.
+  const skippableKeys: string[] = [];
+
   unusedKeysFiles.forEach((file) => {
     const rawContent = fs.readFileSync(file, "utf-8");
 
@@ -160,7 +165,11 @@ const findUnusedI18NextTranslations = async (
     // the key against the namespace corresponding file.
     // The current implementation considers the key as used no matter the namespace.
     for (const entry of entries) {
-      extractedResult.push(entry.key);
+      if (entry.returnObjects) {
+        skippableKeys.push(entry.key);
+      } else {
+        extractedResult.push(entry.key);
+      }
     }
   });
 
@@ -170,6 +179,12 @@ const findUnusedI18NextTranslations = async (
     const keysInSource = Object.keys(content);
     const found: string[] = [];
     for (const keyInSource of keysInSource) {
+      const isSkippable = skippableKeys.find((skippableKey) => {
+        return keyInSource.includes(skippableKey);
+      });
+      if (isSkippable !== undefined) {
+        continue;
+      }
       if (!extractedResultSet.has(keyInSource)) {
         found.push(keyInSource);
       }

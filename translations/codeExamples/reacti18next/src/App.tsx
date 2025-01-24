@@ -12,6 +12,10 @@ export const I18NextExample = () => {
 
   const userName = "User One";
 
+  const returnObjectLike = t("returnObjectLike", { returnObjects: true });
+
+  const resolution = returnObjectLike["one"];
+
   return (
     <p className="example">
       <p>
