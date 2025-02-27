@@ -23,7 +23,7 @@
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
     "glob": "^11.0.1",
-    "i18next-parser": "^9.1.0",
+    "i18next-parser": "^9.3.0",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
     "@types/vinyl": "^2.0.12",
     "braces": "^3.0.3",
     "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.2.6",
     "typescript": "^5.7.3"
   },
   "repository": {
