@@ -124,7 +124,7 @@ const findUnusedI18NextTranslations = async (
   let unusedKeys = {};
 
   // find any unused keys in a react-i18next code base
-  const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.tsx`, {
+  const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
     ignore: ["node_modules/**"],
   });
 
