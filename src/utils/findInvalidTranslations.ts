@@ -95,10 +95,7 @@ export const hasDiff = (
       return hasDiff(formatElementA.children, formatElementB.children);
     }
 
-    if (
-      (isSelectElement(formatElementA) && isSelectElement(formatElementB)) ||
-      (isPluralElement(formatElementA) && isPluralElement(formatElementB))
-    ) {
+    if ((isSelectElement(formatElementA) && isSelectElement(formatElementB))) {
       const optionsA = Object.keys(formatElementA.options).sort();
       const optionsB = Object.keys(formatElementB.options).sort();
 
@@ -106,6 +103,24 @@ export const hasDiff = (
         return true;
       }
       return optionsA.some((key) => {
+        return hasDiff(
+          formatElementA.options[key].value,
+          formatElementB.options[key].value
+        );
+      });
+    }
+
+    if ((isPluralElement(formatElementA) && isPluralElement(formatElementB))) {
+      const optionsA = Object.keys(formatElementA.options).sort();
+
+      return optionsA.some((key) => {
+        // We can only compare translations that have the same plural keys.
+        // In English, we might have "one", "other", but in German, we might have "one", "few", "other".
+        // Or, in Arabic it might just be "other".
+        // So, we'll have to skip over the ones that don't have a one-to-one match.
+        if (!formatElementB.options[key]) {
+          return false;
+        }
         return hasDiff(
           formatElementA.options[key].value,
           formatElementB.options[key].value

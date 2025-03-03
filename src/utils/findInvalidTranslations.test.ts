@@ -76,14 +76,30 @@ describe("findInvalidTranslations", () => {
     });
   });
 
-  it("shouldn't fail if keys differ", () => {
+  it("should allow for different types of keys per locale", () => {
     expect(
       findInvalidTranslations(
         sourceFile,
         {
             de: {
             ...secondaryFile,
-            "message.plural": "{count, plural, other {# artículos}}",
+            "message.plural": "{count, plural, other {# of {total} items}}",
+          }
+        }
+      )
+    ).toEqual({
+      de: ["multipleVariables"]
+    });
+  });
+
+  it("should fail if a variable is changed in one of the translations", () => {
+    expect(
+      findInvalidTranslations(
+        sourceFile,
+        {
+            de: {
+            ...secondaryFile,
+            "message.plural": "{count, plural, other {# of {cargado} items}}",
           }
         }
       )
