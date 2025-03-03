@@ -75,4 +75,20 @@ describe("findInvalidTranslations", () => {
       fr: ["message.text-format"],
     });
   });
+
+  it("shouldn't fail if keys differ", () => {
+    expect(
+      findInvalidTranslations(
+        sourceFile,
+        {
+            de: {
+            ...secondaryFile,
+            "message.plural": "{count, plural, other {# artículos}}",
+          }
+        }
+      )
+    ).toEqual({
+      de: ["message.plural", "multipleVariables"]
+    });
+  });
 });

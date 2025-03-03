@@ -100,7 +100,7 @@ export const hasDiff = (
       (isPluralElement(formatElementA) && isPluralElement(formatElementB))
     ) {
       const optionsA = Object.keys(formatElementA.options).sort();
-      const optionsB = Object.keys(formatElementA.options).sort();
+      const optionsB = Object.keys(formatElementB.options).sort();
 
       if (optionsA.join("-") !== optionsB.join("-")) {
         return true;
