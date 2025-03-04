@@ -110,7 +110,7 @@ export const hasDiff = (
       });
     }
 
-    if ((isPluralElement(formatElementA) && isPluralElement(formatElementB))) {
+    if (isPluralElement(formatElementA) && isPluralElement(formatElementB)) {
       const optionsA = Object.keys(formatElementA.options).sort();
 
       return optionsA.some((key) => {
