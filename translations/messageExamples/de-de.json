@@ -1,7 +1,7 @@
 {
   "message.simple": "Un mensaje sencillo.",
   "message.argument": "¡Hola, {name}! 👋",
-  "message.plural": "{count, plural, one {# articulo} other {# artículos}}",
+  "message.plural": "{count, plural, one {# articulo} other {# de {total} artículos}}",
   "message.select": "{gender, select, male {Sr.} female {Sra.} other {Usuario}}",
   "message.text-format": "¡Hola, <b>John</b>!",
   "message.number-format": "Número formateado: {num, number, ::K}",
