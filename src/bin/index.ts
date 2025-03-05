@@ -6,7 +6,7 @@ import chalk from "chalk";
 import { program } from "commander";
 import { glob } from "glob";
 import yaml from "js-yaml";
-import { checkTranslations, checkUnusedKeys } from "..";
+import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from "..";
 import { Context, standardReporter, summaryReporter } from "../errorReporters";
 import { CheckResult, FileInfo, TranslationFile } from "../types";
 import { flattenTranslations } from "../utils/flattenTranslations";
@@ -42,7 +42,7 @@ program
   )
   .option(
     "-u, --unused <path>",
-    "define the source path to find all unused keys"
+    "define the source path to find all unused and undefined keys"
   )
   .option(
     "--parser-component-functions <components...>",
@@ -245,6 +245,16 @@ const main = async () => {
         componentFunctions
       );
       printUnusedKeysResult({ unusedKeys });
+
+      const undefinedKeys = await checkUndefinedKeys(
+        srcFiles,
+        unusedSrcPath,
+        options,
+        componentFunctions
+      );
+      printUndefinedKeysResult({
+        undefinedKeys,
+      });
     }
 
     const end = performance.now();
@@ -315,7 +325,7 @@ const printUnusedKeysResult = ({
 
   const isSummary = reporter === "summary";
 
-  if (unusedKeys && hasUnusedKeys(unusedKeys)) {
+  if (unusedKeys && hasKeys(unusedKeys)) {
     console.log(chalk.red("\nFound unused keys!"));
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(unusedKeys))));
@@ -324,6 +334,27 @@ const printUnusedKeysResult = ({
     }
   } else if (unusedKeys) {
     console.log(chalk.green("\nNo unused keys found!"));
+  }
+};
+
+const printUndefinedKeysResult = ({
+  undefinedKeys,
+}: {
+  undefinedKeys: CheckResult | undefined;
+}) => {
+  const reporter = program.getOptionValue("reporter");
+
+  const isSummary = reporter === "summary";
+
+  if (undefinedKeys && hasKeys(undefinedKeys)) {
+    console.log(chalk.red("\nFound undefined keys!"));
+    if (isSummary) {
+      console.log(chalk.red(summaryReporter(getSummaryRows(undefinedKeys))));
+    } else {
+      console.log(chalk.red(standardReporter(getStandardRows(undefinedKeys))));
+    }
+  } else if (undefinedKeys) {
+    console.log(chalk.green("\nNo undefined keys found!"));
   }
 };
 
@@ -356,7 +387,7 @@ const getStandardRows = (checkResult: CheckResult) => {
   return formattedRows;
 };
 
-const hasUnusedKeys = (checkResult: CheckResult) => {
+const hasKeys = (checkResult: CheckResult) => {
   for (const [_, keys] of Object.entries<string[]>(checkResult)) {
     if (keys.length > 0) {
       return true;

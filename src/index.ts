@@ -93,8 +93,7 @@ const findUnusedReactIntlTranslations = async (
 ) => {
   let unusedKeys = {};
 
-  // find any unused keys in a react-intl code base
-  const unusedKeysFiles = globSync(codebaseSrc, {
+  const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
     ignore: ["node_modules/**"],
   });
 
@@ -123,7 +122,6 @@ const findUnusedI18NextTranslations = async (
 ) => {
   let unusedKeys = {};
 
-  // find any unused keys in a react-i18next code base
   const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
     ignore: ["node_modules/**"],
   });
@@ -194,6 +192,135 @@ const findUnusedI18NextTranslations = async (
   });
 
   return unusedKeys;
+};
+
+export const checkUndefinedKeys = async (
+  source: TranslationFile[],
+  codebaseSrc: string,
+  options: Options = {
+    format: "react-intl",
+  },
+  componentFunctions = []
+): Promise<CheckResult | undefined> => {
+  if (!options.format || !["react-intl", "i18next"].includes(options.format)) {
+    return undefined;
+  }
+
+  return options.format === "react-intl"
+    ? findUndefinedReactIntlKeys(source, codebaseSrc)
+    : findUndefinedI18NextKeys(source, codebaseSrc, componentFunctions);
+};
+
+const findUndefinedReactIntlKeys = async (
+  source: TranslationFile[],
+  codebaseSrc: string
+) => {
+  const undefinedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
+    ignore: ["node_modules/**"],
+  });
+
+  const sourceKeys = new Set(
+    source.flatMap(({ content }) => {
+      return Object.keys(content);
+    })
+  );
+
+  const extractedResult = await extract(undefinedKeysFiles, {
+    extractSourceLocation: true,
+  });
+
+  let undefinedKeys: { [key: string]: string[] } = {};
+  Object.entries(JSON.parse(extractedResult)).forEach(([key, meta]) => {
+    if (!sourceKeys.has(key)) {
+      // @ts-ignore
+      const file = meta.file;
+      if (!undefinedKeys[file]) {
+        undefinedKeys[file] = [];
+      }
+      undefinedKeys[file].push(key);
+    }
+  });
+
+  return undefinedKeys;
+};
+
+const findUndefinedI18NextKeys = async (
+  source: TranslationFile[],
+  codebaseSrc: string,
+  componentFunctions: string[] = []
+) => {
+
+  const undefinedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
+    ignore: ["node_modules/**"],
+  });
+
+  // @ts-ignore
+  const { transform } = await import("i18next-parser");
+
+  const i18nextParser = new transform({
+    lexers: {
+      jsx: [
+        {
+          lexer: "JsxLexer",
+          componentFunctions: componentFunctions.concat(["Trans"]),
+        },
+      ],
+      tsx: [
+        {
+          lexer: "JsxLexer",
+          componentFunctions: componentFunctions.concat(["Trans"]),
+        },
+      ],
+    },
+  });
+
+  // Skip any parsed keys that have the `returnObjects` property set to true
+  // As these are used dynamically, they will be skipped to prevent
+  // these keys from being marked as unused.
+
+  let extractedResult: { file: string; key: string }[] = [];
+
+  const skippableKeys: string[] = [];
+
+  undefinedKeysFiles.forEach((file) => {
+    const rawContent = fs.readFileSync(file, "utf-8");
+
+    const entries = i18nextParser.parser.parse(rawContent, file);
+
+    // Intermediate solution to retrieve all keys from the parser.
+    // This will be built out to also include the namespace and check
+    // the key against the namespace corresponding file.
+    // The current implementation considers the key as used no matter the namespace.
+    for (const entry of entries) {
+      if (entry.returnObjects) {
+        skippableKeys.push(entry.key);
+      } else {
+        extractedResult.push({ file, key: entry.key });
+      }
+    }
+  });
+
+  const sourceKeys = new Set(
+    source.flatMap(({ content }) => {
+      return Object.keys(content);
+    })
+  );
+
+  let undefinedKeys: { [key: string]: string[] } = {};
+
+  extractedResult.forEach(({ file, key }) => {
+    const isSkippable = skippableKeys.find((skippableKey) => {
+      return key.includes(skippableKey);
+    });
+    if (isSkippable === undefined && !sourceKeys.has(key)) {
+      if (!undefinedKeys[file]) {
+        undefinedKeys[file] = [];
+      }
+      undefinedKeys[file].push(key);
+    }
+  });
+
+  return undefinedKeys;
 };
 
 const isRecord = (data: unknown): data is Record<string, unknown> => {

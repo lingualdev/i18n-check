@@ -27,6 +27,7 @@ export const I18NextExample = () => {
         {t("two", "Value two")}
         {t("three", "Value three")}
         {t("more", "More!")}
+        {t("some.key.that.is.not.defined", "Some key that is not defined!")}
       </p>
 
       <p>{t("testing.one", "Some default value")}</p>
