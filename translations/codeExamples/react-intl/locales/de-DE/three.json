@@ -1,0 +1,5 @@
+{
+  "multipleVariables": "Hi {user}, it is {today, date, medium} and tomorrow it is {tomorrow, date, medium}.",
+  "select": "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}",
+  "nested.select": "{done, select, no {There is more to it {count, number}.} other {Done.}}"
+}

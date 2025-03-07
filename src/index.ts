@@ -71,8 +71,8 @@ export const checkTranslations = (
 };
 
 export const checkUnusedKeys = async (
-  source: TranslationFile[],
-  codebaseSrc: string,
+  translationFiles: TranslationFile[],
+  filesToParse: string[],
   options: Options = {
     format: "react-intl",
   },
@@ -83,25 +83,24 @@ export const checkUnusedKeys = async (
   }
 
   return options.format === "react-intl"
-    ? findUnusedReactIntlTranslations(source, codebaseSrc)
-    : findUnusedI18NextTranslations(source, codebaseSrc, componentFunctions);
+    ? findUnusedReactIntlTranslations(translationFiles, filesToParse)
+    : findUnusedI18NextTranslations(
+        translationFiles,
+        filesToParse,
+        componentFunctions
+      );
 };
 
 const findUnusedReactIntlTranslations = async (
-  source: TranslationFile[],
-  codebaseSrc: string
+  translationFiles: TranslationFile[],
+  keysInCode: string[]
 ) => {
   let unusedKeys = {};
 
-  // find any unused keys in a react-intl code base
-  const unusedKeysFiles = globSync(codebaseSrc, {
-    ignore: ["node_modules/**"],
-  });
-
-  const extracted = await extract(unusedKeysFiles, {});
+  const extracted = await extract(keysInCode, {});
   const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
 
-  source.forEach(({ name, content }) => {
+  translationFiles.forEach(({ name, content }) => {
     const keysInSource = Object.keys(content);
     const found: string[] = [];
     for (const keyInSource of keysInSource) {
@@ -118,18 +117,131 @@ const findUnusedReactIntlTranslations = async (
 
 const findUnusedI18NextTranslations = async (
   source: TranslationFile[],
-  codebaseSrc: string,
+  filesToParse: string[],
   componentFunctions: string[] = []
 ) => {
   let unusedKeys = {};
 
-  // find any unused keys in a react-i18next code base
-  const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
-    ignore: ["node_modules/**"],
+  const { extractedResult, skippableKeys } = await getI18NextKeysInCode(
+    filesToParse,
+    componentFunctions
+  );
+
+  const extractedResultSet = new Set(extractedResult.map(({ key }) => key));
+
+  source.forEach(({ name, content }) => {
+    const keysInSource = Object.keys(content);
+    const found: string[] = [];
+    for (const keyInSource of keysInSource) {
+      const isSkippable = skippableKeys.find((skippableKey) => {
+        return keyInSource.includes(skippableKey);
+      });
+      if (isSkippable !== undefined) {
+        continue;
+      }
+      if (!extractedResultSet.has(keyInSource)) {
+        found.push(keyInSource);
+      }
+    }
+
+    Object.assign(unusedKeys, { [name]: found });
   });
 
-  let extractedResult: string[] = [];
+  return unusedKeys;
+};
 
+export const checkUndefinedKeys = async (
+  source: TranslationFile[],
+  filesToParse: string[],
+  options: Options = {
+    format: "react-intl",
+  },
+  componentFunctions = []
+): Promise<CheckResult | undefined> => {
+  if (!options.format || !["react-intl", "i18next"].includes(options.format)) {
+    return undefined;
+  }
+
+  return options.format === "react-intl"
+    ? findUndefinedReactIntlKeys(source, filesToParse)
+    : findUndefinedI18NextKeys(source, filesToParse, componentFunctions);
+};
+
+const findUndefinedReactIntlKeys = async (
+  translationFiles: TranslationFile[],
+  keysInCode: string[]
+) => {
+  const sourceKeys = new Set(
+    translationFiles.flatMap(({ content }) => {
+      return Object.keys(content);
+    })
+  );
+
+  const extractedResult = await extract(keysInCode, {
+    extractSourceLocation: true,
+  });
+
+  let undefinedKeys: { [key: string]: string[] } = {};
+  Object.entries(JSON.parse(extractedResult)).forEach(([key, meta]) => {
+    if (!sourceKeys.has(key)) {
+      // @ts-ignore
+      const file = meta.file;
+      if (!undefinedKeys[file]) {
+        undefinedKeys[file] = [];
+      }
+      undefinedKeys[file].push(key);
+    }
+  });
+
+  return undefinedKeys;
+};
+
+const findUndefinedI18NextKeys = async (
+  source: TranslationFile[],
+  filesToParse: string[],
+  componentFunctions: string[] = []
+) => {
+  const { extractedResult, skippableKeys } = await getI18NextKeysInCode(
+    filesToParse,
+    componentFunctions
+  );
+
+  const sourceKeys = new Set(
+    source.flatMap(({ content }) => {
+      return Object.keys(content);
+    })
+  );
+
+  let undefinedKeys: { [key: string]: string[] } = {};
+
+  extractedResult.forEach(({ file, key }) => {
+    const isSkippable = skippableKeys.find((skippableKey) => {
+      return key.includes(skippableKey);
+    });
+    if (isSkippable === undefined && !sourceKeys.has(key)) {
+      if (!undefinedKeys[file]) {
+        undefinedKeys[file] = [];
+      }
+      undefinedKeys[file].push(key);
+    }
+  });
+
+  return undefinedKeys;
+};
+
+const isRecord = (data: unknown): data is Record<string, unknown> => {
+  return (
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    data !== null &&
+    data !== undefined
+  );
+};
+
+const getI18NextKeysInCode = async (
+  filesToParse: string[],
+  componentFunctions: string[] = []
+) => {
   // @ts-ignore
   const { transform } = await import("i18next-parser");
 
@@ -153,9 +265,12 @@ const findUnusedI18NextTranslations = async (
   // Skip any parsed keys that have the `returnObjects` property set to true
   // As these are used dynamically, they will be skipped to prevent
   // these keys from being marked as unused.
+
+  let extractedResult: { file: string; key: string }[] = [];
+
   const skippableKeys: string[] = [];
 
-  unusedKeysFiles.forEach((file) => {
+  filesToParse.forEach((file) => {
     const rawContent = fs.readFileSync(file, "utf-8");
 
     const entries = i18nextParser.parser.parse(rawContent, file);
@@ -168,41 +283,12 @@ const findUnusedI18NextTranslations = async (
       if (entry.returnObjects) {
         skippableKeys.push(entry.key);
       } else {
-        extractedResult.push(entry.key);
+        extractedResult.push({ file, key: entry.key });
       }
     }
   });
 
-  const extractedResultSet = new Set(extractedResult);
-
-  source.forEach(({ name, content }) => {
-    const keysInSource = Object.keys(content);
-    const found: string[] = [];
-    for (const keyInSource of keysInSource) {
-      const isSkippable = skippableKeys.find((skippableKey) => {
-        return keyInSource.includes(skippableKey);
-      });
-      if (isSkippable !== undefined) {
-        continue;
-      }
-      if (!extractedResultSet.has(keyInSource)) {
-        found.push(keyInSource);
-      }
-    }
-
-    Object.assign(unusedKeys, { [name]: found });
-  });
-
-  return unusedKeys;
-};
-
-const isRecord = (data: unknown): data is Record<string, unknown> => {
-  return (
-    typeof data === "object" &&
-    !Array.isArray(data) &&
-    data !== null &&
-    data !== undefined
-  );
+  return { extractedResult, skippableKeys };
 };
 
 function flatten(
