@@ -71,8 +71,8 @@ export const checkTranslations = (
 };
 
 export const checkUnusedKeys = async (
-  source: TranslationFile[],
-  codebaseSrc: string,
+  translationFiles: TranslationFile[],
+  filesToParse: string[],
   options: Options = {
     format: "react-intl",
   },
@@ -83,24 +83,24 @@ export const checkUnusedKeys = async (
   }
 
   return options.format === "react-intl"
-    ? findUnusedReactIntlTranslations(source, codebaseSrc)
-    : findUnusedI18NextTranslations(source, codebaseSrc, componentFunctions);
+    ? findUnusedReactIntlTranslations(translationFiles, filesToParse)
+    : findUnusedI18NextTranslations(
+        translationFiles,
+        filesToParse,
+        componentFunctions
+      );
 };
 
 const findUnusedReactIntlTranslations = async (
-  source: TranslationFile[],
-  codebaseSrc: string
+  translationFiles: TranslationFile[],
+  keysInCode: string[]
 ) => {
   let unusedKeys = {};
 
-  const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
-    ignore: ["node_modules/**"],
-  });
-
-  const extracted = await extract(unusedKeysFiles, {});
+  const extracted = await extract(keysInCode, {});
   const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
 
-  source.forEach(({ name, content }) => {
+  translationFiles.forEach(({ name, content }) => {
     const keysInSource = Object.keys(content);
     const found: string[] = [];
     for (const keyInSource of keysInSource) {
@@ -117,61 +117,17 @@ const findUnusedReactIntlTranslations = async (
 
 const findUnusedI18NextTranslations = async (
   source: TranslationFile[],
-  codebaseSrc: string,
+  filesToParse: string[],
   componentFunctions: string[] = []
 ) => {
   let unusedKeys = {};
 
-  const unusedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
-    ignore: ["node_modules/**"],
-  });
+  const { extractedResult, skippableKeys } = await getI18NextKeysInCode(
+    filesToParse,
+    componentFunctions
+  );
 
-  let extractedResult: string[] = [];
-
-  // @ts-ignore
-  const { transform } = await import("i18next-parser");
-
-  const i18nextParser = new transform({
-    lexers: {
-      jsx: [
-        {
-          lexer: "JsxLexer",
-          componentFunctions: componentFunctions.concat(["Trans"]),
-        },
-      ],
-      tsx: [
-        {
-          lexer: "JsxLexer",
-          componentFunctions: componentFunctions.concat(["Trans"]),
-        },
-      ],
-    },
-  });
-
-  // Skip any parsed keys that have the `returnObjects` property set to true
-  // As these are used dynamically, they will be skipped to prevent
-  // these keys from being marked as unused.
-  const skippableKeys: string[] = [];
-
-  unusedKeysFiles.forEach((file) => {
-    const rawContent = fs.readFileSync(file, "utf-8");
-
-    const entries = i18nextParser.parser.parse(rawContent, file);
-
-    // Intermediate solution to retrieve all keys from the parser.
-    // This will be built out to also include the namespace and check
-    // the key against the namespace corresponding file.
-    // The current implementation considers the key as used no matter the namespace.
-    for (const entry of entries) {
-      if (entry.returnObjects) {
-        skippableKeys.push(entry.key);
-      } else {
-        extractedResult.push(entry.key);
-      }
-    }
-  });
-
-  const extractedResultSet = new Set(extractedResult);
+  const extractedResultSet = new Set(extractedResult.map(({ key }) => key));
 
   source.forEach(({ name, content }) => {
     const keysInSource = Object.keys(content);
@@ -196,7 +152,7 @@ const findUnusedI18NextTranslations = async (
 
 export const checkUndefinedKeys = async (
   source: TranslationFile[],
-  codebaseSrc: string,
+  filesToParse: string[],
   options: Options = {
     format: "react-intl",
   },
@@ -207,25 +163,21 @@ export const checkUndefinedKeys = async (
   }
 
   return options.format === "react-intl"
-    ? findUndefinedReactIntlKeys(source, codebaseSrc)
-    : findUndefinedI18NextKeys(source, codebaseSrc, componentFunctions);
+    ? findUndefinedReactIntlKeys(source, filesToParse)
+    : findUndefinedI18NextKeys(source, filesToParse, componentFunctions);
 };
 
 const findUndefinedReactIntlKeys = async (
-  source: TranslationFile[],
-  codebaseSrc: string
+  translationFiles: TranslationFile[],
+  keysInCode: string[]
 ) => {
-  const undefinedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
-    ignore: ["node_modules/**"],
-  });
-
   const sourceKeys = new Set(
-    source.flatMap(({ content }) => {
+    translationFiles.flatMap(({ content }) => {
       return Object.keys(content);
     })
   );
 
-  const extractedResult = await extract(undefinedKeysFiles, {
+  const extractedResult = await extract(keysInCode, {
     extractSourceLocation: true,
   });
 
@@ -246,59 +198,13 @@ const findUndefinedReactIntlKeys = async (
 
 const findUndefinedI18NextKeys = async (
   source: TranslationFile[],
-  codebaseSrc: string,
+  filesToParse: string[],
   componentFunctions: string[] = []
 ) => {
-
-  const undefinedKeysFiles = globSync(`${codebaseSrc}/**/*.{ts,tsx}`, {
-    ignore: ["node_modules/**"],
-  });
-
-  // @ts-ignore
-  const { transform } = await import("i18next-parser");
-
-  const i18nextParser = new transform({
-    lexers: {
-      jsx: [
-        {
-          lexer: "JsxLexer",
-          componentFunctions: componentFunctions.concat(["Trans"]),
-        },
-      ],
-      tsx: [
-        {
-          lexer: "JsxLexer",
-          componentFunctions: componentFunctions.concat(["Trans"]),
-        },
-      ],
-    },
-  });
-
-  // Skip any parsed keys that have the `returnObjects` property set to true
-  // As these are used dynamically, they will be skipped to prevent
-  // these keys from being marked as unused.
-
-  let extractedResult: { file: string; key: string }[] = [];
-
-  const skippableKeys: string[] = [];
-
-  undefinedKeysFiles.forEach((file) => {
-    const rawContent = fs.readFileSync(file, "utf-8");
-
-    const entries = i18nextParser.parser.parse(rawContent, file);
-
-    // Intermediate solution to retrieve all keys from the parser.
-    // This will be built out to also include the namespace and check
-    // the key against the namespace corresponding file.
-    // The current implementation considers the key as used no matter the namespace.
-    for (const entry of entries) {
-      if (entry.returnObjects) {
-        skippableKeys.push(entry.key);
-      } else {
-        extractedResult.push({ file, key: entry.key });
-      }
-    }
-  });
+  const { extractedResult, skippableKeys } = await getI18NextKeysInCode(
+    filesToParse,
+    componentFunctions
+  );
 
   const sourceKeys = new Set(
     source.flatMap(({ content }) => {
@@ -330,6 +236,59 @@ const isRecord = (data: unknown): data is Record<string, unknown> => {
     data !== null &&
     data !== undefined
   );
+};
+
+const getI18NextKeysInCode = async (
+  filesToParse: string[],
+  componentFunctions: string[] = []
+) => {
+  // @ts-ignore
+  const { transform } = await import("i18next-parser");
+
+  const i18nextParser = new transform({
+    lexers: {
+      jsx: [
+        {
+          lexer: "JsxLexer",
+          componentFunctions: componentFunctions.concat(["Trans"]),
+        },
+      ],
+      tsx: [
+        {
+          lexer: "JsxLexer",
+          componentFunctions: componentFunctions.concat(["Trans"]),
+        },
+      ],
+    },
+  });
+
+  // Skip any parsed keys that have the `returnObjects` property set to true
+  // As these are used dynamically, they will be skipped to prevent
+  // these keys from being marked as unused.
+
+  let extractedResult: { file: string; key: string }[] = [];
+
+  const skippableKeys: string[] = [];
+
+  filesToParse.forEach((file) => {
+    const rawContent = fs.readFileSync(file, "utf-8");
+
+    const entries = i18nextParser.parser.parse(rawContent, file);
+
+    // Intermediate solution to retrieve all keys from the parser.
+    // This will be built out to also include the namespace and check
+    // the key against the namespace corresponding file.
+    // The current implementation considers the key as used no matter the namespace.
+    for (const entry of entries) {
+      if (entry.returnObjects) {
+        skippableKeys.push(entry.key);
+      } else {
+        extractedResult.push({ file, key: entry.key });
+      }
+    }
+  });
+
+  return { extractedResult, skippableKeys };
 };
 
 function flatten(

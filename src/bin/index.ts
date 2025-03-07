@@ -4,7 +4,7 @@ import fs from "node:fs";
 import { exit } from "node:process";
 import chalk from "chalk";
 import { program } from "commander";
-import { glob } from "glob";
+import { glob, globSync } from "glob";
 import yaml from "js-yaml";
 import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from "..";
 import { Context, standardReporter, summaryReporter } from "../errorReporters";
@@ -238,9 +238,13 @@ const main = async () => {
     printTranslationResult(result);
 
     if (unusedSrcPath) {
+      const filesToParse = globSync(`${unusedSrcPath}/**/*.{ts,tsx}`, {
+        ignore: ["node_modules/**"],
+      });
+
       const unusedKeys = await checkUnusedKeys(
         srcFiles,
-        unusedSrcPath,
+        filesToParse,
         options,
         componentFunctions
       );
@@ -248,7 +252,7 @@ const main = async () => {
 
       const undefinedKeys = await checkUndefinedKeys(
         srcFiles,
-        unusedSrcPath,
+        filesToParse,
         options,
         componentFunctions
       );
