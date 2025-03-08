@@ -1,6 +1,12 @@
 import { Console } from "console";
 import { Transform } from "stream";
 
+export type StandardReporter = {
+  file: string;
+  key: string;
+  msg?: string;
+};
+
 export type Context = "missingKeys" | "invalidKeys";
 
 export const contextMapping: Record<Context, string> = {
@@ -8,13 +14,12 @@ export const contextMapping: Record<Context, string> = {
   missingKeys: "missing",
 };
 
-export const standardReporter = (
-  result: {
-    file: string;
-    key: string;
-  }[]
-) => {
-  return createTable(result.map(({ file, key }) => ({ file, key })));
+export const standardReporter = (result: StandardReporter[]) => {
+  return createTable(
+    result.map(({ file, key, msg }) =>
+      msg ? { file, key, msg } : { file, key }
+    )
+  );
 };
 
 export const summaryReporter = (
