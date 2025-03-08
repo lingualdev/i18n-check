@@ -26,7 +26,7 @@ describe("findInvalidTranslations:compareTranslationFiles", () => {
         }),
         flattenTranslations(secondaryFile)
       )
-    ).toEqual(["multipleVariables"]);
+    ).toEqual([{ key: "multipleVariables", msg: "Unexpected date element" }]);
   });
 
   it("should return empty array if placeholders are identical but in different positions", () => {
@@ -54,7 +54,9 @@ describe("findInvalidTranslations", () => {
         { ...sourceFile, "ten.eleven.twelve": "ten eleven twelve" },
         { de: secondaryFile }
       )
-    ).toEqual({ de: ["multipleVariables"] });
+    ).toEqual({
+      de: [{ key: "multipleVariables", msg: "Unexpected date element" }],
+    });
   });
 
   it("should return an object containing the keys for every language with missing key", () => {
@@ -71,40 +73,50 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["multipleVariables"],
-      fr: ["message.text-format"],
+      de: [{ key: "multipleVariables", msg: "Unexpected date element" }],
+      fr: [
+        {
+          key: "message.text-format",
+          msg: "Expected tag to contain 'b' but received 'p'",
+        },
+      ],
     });
   });
 
   it("should allow for different types of keys per locale", () => {
     expect(
-      findInvalidTranslations(
-        sourceFile,
-        {
-            de: {
-            ...secondaryFile,
-            "message.plural": "{count, plural, other {# of {total} items}}",
-          }
-        }
-      )
+      findInvalidTranslations(sourceFile, {
+        de: {
+          ...secondaryFile,
+          "message.plural": "{count, plural, other {# of {total} items}}",
+        },
+      })
     ).toEqual({
-      de: ["multipleVariables"]
+      de: [
+        {
+          key: "multipleVariables",
+          msg: "Unexpected date element",
+        },
+      ],
     });
   });
 
   it("should fail if a variable is changed in one of the translations", () => {
     expect(
-      findInvalidTranslations(
-        sourceFile,
-        {
-            de: {
-            ...secondaryFile,
-            "message.plural": "{count, plural, other {# of {cargado} items}}",
-          }
-        }
-      )
+      findInvalidTranslations(sourceFile, {
+        de: {
+          ...secondaryFile,
+          "message.plural": "{count, plural, other {# of {cargado} items}}",
+        },
+      })
     ).toEqual({
-      de: ["message.plural", "multipleVariables"]
+      de: [
+        {
+          key: "message.plural",
+          msg: "Expected argument to contain 'total' but received 'cargado'",
+        },
+        { key: "multipleVariables", msg: "Unexpected date element" },
+      ],
     });
   });
 });
