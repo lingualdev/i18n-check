@@ -183,9 +183,9 @@ const getErrorMessage = (
       formatElementA.value !== formatElementB.value
     ) {
       acc.push(
-        `Expected ${typeLookup[formatElementA.type]} to contain '${
+        `Expected ${typeLookup[formatElementA.type]} to contain "${
           formatElementA.value
-        }' but received '${formatElementB.value}'`
+        }" but received "${formatElementB.value}"`
       );
       return acc;
     }

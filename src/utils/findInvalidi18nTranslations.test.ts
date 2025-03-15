@@ -26,7 +26,16 @@ describe("findInvalid18nTranslations:compareTranslationFiles", () => {
         }),
         flattenTranslations(targetFile)
       )
-    ).toEqual(["key_with_broken_de", "intlNumber_broken_de"]);
+    ).toEqual([
+      {
+        key: "key_with_broken_de",
+        msg: "",
+      },
+      {
+        key: "intlNumber_broken_de",
+        msg: "Missing element interpolation",
+      },
+    ]);
   });
 
   it("should return an empty array if the strings contain paranthesis that have different content", () => {
@@ -63,7 +72,12 @@ describe("findInvalid18nTranslations:compareTranslationFiles", () => {
           tag: "There is some <b>bold text</b> and some other <span>italic</span> text.",
         }
       )
-    ).toEqual(["tag"]);
+    ).toEqual([
+      {
+        key: "tag",
+        msg: "",
+      },
+    ]);
   });
 
   it("should return empty array if tags are identical", () => {
@@ -93,7 +107,18 @@ describe("findInvalidTranslations", () => {
         { ...sourceFile, "ten.eleven.twelve": "ten eleven twelve" },
         { de: targetFile }
       )
-    ).toEqual({ de: ["key_with_broken_de", "intlNumber_broken_de"] });
+    ).toEqual({
+      de: [
+        {
+          key: "key_with_broken_de",
+          msg: "",
+        },
+        {
+          key: "intlNumber_broken_de",
+          msg: "Missing element interpolation",
+        },
+      ],
+    });
   });
 
   it("should return an object containing the keys for every language with missing key", () => {
@@ -109,8 +134,22 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["key_with_broken_de", "intlNumber_broken_de"],
-      fr: ["key_with_broken_de"],
+      de: [
+        {
+          key: "key_with_broken_de",
+          msg: "",
+        },
+        {
+          key: "intlNumber_broken_de",
+          msg: "Missing element interpolation",
+        },
+      ],
+      fr: [
+        {
+          key: "key_with_broken_de",
+          msg: "",
+        },
+      ],
     });
   });
 
@@ -129,7 +168,7 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["key1_interval"],
+      de: [{ key: "key1_interval", msg: "" }],
     });
   });
 
@@ -146,7 +185,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["tree.one"],
+      de: [
+        {
+          key: "tree.one",
+          msg: "",
+        },
+      ],
     });
   });
 
@@ -165,7 +209,7 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["intlRelativeTimeWithOptionsExplicit"],
+      de: [{ key: "intlRelativeTimeWithOptionsExplicit", msg: "" }],
     });
   });
 
@@ -184,7 +228,7 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["keyWithOptions"],
+      de: [{ key: "keyWithOptions", msg: "" }],
     });
   });
 
@@ -201,7 +245,7 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["nesting1"],
+      de: [{ key: "nesting1", msg: "" }],
     });
   });
 
@@ -218,7 +262,7 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["tag"],
+      de: [{ key: "tag", msg: "" }],
     });
   });
 
