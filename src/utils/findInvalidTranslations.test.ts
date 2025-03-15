@@ -77,7 +77,7 @@ describe("findInvalidTranslations", () => {
       fr: [
         {
           key: "message.text-format",
-          msg: "Expected tag to contain 'b' but received 'p'",
+          msg: 'Expected tag to contain "b" but received "p"',
         },
       ],
     });
@@ -113,7 +113,7 @@ describe("findInvalidTranslations", () => {
       de: [
         {
           key: "message.plural",
-          msg: "Expected argument to contain 'total' but received 'cargado'",
+          msg: 'Expected argument to contain "total" but received "cargado"',
         },
         { key: "multipleVariables", msg: "Unexpected date element" },
       ],
