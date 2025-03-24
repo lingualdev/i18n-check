@@ -192,7 +192,10 @@ const getErrorMessage = (
 
     if (isTagElement(formatElementA) && isTagElement(formatElementB)) {
       acc.push(
-        getErrorMessage(formatElementA.children, formatElementB.children)
+        `Error in pound element: ${getErrorMessage(
+          formatElementA.children,
+          formatElementB.children
+        )}`
       );
       return acc;
     }
@@ -212,7 +215,9 @@ const getErrorMessage = (
         }
       });
       acc.push(
-        elementErrors.flatMap((elementError) => elementError).join(", ")
+        `Error in select: ${elementErrors
+          .flatMap((elementError) => elementError)
+          .join(", ")}`
       );
       return acc;
     }
@@ -231,7 +236,9 @@ const getErrorMessage = (
         }
       });
       acc.push(
-        elementErrors.flatMap((elementError) => elementError).join(", ")
+        `Error in plural: ${elementErrors
+          .flatMap((elementError) => elementError)
+          .join(", ")}`
       );
       return acc;
     }
