@@ -113,7 +113,7 @@ describe("findInvalidTranslations", () => {
       de: [
         {
           key: "message.plural",
-          msg: 'Expected argument to contain "total" but received "cargado"',
+          msg: 'Error in plural: Expected argument to contain "total" but received "cargado"',
         },
         { key: "multipleVariables", msg: "Unexpected date element" },
       ],

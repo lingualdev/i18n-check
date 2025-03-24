@@ -29,7 +29,7 @@ describe("findInvalid18nTranslations:compareTranslationFiles", () => {
     ).toEqual([
       {
         key: "key_with_broken_de",
-        msg: "",
+        msg: "Error in interpolation: Expected value but received val",
       },
       {
         key: "intlNumber_broken_de",
@@ -75,7 +75,7 @@ describe("findInvalid18nTranslations:compareTranslationFiles", () => {
     ).toEqual([
       {
         key: "tag",
-        msg: "",
+        msg: 'Expected tag "</i>" but received "</span>", Expected tag "<i>" but received "<span>"',
       },
     ]);
   });
@@ -111,7 +111,7 @@ describe("findInvalidTranslations", () => {
       de: [
         {
           key: "key_with_broken_de",
-          msg: "",
+          msg: "Error in interpolation: Expected value but received val",
         },
         {
           key: "intlNumber_broken_de",
@@ -137,7 +137,7 @@ describe("findInvalidTranslations", () => {
       de: [
         {
           key: "key_with_broken_de",
-          msg: "",
+          msg: "Error in interpolation: Expected value but received val",
         },
         {
           key: "intlNumber_broken_de",
@@ -147,7 +147,7 @@ describe("findInvalidTranslations", () => {
       fr: [
         {
           key: "key_with_broken_de",
-          msg: "",
+          msg: "Error in interpolation: , Unexpected interpolation element",
         },
       ],
     });
@@ -168,7 +168,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: [{ key: "key1_interval", msg: "" }],
+      de: [
+        {
+          key: "key1_interval",
+          msg: "Error in plural: Expected 1 but received 1-2, Error in plural: Expected 2-7 but received 3-7, Error in plural: ",
+        },
+      ],
     });
   });
 
@@ -188,7 +193,7 @@ describe("findInvalidTranslations", () => {
       de: [
         {
           key: "tree.one",
-          msg: "",
+          msg: "Error in interpolation: Expected something but received somethings",
         },
       ],
     });
@@ -209,7 +214,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: [{ key: "intlRelativeTimeWithOptionsExplicit", msg: "" }],
+      de: [
+        {
+          key: "intlRelativeTimeWithOptionsExplicit",
+          msg: "Error in interpolation: Expected relativetime(range: quarter; style: narrow;) but received relativetime(range: quarter; style: long;)",
+        },
+      ],
     });
   });
 
@@ -228,7 +238,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: [{ key: "keyWithOptions", msg: "" }],
+      de: [
+        {
+          key: "keyWithOptions",
+          msg: "Error in interpolation: Expected formatname(option1Name: option1Value; option2Name: option2Value) but received formatname(option3Name: option3Value; option4Name: option4Value)",
+        },
+      ],
     });
   });
 
@@ -245,7 +260,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: [{ key: "nesting1", msg: "" }],
+      de: [
+        {
+          key: "nesting1",
+          msg: "Error in nesting: Expected nesting2 but received nesting3",
+        },
+      ],
     });
   });
 
@@ -262,7 +282,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: [{ key: "tag", msg: "" }],
+      de: [
+        {
+          key: "tag",
+          msg: 'Expected tag "</i>" but received "</span>", Expected tag "<i>" but received "<span>"',
+        },
+      ],
     });
   });
 

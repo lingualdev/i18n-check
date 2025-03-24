@@ -160,15 +160,23 @@ const getErrorMessage = (
       );
       return acc;
     }
-    if (formatElementA.type !== formatElementB.type) {
-      return acc;
-    }
 
     if (formatElementA.type === "tag" && formatElementB.type === "tag") {
-      if (
-        formatElementA.raw !== formatElementB.raw ||
-        formatElementA.voidElement !== formatElementB.voidElement
+      if (formatElementA.raw !== formatElementB.raw) {
+        acc.push(
+          `Expected tag "${formatElementA.raw}" but received "${formatElementB.raw}"`
+        );
+      } else if (
+        formatElementA.voidElement !== formatElementB.voidElement &&
+        formatElementA.voidElement === true
       ) {
+        acc.push(`Expected a self-closing "${formatElementB.raw}" tag`);
+        return acc;
+      } else if (
+        formatElementA.voidElement !== formatElementB.voidElement &&
+        formatElementA.voidElement === false
+      ) {
+        acc.push(`Non expected self-closing "${formatElementB.raw}" tag`);
         return acc;
       }
     }
@@ -182,34 +190,57 @@ const getErrorMessage = (
         formatElementB.type === "nesting") ||
       (formatElementA.type === "plural" && formatElementB.type === "plural")
     ) {
-      const optionsA = formatElementA.variable
-        .split(",")
-        .map((value) => value.trim())
-        .sort()
-        .join("-")
-        .trim();
-      const optionsB = formatElementB.variable
-        .split(",")
-        .map((value) => value.trim())
-        .sort()
-        .join("-")
-        .trim();
-
-      if (optionsA !== optionsB) {
-        return acc;
-      }
-
       if (formatElementA.prefix !== formatElementA.prefix) {
+        acc.push(
+          `Error in ${formatElementA.type}: Expected prefix "${formatElementA.prefix}" but received "${formatElementB.prefix}"`
+        );
         return acc;
       }
 
       if (formatElementA.suffix !== formatElementA.suffix) {
+        acc.push(
+          `Error in ${formatElementA.type}: Expected suffix "${formatElementA.suffix}" but received "${formatElementB.suffix}"`
+        );
         return acc;
       }
+
+      const optionsA = formatElementA.variable
+        .split(",")
+        .map((value) => value.trim())
+        .sort();
+      const optionsB = formatElementB.variable
+        .split(",")
+        .map((value) => value.trim())
+        .sort();
+
+      let elementErrors: (string | null)[] = [];
+      optionsA.forEach((key, index) => {
+        if (key !== optionsB[index]) {
+          elementErrors.push(`Expected ${key} but received ${optionsB[index]}`);
+        }
+      });
+      acc.push(
+        `Error in ${formatElementA.type}: ${elementErrors
+          .flatMap((elementError) => elementError)
+          .join(", ")}`
+      );
+      return acc;
     }
 
     return acc;
   }, [] as string[]);
+
+  if (compA.length < compB.length) {
+    const unexpectedElements = compB
+      .slice(compA.length)
+      .reduce<string[]>((acc, formatElementB) => {
+        acc.push(`Unexpected ${formatElementB.type} element`);
+        return acc;
+      }, [])
+      .join(", ");
+
+    return [...errors, unexpectedElements].join(", ");
+  }
 
   return errors.join(", ");
 };
