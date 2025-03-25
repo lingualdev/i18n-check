@@ -219,11 +219,13 @@ const getErrorMessage = (
           elementErrors.push(`Expected ${key} but received ${optionsB[index]}`);
         }
       });
-      acc.push(
-        `Error in ${formatElementA.type}: ${elementErrors
-          .flatMap((elementError) => elementError)
-          .join(", ")}`
-      );
+      if (elementErrors.length > 0) {
+        acc.push(
+          `Error in ${formatElementA.type}: ${elementErrors
+            .flatMap((elementError) => elementError)
+            .join(", ")}`
+        );
+      }
       return acc;
     }
 

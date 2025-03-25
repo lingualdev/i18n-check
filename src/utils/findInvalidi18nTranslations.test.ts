@@ -147,7 +147,7 @@ describe("findInvalidTranslations", () => {
       fr: [
         {
           key: "key_with_broken_de",
-          msg: "Error in interpolation: , Unexpected interpolation element",
+          msg: "Unexpected interpolation element",
         },
       ],
     });
@@ -171,7 +171,7 @@ describe("findInvalidTranslations", () => {
       de: [
         {
           key: "key1_interval",
-          msg: "Error in plural: Expected 1 but received 1-2, Error in plural: Expected 2-7 but received 3-7, Error in plural: ",
+          msg: "Error in plural: Expected 1 but received 1-2, Error in plural: Expected 2-7 but received 3-7",
         },
       ],
     });
