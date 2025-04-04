@@ -130,7 +130,7 @@ const parseInput = (input: string[]): MessageFormatElement[] => {
           raw: match,
           voidElement: match.substring(match.length - 2) === "/>",
         });
-      } else if (match.indexOf(OPEN_TAG) === 0) {
+      } else if (match.indexOf(OPEN_TAG) === 0 && /<[^\s]+/.test(match)) {
         acc.push({
           type: "tag",
           raw: match,
