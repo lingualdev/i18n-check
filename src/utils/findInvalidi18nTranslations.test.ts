@@ -221,4 +221,19 @@ describe("findInvalidTranslations", () => {
       de: ["tag"],
     });
   });
+
+  it("should recognize special characters", () => {
+    expect(
+      findInvalid18nTranslations(
+        {
+          key: "Test < {{a}} and > {{max_a}}",
+        },
+        {
+          de: {
+            key: "Test < {{a}} und > {{max_a}}",
+          },
+        }
+      )
+    ).toEqual({});
+  });
 });
