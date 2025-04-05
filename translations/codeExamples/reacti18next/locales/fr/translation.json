@@ -25,7 +25,8 @@
   "some": {
     "deep": {
       "nested": {
-        "key": "Some deep nested key"
+        "key": "Some deep nested key",
+        "otherKey": "one"
       }
     }
   },
