@@ -16,6 +16,11 @@ export const I18NextExample = () => {
 
   const resolution = returnObjectLike["one"];
 
+  // Define static keys for any dynamically defined keys for the parser to identify them
+  // https://github.com/i18next/i18next-parser?tab=readme-ov-file#caveats
+  // t('some.deep.nested.otherKey')
+  const option = "otherKey";
+
   return (
     <p className="example">
       <p>
@@ -55,6 +60,8 @@ export const I18NextExample = () => {
           </>,
         ]}
       />
+
+      <div>{t(`some.deep.nested.${option}`)}</div>
 
       <div>
         <Trans i18nKey="content.intro" />
