@@ -1,0 +1,94 @@
+{
+  "message.simple": "A simple message.",
+  "message.argument": "Hi, {name}! 👋",
+  "message.plural": "{count, plural, one {# item} other {# items}}",
+  "Navigation": {
+    "news": "news",
+    "nested": "nested",
+    "about": "about",
+    "client": "client",
+    "home": "home"
+  },
+  "dynamic": {
+    "one": {
+      "title": "title",
+      "value": "value"
+    },
+    "two": {
+      "title": "title",
+      "value": "value"
+    },
+    "three": {
+      "title": "title",
+      "value": "three"
+    },
+    "four": {
+      "one": "one",
+      "two": "two",
+      "three": "three",
+      "four": "four",
+      "nameOne": "nameOne",
+      "nameTwo": "nameTwo",
+      "nameThree": "nameThree",
+      "nameFour": "nameFour"
+    }
+  },
+  "ClientCounter": {
+    "count": "Current count: {count}",
+    "increment": "Increment"
+  },
+  "ClientCounter2": {
+    "count": "Current count: {count}",
+    "increment": "Increment"
+  },
+  "Counter": {
+    "count": "Current count:",
+    "increment": "Increment"
+  },
+  "nested": {
+    "one": {
+      "regularKey": "regularKey",
+      "nestedKey": "nestedKey"
+    },
+    "two": {
+      "regularKey": "regularKey",
+      "nestedKey": "nestedKey"
+    },
+    "three": {
+      "basicKey": "basicKey",
+      "htmlKey": "htmlKey",
+      "richTextKey": "richTextKey",
+      "markupKey": "markupKey",
+      "hasKeyCheck": "hasKeyCheck"
+    },
+    "nested": {
+      "two": {
+        "nestedTwoKey": "nestedTwoKey"
+      }
+    }
+  },
+  "async": {
+    "two": {
+      "title": "title"
+    }
+  },
+  "Async": {
+    "title": "title"
+  },
+  "testKeyWithoutNamespace": "testKeyWithoutNamespace",
+  "notUsedKey": "notUsedKey",
+  "deepNested": {
+    "level1": {
+      "one": "one"
+    },
+    "level2": {
+      "two": "two"
+    },
+    "level3": {
+      "three": "three"
+    },
+    "level4": {
+      "four": "four"
+    }
+  }
+}

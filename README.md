@@ -138,11 +138,11 @@ yarn i18n:check --locales translations/messageExamples -s en-US -o missingKeys i
 
 ### --unused, -u
 
-This feature is currently only supported for `react-intl` and `i18next` based React applications and is useful when you need to know which keys exist in your translation files but not in your codebase. Additionally an inverse check is run to find any keys that exist in the codebase but not in the translation files.
+This feature is currently only supported for `react-intl` and `i18next` as well as `next-intl` (experimental at the moment) based React applications and is useful when you need to know which keys exist in your translation files but not in your codebase. Additionally an inverse check is run to find any keys that exist in the codebase but not in the translation files.
 
 Via the `-u` or `--unused` option you provide a source path to the code, which will be parsed to find all unused as well as undefined keys in the primary target language.
 
-It is important to note that you must also provide the `-f` or `--format` option with `react-intl` or `i18next` as value. See the [`format` section](#--format) for more information.
+It is important to note that you must also provide the `-f` or `--format` option with `react-intl`, `i18next` or `next-intl` as value. See the [`format` section](#--format) for more information.
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -u client/ -f react-intl
@@ -152,6 +152,12 @@ or
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -u client/ -f i18next
+```
+
+or
+
+```bash
+yarn i18n:check --locales translations/messageExamples -s en-US -u client/ -f next-intl
 ```
 
 ### --reporter, -r
