@@ -119,7 +119,7 @@ const main = async () => {
   const isMultiFolders = localePathFolders.length > 1;
 
   let srcFiles: TranslationFile[] = [];
-  let localeFiles: TranslationFile[] = [];
+  let targetFiles: TranslationFile[] = [];
 
   const pattern = isMultiFolders
     ? `{${localePath.join(",").trim()}}/**/*.{json,yaml,yml}`
@@ -211,7 +211,7 @@ const main = async () => {
       });
 
       if (reference) {
-        localeFiles.push({
+        targetFiles.push({
           reference: reference.file,
           name: file,
           content,
@@ -229,7 +229,11 @@ const main = async () => {
     exit(1);
   }
 
-  if (localeFiles.length === 0) {
+  if (
+    (options.checks.includes("missingKeys") ||
+      options.checks.includes("invalidKeys")) &&
+    targetFiles.length === 0
+  ) {
     console.log(
       chalk.red(
         "Locale file(s) not found. Please provide valid locale file(s), i.e. --locales translations/"
@@ -238,7 +242,7 @@ const main = async () => {
     exit(1);
   }
   try {
-    const result = checkTranslations(srcFiles, localeFiles, options);
+    const result = checkTranslations(srcFiles, targetFiles, options);
 
     printTranslationResult(result);
 
