@@ -77,10 +77,15 @@ export const checkUnusedKeys = async (
   filesToParse: string[],
   options: Options = {
     format: "react-intl",
+    checks: [],
   },
   componentFunctions = []
 ): Promise<CheckResult | undefined> => {
   if (!options.format || !ParseFormats.includes(options.format)) {
+    return undefined;
+  }
+
+  if (!options.checks || !options.checks.includes("unused")) {
     return undefined;
   }
 
@@ -185,10 +190,15 @@ export const checkUndefinedKeys = async (
   filesToParse: string[],
   options: Options = {
     format: "react-intl",
+    checks: [],
   },
   componentFunctions = []
 ): Promise<CheckResult | undefined> => {
   if (!options.format || !ParseFormats.includes(options.format)) {
+    return undefined;
+  }
+
+  if (!options.checks || !options.checks.includes("undefined")) {
     return undefined;
   }
 

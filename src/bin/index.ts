@@ -7,7 +7,12 @@ import { program } from "commander";
 import { glob, globSync } from "glob";
 import yaml from "js-yaml";
 import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from "..";
-import { Context, standardReporter, summaryReporter } from "../errorReporters";
+import {
+  CheckOptions,
+  Context,
+  standardReporter,
+  summaryReporter,
+} from "../errorReporters";
 import { CheckResult, FileInfo, TranslationFile } from "../types";
 import { flattenTranslations } from "../utils/flattenTranslations";
 
@@ -30,7 +35,7 @@ program
   )
   .option(
     "-o, --only <only...>",
-    "define the specific checks you want to run: invalid, missing. By default the check will validate against missing and invalid keys, i.e. --only invalidKeys,missingKeys"
+    "define the specific checks you want to run: invalidKeys, missingKeys, unused, undefined. By default the check will validate against missing and invalid keys, i.e. --only invalidKeys,missingKeys"
   )
   .option(
     "-r, --reporter <style>",
@@ -63,14 +68,14 @@ const getCheckOptions = (): Context[] => {
   }
 
   if (!checkOption) {
-    return ["invalidKeys", "missingKeys"];
+    return CheckOptions;
   }
 
   const checks = checkOption.filter((check: string) =>
-    ["invalidKeys", "missingKeys"].includes(check.trim())
+    CheckOptions.includes(check.trim())
   );
 
-  return checks.length > 0 ? checks : ["invalidKeys", "missingKeys"];
+  return checks.length > 0 ? checks : CheckOptions;
 };
 
 const isSource = (fileInfo: FileInfo, srcPath: string) => {
