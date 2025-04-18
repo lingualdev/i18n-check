@@ -12,7 +12,6 @@
   "scripts": {
     "build": "tsc",
     "test": "jest src/ --testPathIgnorePatterns src/bin/*",
-    "testing": "jest",
     "test:cli": "tsc && jest src/bin/index.test.ts"
   },
   "files": [
