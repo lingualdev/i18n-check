@@ -3,12 +3,14 @@ import { CheckResult, Translation, TranslationFile } from "./types";
 import { findInvalidTranslations } from "./utils/findInvalidTranslations";
 import { findInvalid18nTranslations } from "./utils/findInvalidi18nTranslations";
 import { Context } from "./errorReporters";
-import { globSync } from "glob";
 import { extract } from "@formatjs/cli-lib";
+import { extract as nextIntlExtract } from "./utils/nextIntlSrcParser";
 import fs from "fs";
 
+const ParseFormats = ["react-intl", "i18next", "next-intl"];
+
 export type Options = {
-  format?: "icu" | "i18next" | "react-intl" | "react-i18next";
+  format?: "icu" | "i18next" | "react-intl" | "next-intl";
   checks?: Context[];
 };
 
@@ -78,26 +80,30 @@ export const checkUnusedKeys = async (
   },
   componentFunctions = []
 ): Promise<CheckResult | undefined> => {
-  if (!options.format || !["react-intl", "i18next"].includes(options.format)) {
+  if (!options.format || !ParseFormats.includes(options.format)) {
     return undefined;
   }
 
-  return options.format === "react-intl"
-    ? findUnusedReactIntlTranslations(translationFiles, filesToParse)
-    : findUnusedI18NextTranslations(
-        translationFiles,
-        filesToParse,
-        componentFunctions
-      );
+  if (options.format === "react-intl") {
+    return findUnusedReactIntlTranslations(translationFiles, filesToParse);
+  } else if (options.format === "i18next") {
+    return findUnusedI18NextTranslations(
+      translationFiles,
+      filesToParse,
+      componentFunctions
+    );
+  } else if (options.format === "next-intl") {
+    return findUnusedNextIntlTranslations(translationFiles, filesToParse);
+  }
 };
 
 const findUnusedReactIntlTranslations = async (
   translationFiles: TranslationFile[],
-  keysInCode: string[]
+  filesToParse: string[]
 ) => {
   let unusedKeys = {};
 
-  const extracted = await extract(keysInCode, {});
+  const extracted = await extract(filesToParse, {});
   const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
 
   translationFiles.forEach(({ name, content }) => {
@@ -150,6 +156,30 @@ const findUnusedI18NextTranslations = async (
   return unusedKeys;
 };
 
+const findUnusedNextIntlTranslations = async (
+  translationFiles: TranslationFile[],
+  filesToParse: string[]
+) => {
+  let unusedKeys = {};
+
+  const extracted = nextIntlExtract(filesToParse);
+  const extractedResultSet = new Set(extracted.map(({ key }) => key));
+
+  translationFiles.forEach(({ name, content }) => {
+    const keysInSource = Object.keys(content);
+    const found: string[] = [];
+    for (const keyInSource of keysInSource) {
+      if (!extractedResultSet.has(keyInSource)) {
+        found.push(keyInSource);
+      }
+    }
+
+    Object.assign(unusedKeys, { [name]: found });
+  });
+
+  return unusedKeys;
+};
+
 export const checkUndefinedKeys = async (
   source: TranslationFile[],
   filesToParse: string[],
@@ -158,18 +188,22 @@ export const checkUndefinedKeys = async (
   },
   componentFunctions = []
 ): Promise<CheckResult | undefined> => {
-  if (!options.format || !["react-intl", "i18next"].includes(options.format)) {
+  if (!options.format || !ParseFormats.includes(options.format)) {
     return undefined;
   }
 
-  return options.format === "react-intl"
-    ? findUndefinedReactIntlKeys(source, filesToParse)
-    : findUndefinedI18NextKeys(source, filesToParse, componentFunctions);
+  if (options.format === "react-intl") {
+    return findUndefinedReactIntlKeys(source, filesToParse);
+  } else if (options.format === "i18next") {
+    return findUndefinedI18NextKeys(source, filesToParse, componentFunctions);
+  } else if (options.format === "next-intl") {
+    return findUndefinedNextIntlKeys(source, filesToParse);
+  }
 };
 
 const findUndefinedReactIntlKeys = async (
   translationFiles: TranslationFile[],
-  keysInCode: string[]
+  filesToParse: string[]
 ) => {
   const sourceKeys = new Set(
     translationFiles.flatMap(({ content }) => {
@@ -177,7 +211,7 @@ const findUndefinedReactIntlKeys = async (
     })
   );
 
-  const extractedResult = await extract(keysInCode, {
+  const extractedResult = await extract(filesToParse, {
     extractSourceLocation: true,
   });
 
@@ -219,6 +253,33 @@ const findUndefinedI18NextKeys = async (
       return key.includes(skippableKey);
     });
     if (isSkippable === undefined && !sourceKeys.has(key)) {
+      if (!undefinedKeys[file]) {
+        undefinedKeys[file] = [];
+      }
+      undefinedKeys[file].push(key);
+    }
+  });
+
+  return undefinedKeys;
+};
+
+const findUndefinedNextIntlKeys = async (
+  translationFiles: TranslationFile[],
+  filesToParse: string[]
+) => {
+  const sourceKeys = new Set(
+    translationFiles.flatMap(({ content }) => {
+      return Object.keys(content);
+    })
+  );
+
+  const extractedResult = nextIntlExtract(filesToParse);
+
+  let undefinedKeys: { [key: string]: string[] } = {};
+  extractedResult.forEach(({ key, meta }) => {
+    if (!sourceKeys.has(key)) {
+      // @ts-ignore
+      const file = meta.file;
       if (!undefinedKeys[file]) {
         undefinedKeys[file] = [];
       }

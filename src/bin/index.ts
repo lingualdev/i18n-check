@@ -22,7 +22,7 @@ program
   .option("-s, --source <locale>", "the source locale to validate against")
   .option(
     "-f, --format <type>",
-    "define the specific format: i18next or react-intl"
+    "define the specific format: i18next, react-intl or next-intl"
   )
   .option(
     "-c, --check <checks...>",

@@ -339,7 +339,7 @@ Found undefined keys!
 
     it("should find unused and undefined keys for react-intl applications", (done) => {
       exec(
-        " node dist/bin/index.js --source en-US --locales translations/codeExamples/react-intl/locales -f react-intl -u translations/codeExamples/react-intl/src",
+        "node dist/bin/index.js --source en-US --locales translations/codeExamples/react-intl/locales -f react-intl -u translations/codeExamples/react-intl/src",
         (_error, stdout, _stderr) => {
           const result = stdout.split("Done")[0];
           expect(result).toEqual(`i18n translations checker
@@ -364,6 +364,40 @@ Found undefined keys!
 ├────────────────────────────────────────────────────┼────────────────────────────────┤
 │  translations/codeExamples/react-intl/src/App.tsx  │  some.key.that.is.not.defined  │
 └────────────────────────────────────────────────────┴────────────────────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
+
+    it("should find unused and undefined keys for next-intl applications", (done) => {
+      exec(
+        "node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en
+Selected format is: next-intl
+
+No missing keys found!
+
+No invalid translations found!
+
+Found unused keys!
+┌───────────────────────────────────────────────────────────────────┬──────────────────┐
+│ file                                                              │ key              │
+├───────────────────────────────────────────────────────────────────┼──────────────────┤
+│  translations/codeExamples/next-intl/locales/en/translation.json  │  message.plural  │
+│  translations/codeExamples/next-intl/locales/en/translation.json  │  notUsedKey      │
+└───────────────────────────────────────────────────────────────────┴──────────────────┘
+
+Found undefined keys!
+┌─────────────────────────────────────────────────────┬──────────────────┐
+│ file                                                │ key              │
+├─────────────────────────────────────────────────────┼──────────────────┤
+│  translations/codeExamples/next-intl/src/Basic.tsx  │  message.select  │
+└─────────────────────────────────────────────────────┴──────────────────┘
 
 `);
           done();
