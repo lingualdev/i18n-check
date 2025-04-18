@@ -1,11 +1,20 @@
 import { Console } from "console";
 import { Transform } from "stream";
 
-export type Context = "missingKeys" | "invalidKeys";
+export const CheckOptions = [
+  "invalidKeys",
+  "missingKeys",
+  "unused",
+  "undefined",
+];
+
+export type Context = (typeof CheckOptions)[number];
 
 export const contextMapping: Record<Context, string> = {
   invalidKeys: "invalid",
   missingKeys: "missing",
+  unused: "unused",
+  undefined: "undefined",
 };
 
 export const standardReporter = (

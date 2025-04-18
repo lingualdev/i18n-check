@@ -114,26 +114,49 @@ yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18nex
 
 ### --only, -o
 
-By default i18n-check will perform a validation against any **missing** and/or **invalid** keys. There are situations where only a specific check should run. By using the `-o` or `--only` option you can specify a specific check to run.
+By default i18n-check will perform a validation against any **missing** and/or **invalid** keys, additionally **unused** and **undefined** checks if the `--unused` option is set. There are situations where only a specific check should run. By using the `-o` or `--only` option you can specify a specific check to run.
 
-The available options are `missingKeys`, which will check against any missing keys in the target files and `invalidKeys` will check for invalid keys, where the target translations has a different type then the one defined in the source file.
+The available options are:
 
-Check for missing keys:
+- `missingKeys`: will check against any missing keys in the target files.
+- `invalidKeys`: will check for invalid keys, where the target translations has a different type then the one defined in the source file.
+- `unused`: will check for any locale keys that do not exist in the codebase.
+- `undefined`: will check for any keys that exist in the codebase but not in the source locale files.
+
+Check for missing keys only:
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -o missingKeys
 ```
 
-Check for invalid keys:
+Check for invalid keys only:
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -o invalidKeys
+```
+
+Check for unused key only:
+
+```bash
+yarn i18n:check --locales translations/messageExamples -s en-US -o unused
+```
+
+Check for undefined keys only:
+
+```bash
+yarn i18n:check --locales translations/messageExamples -s en-US -o undefined
 ```
 
 Check for missing and invalid keys (which is the default):
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -o missingKeys invalidKeys
+```
+
+Check for unused and undefined keys only:
+
+```bash
+yarn i18n:check --locales translations/messageExamples -s en-US -o unused undefined
 ```
 
 ### --unused, -u
