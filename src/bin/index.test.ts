@@ -393,11 +393,21 @@ Found unused keys!
 └───────────────────────────────────────────────────────────────────┴──────────────────┘
 
 Found undefined keys!
-┌─────────────────────────────────────────────────────┬──────────────────┐
-│ file                                                │ key              │
-├─────────────────────────────────────────────────────┼──────────────────┤
-│  translations/codeExamples/next-intl/src/Basic.tsx  │  message.select  │
-└─────────────────────────────────────────────────────┴──────────────────┘
+┌──────────────────────────────────────────────────────────────────┬───────────────────┐
+│ file                                                             │ key               │
+├──────────────────────────────────────────────────────────────────┼───────────────────┤
+│  translations/codeExamples/next-intl/src/Basic.tsx               │  message.select   │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown.unknown  │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  About.unknown    │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown          │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  Test.title       │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  title            │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown.unknown  │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  About.unknown    │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown          │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  Test.title       │
+│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  title            │
+└──────────────────────────────────────────────────────────────────┴───────────────────┘
 
 `);
           done();

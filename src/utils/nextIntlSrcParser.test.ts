@@ -10,6 +10,7 @@ const clientCounterFile = path.join(srcPath, "ClientCounter.tsx");
 const nestedExampleFile = path.join(srcPath, "NestedExample.tsx");
 const asyncExampleFile = path.join(srcPath, "AsyncExample.tsx");
 const dynamicKeysExamplFile = path.join(srcPath, "DynamicKeysExample.tsx");
+const strictTypesExample = path.join(srcPath, "StrictTypesExample.tsx");
 
 describe("nextIntlSrcParser", () => {
   it("should find all the translation keys", () => {
@@ -305,6 +306,181 @@ describe("nextIntlSrcParser", () => {
         key: "dynamic.four.nameOne",
         meta: {
           file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+    ]);
+  });
+
+  it("should find all strict typed keys", () => {
+    const keys = extract([strictTypesExample]);
+
+    expect(keys).toEqual([
+      {
+        key: "unknown.unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Test.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "PageLayout.pageTitle",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "NotFound.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.lastUpdated",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "StrictTypes.nested.another.level",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "StrictTypes.nested.hello",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "unknown.unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Test.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "PageLayout.pageTitle",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "NotFound.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.lastUpdated",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "StrictTypes.nested.another.level",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "StrictTypes.nested.hello",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
       },
     ]);

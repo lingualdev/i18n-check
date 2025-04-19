@@ -90,5 +90,23 @@
     "level4": {
       "four": "four"
     }
+  },
+  "About": {
+    "title": "About",
+    "lastUpdated": "This example was updated {lastUpdatedRelative} ({lastUpdated, date, short})."
+  },
+  "NotFound": {
+    "title": "Sorry, this page could not be found."
+  },
+  "PageLayout": {
+    "pageTitle": "next-intl"
+  },
+  "StrictTypes": {
+    "nested": {
+      "hello": "Hello",
+      "another": {
+        "level": "Level"
+      }
+    }
   }
 }

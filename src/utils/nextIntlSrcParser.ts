@@ -115,6 +115,56 @@ const getKeys = (path: string) => {
       }
     }
 
+    // Search for direct inline calls and extract namespace and key
+    //
+    // useTranslations("ns1")("one")
+    // useTranslations("ns1").rich("one");
+    // useTranslations("ns1").raw("one");
+    if (ts.isExpressionStatement(node)) {
+      let inlineNamespace = null;
+      if (node.expression && ts.isCallExpression(node.expression)) {
+        // Search: useTranslations("ns1")("one")
+        if (
+          ts.isCallExpression(node.expression.expression) &&
+          ts.isIdentifier(node.expression.expression.expression)
+        ) {
+          if (node.expression.expression.expression.text === USE_TRANSLATIONS) {
+            const [argument] = node.expression.expression.arguments;
+            if (argument && ts.isStringLiteral(argument)) {
+              inlineNamespace = argument.text;
+            }
+          }
+        }
+        // Search: useTranslations("ns1").*("one")
+        if (
+          ts.isPropertyAccessExpression(node.expression.expression) &&
+          ts.isCallExpression(node.expression.expression.expression) &&
+          ts.isIdentifier(node.expression.expression.expression.expression)
+        ) {
+          if (
+            node.expression.expression.expression.expression.text ===
+            USE_TRANSLATIONS
+          ) {
+            const [argument] = node.expression.expression.expression.arguments;
+            if (argument && ts.isStringLiteral(argument)) {
+              inlineNamespace = argument.text;
+            }
+          }
+
+          const [callArgument] = node.expression.arguments;
+          if (callArgument && ts.isStringLiteral(callArgument)) {
+            const key = callArgument.text;
+            if (key) {
+              foundKeys.push({
+                key: inlineNamespace ? `${inlineNamespace}.${key}` : key,
+                meta: { file: path },
+              });
+            }
+          }
+        }
+      }
+    }
+
     // Search for `t()` calls
     if (
       getCurrentNamespace() !== null &&
