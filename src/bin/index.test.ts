@@ -42,11 +42,13 @@ Found missing keys!
 └───────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌───────────────────────────────────────────────┬──────────────────┐
-│ file                                          │ key              │
-├───────────────────────────────────────────────┼──────────────────┤
-│  translations/folderExample/de-DE/index.json  │  message.select  │
-└───────────────────────────────────────────────┴──────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/folderExample/de-DE/index.json                                                                     │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -71,12 +73,17 @@ Found missing keys!
 └──────────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌────────────────────────────────────────────────────────────┬─────────────────────┐
-│ file                                                       │ key                 │
-├────────────────────────────────────────────────────────────┼─────────────────────┤
-│  translations/multipleFilesFolderExample/de-DE/one.json    │  message.select     │
-│  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
-└────────────────────────────────────────────────────────────┴─────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFilesFolderExample/de-DE/one.json                                                          │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFilesFolderExample/de-DE/three.json                                                        │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -103,14 +110,25 @@ Found missing keys!
 └───────────────────────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌─────────────────────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                                    │ key                   │
-├─────────────────────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json    │  message.select       │
-│  translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json  │  multipleVariables    │
-│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json    │  message.text-format  │
-│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json  │  numberFormat         │
-└─────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json                                             │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json                                           │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json                                             │
+│  key   │  message.text-format                                                                                             │
+│  msg   │  Expected element of type "tag" but received "number", Unexpected tag element                                    │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json                                           │
+│  key   │  numberFormat                                                                                                    │
+│  msg   │  Missing element number                                                                                          │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -137,14 +155,25 @@ Found missing keys!
 └───────────────────────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌─────────────────────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                                    │ key                   │
-├─────────────────────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json    │  message.select       │
-│  translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json  │  multipleVariables    │
-│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json    │  message.text-format  │
-│  translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json  │  numberFormat         │
-└─────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json                                             │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json                                           │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json                                             │
+│  key   │  message.text-format                                                                                             │
+│  msg   │  Expected element of type "tag" but received "number", Unexpected tag element                                    │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json                                           │
+│  key   │  numberFormat                                                                                                    │
+│  msg   │  Missing element number                                                                                          │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -175,11 +204,13 @@ Found missing keys!
 └───────────────────────────────────────────┴────────────────────────────────┘
 
 Found invalid keys!
-┌───────────────────────────────────────────┬─────────────────────┐
-│ file                                      │ key                 │
-├───────────────────────────────────────────┼─────────────────────┤
-│  translations/messageExamples/de-de.json  │  multipleVariables  │
-└───────────────────────────────────────────┴─────────────────────┘
+┌────────┬───────────────────────────────────────────┐
+│ info   │ result                                    │
+├────────┼───────────────────────────────────────────┤
+│  file  │  translations/messageExamples/de-de.json  │
+│  key   │  multipleVariables                        │
+│  msg   │  Unexpected date element                  │
+└────────┴───────────────────────────────────────────┘
 
 `);
           done();
@@ -206,12 +237,17 @@ Found missing keys!
 └──────────────────────────────────────────────────────────┴────────────────────────────────┘
 
 Found invalid keys!
-┌────────────────────────────────────────────────────────────┬─────────────────────┐
-│ file                                                       │ key                 │
-├────────────────────────────────────────────────────────────┼─────────────────────┤
-│  translations/multipleFilesFolderExample/de-DE/one.json    │  message.select     │
-│  translations/multipleFilesFolderExample/de-DE/three.json  │  multipleVariables  │
-└────────────────────────────────────────────────────────────┴─────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFilesFolderExample/de-DE/one.json                                                          │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/multipleFilesFolderExample/de-DE/three.json                                                        │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -240,11 +276,13 @@ Found missing keys!
 └───────────────────────────────────────────┴────────────┘
 
 Found invalid keys!
-┌───────────────────────────────────────────┬─────────────────────┐
-│ file                                      │ key                 │
-├───────────────────────────────────────────┼─────────────────────┤
-│  translations/messageExamples/de-de.json  │  multipleVariables  │
-└───────────────────────────────────────────┴─────────────────────┘
+┌────────┬───────────────────────────────────────────┐
+│ info   │ result                                    │
+├────────┼───────────────────────────────────────────┤
+│  file  │  translations/messageExamples/de-de.json  │
+│  key   │  multipleVariables                        │
+│  msg   │  Unexpected date element                  │
+└────────┴───────────────────────────────────────────┘
 
 `);
           done();
@@ -273,11 +311,13 @@ Found missing keys!
 └───────────────────────────────────────────┴────────────┘
 
 Found invalid keys!
-┌───────────────────────────────────────────┬─────────────────────┐
-│ file                                      │ key                 │
-├───────────────────────────────────────────┼─────────────────────┤
-│  translations/messageExamples/de-de.json  │  multipleVariables  │
-└───────────────────────────────────────────┴─────────────────────┘
+┌────────┬───────────────────────────────────────────┐
+│ info   │ result                                    │
+├────────┼───────────────────────────────────────────┤
+│  file  │  translations/messageExamples/de-de.json  │
+│  key   │  multipleVariables                        │
+│  msg   │  Unexpected date element                  │
+└────────┴───────────────────────────────────────────┘
 
 `);
           done();
@@ -457,11 +497,13 @@ Found missing keys!
 └────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌────────────────────────────────────────────────────┬──────────────────┐
-│ file                                               │ key              │
-├────────────────────────────────────────────────────┼──────────────────┤
-│  translations/yaml/folderExample/de-DE/index.yaml  │  message.select  │
-└────────────────────────────────────────────────────┴──────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/folderExample/de-DE/index.yaml                                                                │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -486,12 +528,17 @@ Found missing keys!
 └───────────────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌─────────────────────────────────────────────────────────────────┬─────────────────────┐
-│ file                                                            │ key                 │
-├─────────────────────────────────────────────────────────────────┼─────────────────────┤
-│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml    │  message.select     │
-│  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml  │  multipleVariables  │
-└─────────────────────────────────────────────────────────────────┴─────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml                                                     │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml                                                   │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -518,14 +565,25 @@ Found missing keys!
 └────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌──────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                                         │ key                   │
-├──────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml    │  message.select       │
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml  │  multipleVariables    │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml    │  message.text-format  │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml  │  numberFormat         │
-└──────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml                                        │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml                                      │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml                                        │
+│  key   │  message.text-format                                                                                             │
+│  msg   │  Expected element of type "tag" but received "number", Unexpected tag element                                    │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml                                      │
+│  key   │  numberFormat                                                                                                    │
+│  msg   │  Missing element number                                                                                          │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -552,14 +610,25 @@ Found missing keys!
 └────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
 
 Found invalid keys!
-┌──────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                                         │ key                   │
-├──────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml    │  message.select       │
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml  │  multipleVariables    │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml    │  message.text-format  │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml  │  numberFormat         │
-└──────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml                                        │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml                                      │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml                                        │
+│  key   │  message.text-format                                                                                             │
+│  msg   │  Expected element of type "tag" but received "number", Unexpected tag element                                    │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml                                      │
+│  key   │  numberFormat                                                                                                    │
+│  msg   │  Missing element number                                                                                          │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
@@ -590,11 +659,13 @@ Found missing keys!
 └────────────────────────────────────────────────┴────────────────────────────────┘
 
 Found invalid keys!
-┌────────────────────────────────────────────────┬─────────────────────┐
-│ file                                           │ key                 │
-├────────────────────────────────────────────────┼─────────────────────┤
-│  translations/yaml/messageExamples/de-de.yaml  │  multipleVariables  │
-└────────────────────────────────────────────────┴─────────────────────┘
+┌────────┬────────────────────────────────────────────────┐
+│ info   │ result                                         │
+├────────┼────────────────────────────────────────────────┤
+│  file  │  translations/yaml/messageExamples/de-de.yaml  │
+│  key   │  multipleVariables                             │
+│  msg   │  Unexpected date element                       │
+└────────┴────────────────────────────────────────────────┘
 
 `);
           done();
@@ -621,12 +692,17 @@ Found missing keys!
 └───────────────────────────────────────────────────────────────┴────────────────────────────────┘
 
 Found invalid keys!
-┌─────────────────────────────────────────────────────────────────┬─────────────────────┐
-│ file                                                            │ key                 │
-├─────────────────────────────────────────────────────────────────┼─────────────────────┤
-│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml    │  message.select     │
-│  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml  │  multipleVariables  │
-└─────────────────────────────────────────────────────────────────┴─────────────────────┘
+┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ info   │ result                                                                                                           │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml                                                     │
+│  key   │  message.select                                                                                                  │
+│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml                                                   │
+│  key   │  multipleVariables                                                                                               │
+│  msg   │  Expected argument to contain "user" but received "name"                                                         │
+└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 `);
           done();
