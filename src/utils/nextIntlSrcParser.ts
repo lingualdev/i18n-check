@@ -7,7 +7,7 @@ const COMMENT_CONTAINS_STATIC_KEY_REGEX = /t\((["'])(.*?[^\\])(["'])\)/;
 
 export const extract = (filesPaths: string[]) => {
   return filesPaths.flatMap(getKeys).sort((a, b) => {
-    return a > b ? 1 : -1;
+    return a.key > b.key ? 1 : -1;
   });
 };
 

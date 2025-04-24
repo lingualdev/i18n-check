@@ -18,13 +18,7 @@ describe("nextIntlSrcParser", () => {
 
     expect(keys).toEqual([
       {
-        key: "ClientCounter2.increment",
-        meta: {
-          file: clientCounterFile,
-        },
-      },
-      {
-        key: "ClientCounter2.count",
+        key: "ClientCounter.count",
         meta: {
           file: clientCounterFile,
         },
@@ -36,15 +30,15 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "ClientCounter.count",
+        key: "ClientCounter2.count",
         meta: {
           file: clientCounterFile,
         },
       },
       {
-        key: "Counter.increment",
+        key: "ClientCounter2.increment",
         meta: {
-          file: counterFile,
+          file: clientCounterFile,
         },
       },
       {
@@ -54,7 +48,37 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "testKeyWithoutNamespace",
+        key: "Counter.increment",
+        meta: {
+          file: counterFile,
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: basicFile,
+        },
+      },
+      {
+        key: "Navigation.client",
+        meta: {
+          file: basicFile,
+        },
+      },
+      {
+        key: "Navigation.home",
+        meta: {
+          file: basicFile,
+        },
+      },
+      {
+        key: "Navigation.nested",
+        meta: {
+          file: basicFile,
+        },
+      },
+      {
+        key: "Navigation.news",
         meta: {
           file: basicFile,
         },
@@ -78,31 +102,7 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "Navigation.news",
-        meta: {
-          file: basicFile,
-        },
-      },
-      {
-        key: "Navigation.nested",
-        meta: {
-          file: basicFile,
-        },
-      },
-      {
-        key: "Navigation.about",
-        meta: {
-          file: basicFile,
-        },
-      },
-      {
-        key: "Navigation.client",
-        meta: {
-          file: basicFile,
-        },
-      },
-      {
-        key: "Navigation.home",
+        key: "testKeyWithoutNamespace",
         meta: {
           file: basicFile,
         },
@@ -114,36 +114,6 @@ describe("nextIntlSrcParser", () => {
     const keys = extract([nestedExampleFile]);
 
     expect(keys).toEqual([
-      {
-        key: "nested.three.htmlKey",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
-        },
-      },
-      {
-        key: "nested.three.markupKey",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
-        },
-      },
-      {
-        key: "nested.three.richTextKey",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
-        },
-      },
-      {
-        key: "nested.three.hasKeyCheck",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
-        },
-      },
-      {
-        key: "nested.three.basicKey",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
-        },
-      },
       {
         key: "deepNested.level1.one",
         meta: {
@@ -169,19 +139,13 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "nested.two.regularKey",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
-        },
-      },
-      {
-        key: "nested.two.nestedKey",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
-        },
-      },
-      {
         key: "nested.nested.two.nestedTwoKey",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+        },
+      },
+      {
+        key: "nested.one.nestedKey",
         meta: {
           file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
         },
@@ -193,7 +157,43 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "nested.one.nestedKey",
+        key: "nested.three.basicKey",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+        },
+      },
+      {
+        key: "nested.three.hasKeyCheck",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+        },
+      },
+      {
+        key: "nested.three.htmlKey",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+        },
+      },
+      {
+        key: "nested.three.markupKey",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+        },
+      },
+      {
+        key: "nested.three.richTextKey",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+        },
+      },
+      {
+        key: "nested.two.nestedKey",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+        },
+      },
+      {
+        key: "nested.two.regularKey",
         meta: {
           file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
         },
@@ -206,13 +206,13 @@ describe("nextIntlSrcParser", () => {
 
     expect(keys).toEqual([
       {
-        key: "async.two.title",
+        key: "Async.title",
         meta: {
           file: "translations/codeExamples/next-intl/src/AsyncExample.tsx",
         },
       },
       {
-        key: "Async.title",
+        key: "async.two.title",
         meta: {
           file: "translations/codeExamples/next-intl/src/AsyncExample.tsx",
         },
@@ -225,67 +225,19 @@ describe("nextIntlSrcParser", () => {
 
     expect(keys).toEqual([
       {
-        key: "dynamic.three.value",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
-        key: "dynamic.three.title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
-        key: "dynamic.two.value",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
-        key: "dynamic.two.title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
-        key: "dynamic.one.value",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
-        key: "dynamic.one.title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
         key: "dynamic.four.four",
         meta: {
           file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
         },
       },
       {
-        key: "dynamic.four.three",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
-        key: "dynamic.four.two",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
-        key: "dynamic.four.one",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
-        },
-      },
-      {
         key: "dynamic.four.nameFour",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.four.nameOne",
         meta: {
           file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
         },
@@ -303,7 +255,55 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "dynamic.four.nameOne",
+        key: "dynamic.four.one",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.four.three",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.four.two",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.one.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.one.value",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.three.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.three.value",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.two.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+        },
+      },
+      {
+        key: "dynamic.two.value",
         meta: {
           file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
         },
@@ -316,61 +316,7 @@ describe("nextIntlSrcParser", () => {
 
     expect(keys).toEqual([
       {
-        key: "unknown.unknown",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "About.unknown",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "unknown",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "Test.title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "PageLayout.pageTitle",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "NotFound.title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "Navigation.about",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "About.title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "Navigation.about",
+        key: "About.lastUpdated",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
@@ -388,6 +334,90 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
+        key: "About.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "About.unknown",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "Navigation.about",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "NotFound.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "NotFound.title",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "PageLayout.pageTitle",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "PageLayout.pageTitle",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
+        key: "StrictTypes.nested.another.level",
+        meta: {
+          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+      {
         key: "StrictTypes.nested.another.level",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
@@ -400,19 +430,13 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "unknown.unknown",
+        key: "StrictTypes.nested.hello",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
       },
       {
-        key: "About.unknown",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "unknown",
+        key: "Test.title",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
@@ -430,55 +454,31 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "PageLayout.pageTitle",
+        key: "title",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
       },
       {
-        key: "NotFound.title",
+        key: "unknown",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
       },
       {
-        key: "Navigation.about",
+        key: "unknown",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
       },
       {
-        key: "About.title",
+        key: "unknown.unknown",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
       },
       {
-        key: "Navigation.about",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "About.lastUpdated",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "About.title",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "StrictTypes.nested.another.level",
-        meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
-        },
-      },
-      {
-        key: "StrictTypes.nested.hello",
+        key: "unknown.unknown",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
         },
@@ -491,25 +491,13 @@ describe("nextIntlSrcParser", () => {
 
     expect(keys).toEqual([
       {
+        key: "aliasNestedFour.four",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
         key: "aliasNestedOne.one",
-        meta: {
-          file: advancedExample,
-        },
-      },
-      {
-        key: "aliasNestedTwo.two",
-        meta: {
-          file: advancedExample,
-        },
-      },
-      {
-        key: "aliasNestedThree.threeThree",
-        meta: {
-          file: advancedExample,
-        },
-      },
-      {
-        key: "aliasNestedTwo.threeTwo",
         meta: {
           file: advancedExample,
         },
@@ -527,19 +515,31 @@ describe("nextIntlSrcParser", () => {
         },
       },
       {
-        key: "aliasNestedFour.four",
+        key: "aliasNestedThree.threeThree",
         meta: {
           file: advancedExample,
         },
       },
       {
-        key: "aliasTwo.keyTwo",
+        key: "aliasNestedTwo.threeTwo",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasNestedTwo.two",
         meta: {
           file: advancedExample,
         },
       },
       {
         key: "aliasOne.keyOne",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasTwo.keyTwo",
         meta: {
           file: advancedExample,
         },
