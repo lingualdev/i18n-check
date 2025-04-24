@@ -108,5 +108,26 @@
         "level": "Level"
       }
     }
+  },
+  "aliasOne": {
+    "keyOne": "keyOne"
+  },
+  "aliasTwo": {
+    "keyTwo": "keyTwo"
+  },
+  "aliasNestedOne": {
+    "one": "one",
+    "threeOne": "threeOne"
+  },
+  "aliasNestedTwo": {
+    "two": "two",
+    "threeTwo": "threeTwo"
+  },
+  "aliasNestedThree": {
+    "three": "three",
+    "threeThree": "threeThree"
+  },
+  "aliasNestedFour": {
+    "four": "four"
   }
 }

@@ -1,4 +1,3 @@
-import { count } from "node:console";
 import { extract } from "./nextIntlSrcParser";
 import path from "node:path";
 
@@ -9,8 +8,9 @@ const counterFile = path.join(srcPath, "Counter.tsx");
 const clientCounterFile = path.join(srcPath, "ClientCounter.tsx");
 const nestedExampleFile = path.join(srcPath, "NestedExample.tsx");
 const asyncExampleFile = path.join(srcPath, "AsyncExample.tsx");
-const dynamicKeysExamplFile = path.join(srcPath, "DynamicKeysExample.tsx");
+const dynamicKeysExampleFile = path.join(srcPath, "DynamicKeysExample.tsx");
 const strictTypesExample = path.join(srcPath, "StrictTypesExample.tsx");
+const advancedExample = path.join(srcPath, "AdvancedExample.tsx");
 
 describe("nextIntlSrcParser", () => {
   it("should find all the translation keys", () => {
@@ -221,7 +221,7 @@ describe("nextIntlSrcParser", () => {
   });
 
   it("should find all dynamic keys defined as comments", () => {
-    const keys = extract([dynamicKeysExamplFile]);
+    const keys = extract([dynamicKeysExampleFile]);
 
     expect(keys).toEqual([
       {
@@ -481,6 +481,67 @@ describe("nextIntlSrcParser", () => {
         key: "StrictTypes.nested.hello",
         meta: {
           file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+        },
+      },
+    ]);
+  });
+
+  it("should find all the keys for multiple useTranslations aliases", () => {
+    const keys = extract([advancedExample]);
+
+    expect(keys).toEqual([
+      {
+        key: "aliasNestedOne.one",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasNestedTwo.two",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasNestedThree.threeThree",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasNestedTwo.threeTwo",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasNestedOne.threeOne",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasNestedThree.three",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasNestedFour.four",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasTwo.keyTwo",
+        meta: {
+          file: advancedExample,
+        },
+      },
+      {
+        key: "aliasOne.keyOne",
+        meta: {
+          file: advancedExample,
         },
       },
     ]);
