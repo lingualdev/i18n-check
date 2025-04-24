@@ -39,5 +39,5 @@ export const NonUseTranslationsUsageOfT = () => {
   // no namespace defined
   const t = useOtherHook();
 
-  return <div>{t("This should not be extraced")}</div>;
+  return <div>{t("This should not be extracted")}</div>;
 };

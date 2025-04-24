@@ -20,29 +20,35 @@ const getKeys = (path: string) => {
     true
   );
 
+  type Namespace = { name: string; variable: string };
   const foundKeys: { key: string; meta: { file: string } }[] = [];
-  let namespaces: string[] = [];
-  let variable = "t";
+  let namespaces: Namespace[] = [];
 
-  const getCurrentNamespace = () => {
+  const getCurrentNamespaces = (range = 1) => {
     if (namespaces.length > 0) {
-      return namespaces[namespaces.length - 1];
+      return namespaces.slice(namespaces.length - range);
     }
     return null;
   };
 
-  const pushNamespace = (name: string) => {
-    namespaces.push(name);
+  const getCurrentNamespaceForIdentifier = (name: string) => {
+    return [...namespaces].reverse().find((namespace) => {
+      return namespace.variable === name;
+    });
   };
 
-  const removeNamespace = () => {
+  const pushNamespace = (namespace: Namespace) => {
+    namespaces.push(namespace);
+  };
+
+  const removeNamespaces = (range = 1) => {
     if (namespaces.length > 0) {
-      namespaces.pop();
+      namespaces = namespaces.slice(0, namespaces.length - range);
     }
   };
 
   const visit = (node: ts.Node) => {
-    let key: string | null = null;
+    let key: { name: string; identifier: string } | null = null;
     let current = namespaces.length;
 
     if (node === undefined) {
@@ -57,13 +63,12 @@ const getKeys = (path: string) => {
           // from the default `t`, i.e.: const other = useTranslations("namespace1");
           if (node.initializer.expression.text === USE_TRANSLATIONS) {
             const [argument] = node.initializer.arguments;
+
+            const variable = ts.isIdentifier(node.name) ? node.name.text : "t";
             if (argument && ts.isStringLiteral(argument)) {
-              pushNamespace(argument.text);
+              pushNamespace({ name: argument.text, variable });
             } else if (argument === undefined) {
-              pushNamespace("");
-            }
-            if (ts.isIdentifier(node.name)) {
-              variable = node.name.text;
+              pushNamespace({ name: "", variable });
             }
           }
         }
@@ -88,6 +93,7 @@ const getKeys = (path: string) => {
             node.initializer.expression.expression.text === GET_TRANSLATIONS
           ) {
             const [argument] = node.initializer.expression.arguments;
+            const variable = ts.isIdentifier(node.name) ? node.name.text : "t";
             if (argument && ts.isObjectLiteralExpression(argument)) {
               argument.properties.forEach((property) => {
                 if (
@@ -98,17 +104,13 @@ const getKeys = (path: string) => {
                   property.name.text === "namespace" &&
                   ts.isStringLiteral(property.initializer)
                 ) {
-                  pushNamespace(property.initializer.text);
+                  pushNamespace({ name: property.initializer.text, variable });
                 }
               });
             } else if (argument && ts.isStringLiteral(argument)) {
-              pushNamespace(argument.text);
+              pushNamespace({ name: argument.text, variable });
             } else if (argument === undefined) {
-              pushNamespace("");
-            }
-
-            if (ts.isIdentifier(node.name)) {
-              variable = node.name.text;
+              pushNamespace({ name: "", variable });
             }
           }
         }
@@ -167,39 +169,42 @@ const getKeys = (path: string) => {
 
     // Search for `t()` calls
     if (
-      getCurrentNamespace() !== null &&
+      getCurrentNamespaces() !== null &&
       ts.isCallExpression(node) &&
       ts.isIdentifier(node.expression)
     ) {
       const expressionName = node.expression.text;
-      if (expressionName === variable) {
+      const namespace = getCurrentNamespaceForIdentifier(expressionName);
+      if (namespace) {
         const [argument] = node.arguments;
         if (argument && ts.isStringLiteral(argument)) {
-          key = argument.text;
+          key = { name: argument.text, identifier: expressionName };
         }
       }
     }
 
     // Search for `t.*()` calls, i.e. t.html() or t.rich()
     if (
-      getCurrentNamespace() !== null &&
+      getCurrentNamespaces() !== null &&
       ts.isCallExpression(node) &&
       ts.isPropertyAccessExpression(node.expression) &&
       ts.isIdentifier(node.expression.expression)
     ) {
       const expressionName = node.expression.expression.text;
-      if (expressionName === variable) {
+      const namespace = getCurrentNamespaceForIdentifier(expressionName);
+      if (namespace) {
         const [argument] = node.arguments;
         if (argument && ts.isStringLiteral(argument)) {
-          key = argument.text;
+          key = { name: argument.text, identifier: expressionName };
         }
       }
     }
 
     if (key) {
-      const namespace = getCurrentNamespace();
+      const namespace = getCurrentNamespaceForIdentifier(key.identifier);
+      const namespaceName = namespace ? namespace.name : "";
       foundKeys.push({
-        key: namespace ? `${namespace}.${key}` : key,
+        key: namespaceName ? `${namespaceName}.${key.name}` : key.name,
         meta: { file: path },
       });
     }
@@ -228,9 +233,13 @@ const getKeys = (path: string) => {
           const commentKey =
             COMMENT_CONTAINS_STATIC_KEY_REGEX.exec(comment)?.[2];
           if (commentKey) {
-            const namespace = getCurrentNamespace();
+            const namespace = getCurrentNamespaces();
+            const namespaceName = namespace ? namespace[0]?.name : "";
+
             foundKeys.push({
-              key: namespace ? `${namespace}.${commentKey}` : commentKey,
+              key: namespaceName
+                ? `${namespaceName}.${commentKey}`
+                : commentKey,
               meta: { file: path },
             });
           }
@@ -241,7 +250,7 @@ const getKeys = (path: string) => {
     ts.forEachChild(node, visit);
 
     if (ts.isFunctionLike(node) && namespaces.length > current) {
-      removeNamespace();
+      removeNamespaces(namespaces.length - current);
     }
   };
 
