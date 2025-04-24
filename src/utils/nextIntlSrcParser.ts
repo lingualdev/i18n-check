@@ -149,16 +149,16 @@ const getKeys = (path: string) => {
             if (argument && ts.isStringLiteral(argument)) {
               inlineNamespace = argument.text;
             }
-          }
 
-          const [callArgument] = node.expression.arguments;
-          if (callArgument && ts.isStringLiteral(callArgument)) {
-            const key = callArgument.text;
-            if (key) {
-              foundKeys.push({
-                key: inlineNamespace ? `${inlineNamespace}.${key}` : key,
-                meta: { file: path },
-              });
+            const [callArgument] = node.expression.arguments;
+            if (callArgument && ts.isStringLiteral(callArgument)) {
+              const key = callArgument.text;
+              if (key) {
+                foundKeys.push({
+                  key: inlineNamespace ? `${inlineNamespace}.${key}` : key,
+                  meta: { file: path },
+                });
+              }
             }
           }
         }

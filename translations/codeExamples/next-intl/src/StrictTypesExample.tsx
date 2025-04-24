@@ -85,6 +85,9 @@ function StrictTypesExample() {
   useTranslations("NotFound").raw("title");
   useTranslations("PageLayout").raw("pageTitle");
 
+  // Should not find any non useTranslations chained functions
+  someDifferentChainFunction(30).toEqual("100");
+
   // @ts-expect-error Trying to access a child key without a namespace
   useTranslations().raw("title");
 
