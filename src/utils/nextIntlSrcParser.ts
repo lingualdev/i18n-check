@@ -20,8 +20,11 @@ const getKeys = (path: string) => {
     true
   );
 
-  type Namespace = { name: string; variable: string };
-  const foundKeys: { key: string; meta: { file: string } }[] = [];
+  type Namespace = { name: string; variable: string; dynamic?: boolean };
+  const foundKeys: {
+    key: string;
+    meta: { file: string; namespace?: string; dynamic?: boolean };
+  }[] = [];
   let namespaces: Namespace[] = [];
 
   const getCurrentNamespaces = (range = 1) => {
@@ -41,6 +44,15 @@ const getKeys = (path: string) => {
     namespaces.push(namespace);
   };
 
+  const setNamespaceAsDynamic = (name: string) => {
+    namespaces = namespaces.map((namespace) => {
+      if (namespace.name === name) {
+        return { ...namespace, dynamic: true };
+      }
+      return namespace;
+    });
+  };
+
   const removeNamespaces = (range = 1) => {
     if (namespaces.length > 0) {
       namespaces = namespaces.slice(0, namespaces.length - range);
@@ -49,7 +61,7 @@ const getKeys = (path: string) => {
 
   const visit = (node: ts.Node) => {
     let key: { name: string; identifier: string } | null = null;
-    let current = namespaces.length;
+    let initialNamespacesLength = namespaces.length;
 
     if (node === undefined) {
       return;
@@ -158,7 +170,7 @@ const getKeys = (path: string) => {
               if (key) {
                 foundKeys.push({
                   key: inlineNamespace ? `${inlineNamespace}.${key}` : key,
-                  meta: { file: path },
+                  meta: { file: path, namespace: inlineNamespace ?? undefined },
                 });
               }
             }
@@ -179,6 +191,10 @@ const getKeys = (path: string) => {
         const [argument] = node.arguments;
         if (argument && ts.isStringLiteral(argument)) {
           key = { name: argument.text, identifier: expressionName };
+        } else if (argument && ts.isIdentifier(argument)) {
+          setNamespaceAsDynamic(namespace.name);
+        } else if (argument && ts.isTemplateExpression(argument)) {
+          setNamespaceAsDynamic(namespace.name);
         }
       }
     }
@@ -196,6 +212,10 @@ const getKeys = (path: string) => {
         const [argument] = node.arguments;
         if (argument && ts.isStringLiteral(argument)) {
           key = { name: argument.text, identifier: expressionName };
+        } else if (argument && ts.isIdentifier(argument)) {
+          setNamespaceAsDynamic(namespace.name);
+        } else if (argument && ts.isTemplateExpression(argument)) {
+          setNamespaceAsDynamic(namespace.name);
         }
       }
     }
@@ -205,7 +225,7 @@ const getKeys = (path: string) => {
       const namespaceName = namespace ? namespace.name : "";
       foundKeys.push({
         key: namespaceName ? `${namespaceName}.${key.name}` : key.name,
-        meta: { file: path },
+        meta: { file: path, namespace: namespaceName },
       });
     }
 
@@ -240,7 +260,7 @@ const getKeys = (path: string) => {
               key: namespaceName
                 ? `${namespaceName}.${commentKey}`
                 : commentKey,
-              meta: { file: path },
+              meta: { file: path, namespace: namespaceName },
             });
           }
         }
@@ -249,8 +269,25 @@ const getKeys = (path: string) => {
 
     ts.forEachChild(node, visit);
 
-    if (ts.isFunctionLike(node) && namespaces.length > current) {
-      removeNamespaces(namespaces.length - current);
+    if (
+      ts.isFunctionLike(node) &&
+      namespaces.length > initialNamespacesLength
+    ) {
+      // check if the namespaces are dynamic and add a placeholder key
+      const currentNamespaces = getCurrentNamespaces(
+        namespaces?.length - initialNamespacesLength
+      );
+
+      currentNamespaces?.forEach((namespace) => {
+        if (namespace.dynamic) {
+          foundKeys.push({
+            key: namespace.name,
+            meta: { file: path, namespace: namespace.name, dynamic: true },
+          });
+        }
+      });
+
+      removeNamespaces(namespaces.length - initialNamespacesLength);
     }
   };
 

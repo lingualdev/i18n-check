@@ -168,12 +168,36 @@ const findUnusedNextIntlTranslations = async (
   let unusedKeys = {};
 
   const extracted = nextIntlExtract(filesToParse);
-  const extractedResultSet = new Set(extracted.map(({ key }) => key));
+  const dynamicNamespaces = extracted.flatMap((namespace) => {
+    if (namespace.meta.dynamic) {
+      return [namespace.key];
+    }
+    return [];
+  });
+  const extractedResultSet = new Set(
+    extracted.flatMap((namespace) => {
+      if (!namespace.meta.dynamic) {
+        return [namespace.key];
+      }
+      return [];
+    })
+  );
 
   translationFiles.forEach(({ name, content }) => {
     const keysInSource = Object.keys(content);
     const found: string[] = [];
     for (const keyInSource of keysInSource) {
+      // Check if key is part of a dynamic namespace
+      // Skip the key if it is part of the dynamic namespace
+      const isDynamicNamespace = dynamicNamespaces.find((dynamicNamespace) => {
+        const keyInSourceNamespaces = keyInSource.split(".");
+        return dynamicNamespace.split(".").every((namePart, index) => {
+          return namePart === keyInSourceNamespaces[index];
+        });
+      });
+      if (isDynamicNamespace) {
+        continue;
+      }
       if (!extractedResultSet.has(keyInSource)) {
         found.push(keyInSource);
       }
@@ -287,7 +311,7 @@ const findUndefinedNextIntlKeys = async (
 
   let undefinedKeys: { [key: string]: string[] } = {};
   extractedResult.forEach(({ key, meta }) => {
-    if (!sourceKeys.has(key)) {
+    if (!meta.dynamic && !sourceKeys.has(key)) {
       // @ts-ignore
       const file = meta.file;
       if (!undefinedKeys[file]) {
