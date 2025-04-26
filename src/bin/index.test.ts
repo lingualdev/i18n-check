@@ -377,6 +377,41 @@ Found undefined keys!
       );
     });
 
+    it("should find unused and undefined keys for react-i18next applications with multiple source folders", (done) => {
+      exec(
+        "node dist/bin/index.js --source en --locales translations/codeExamples/reacti18next/locales -f i18next -u translations/codeExamples/reacti18next/src translations/codeExamples/reacti18next/secondSrcFolder --parser-component-functions WrappedTransComponent",
+        (_error, stdout, _stderr) => {
+          const result = stdout.split("Done")[0];
+          expect(result).toEqual(`i18n translations checker
+Source: en
+Selected format is: i18next
+
+No missing keys found!
+
+No invalid translations found!
+
+Found unused keys!
+┌──────────────────────────────────────────────────────────────────────┬──────────────────┐
+│ file                                                                 │ key              │
+├──────────────────────────────────────────────────────────────────────┼──────────────────┤
+│  translations/codeExamples/reacti18next/locales/en/translation.json  │  format.ebook    │
+│  translations/codeExamples/reacti18next/locales/en/translation.json  │  nonExistentKey  │
+└──────────────────────────────────────────────────────────────────────┴──────────────────┘
+
+Found undefined keys!
+┌───────────────────────────────────────────────────────────────────┬───────────────────────────────────┐
+│ file                                                              │ key                               │
+├───────────────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│  translations/codeExamples/reacti18next/src/App.tsx               │  some.key.that.is.not.defined     │
+│  translations/codeExamples/reacti18next/secondSrcFolder/Main.tsx  │  another.key.that.is.not.defined  │
+└───────────────────────────────────────────────────────────────────┴───────────────────────────────────┘
+
+`);
+          done();
+        }
+      );
+    });
+
     it("should find unused and undefined keys for react-intl applications", (done) => {
       exec(
         "node dist/bin/index.js --source en-US --locales translations/codeExamples/react-intl/locales -f react-intl -u translations/codeExamples/react-intl/src",
