@@ -47,8 +47,8 @@ program
     "define the file(s) and/or folders(s) that should be excluded from the check"
   )
   .option(
-    "-u, --unused <path>",
-    "define the source path to find all unused and undefined keys"
+    "-u, --unused <paths...>",
+    "define the source path(s) to find all unused and undefined keys"
   )
   .option(
     "--parser-component-functions <components...>",
@@ -248,7 +248,11 @@ const main = async () => {
     printTranslationResult(result);
 
     if (unusedSrcPath) {
-      const filesToParse = globSync(`${unusedSrcPath}/**/*.{ts,tsx}`, {
+      const isMultiUnusedFolders = unusedSrcPath.length > 1;
+      const pattern = isMultiUnusedFolders
+        ? `{${unusedSrcPath.join(",").trim()}}/**/*.{ts,tsx}`
+        : `${unusedSrcPath.join(",").trim()}/**/*.{ts,tsx}`;
+      const filesToParse = globSync(pattern, {
         ignore: ["node_modules/**"],
       });
 
