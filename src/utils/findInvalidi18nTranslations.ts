@@ -31,11 +31,14 @@ export const findInvalid18nTranslations = (
 export const compareTranslationFiles = (a: Translation, b: Translation) => {
   let diffs: unknown[] = [];
   for (const key in a) {
-    if (
-      b[key] !== undefined &&
-      hasDiff(parse(String(a[key])), parse(String(b[key])))
-    ) {
-      diffs.push(key);
+    if (b[key] === undefined) {
+      continue;
+    }
+    const parsedTranslationA = parse(String(a[key]));
+    const parsedTranslationB = parse(String(b[key]));
+    if (hasDiff(parsedTranslationA, parsedTranslationB)) {
+      const msg = getErrorMessage(parsedTranslationA, parsedTranslationB);
+      diffs.push({ key, msg });
     }
   }
   return diffs;
@@ -130,4 +133,116 @@ export const hasDiff = (
   });
 
   return hasErrors;
+};
+
+const getErrorMessage = (
+  a: MessageFormatElement[],
+  b: MessageFormatElement[]
+): string => {
+  const compA = a
+    .filter((element) => element.type !== "text")
+    .sort(sortParsedKeys);
+  const compB = b
+    .filter((element) => element.type !== "text")
+    .sort(sortParsedKeys);
+
+  const errors = compA.reduce((acc, formatElementA, index) => {
+    const formatElementB = compB[index];
+
+    if (!formatElementB) {
+      acc.push(`Missing element ${formatElementA.type}`);
+      return acc;
+    }
+
+    if (formatElementA.type !== formatElementB.type) {
+      acc.push(
+        `Expected element of type "${formatElementA.type}" but received "${formatElementB.type}"`
+      );
+      return acc;
+    }
+
+    if (formatElementA.type === "tag" && formatElementB.type === "tag") {
+      if (formatElementA.raw !== formatElementB.raw) {
+        acc.push(
+          `Expected tag "${formatElementA.raw}" but received "${formatElementB.raw}"`
+        );
+      } else if (
+        formatElementA.voidElement !== formatElementB.voidElement &&
+        formatElementA.voidElement === true
+      ) {
+        acc.push(`Expected a self-closing "${formatElementB.raw}" tag`);
+        return acc;
+      } else if (
+        formatElementA.voidElement !== formatElementB.voidElement &&
+        formatElementA.voidElement === false
+      ) {
+        acc.push(`Non expected self-closing "${formatElementB.raw}" tag`);
+        return acc;
+      }
+    }
+
+    if (
+      (formatElementA.type === "interpolation" &&
+        formatElementB.type === "interpolation") ||
+      (formatElementA.type === "interpolation_unescaped" &&
+        formatElementB.type === "interpolation_unescaped") ||
+      (formatElementA.type === "nesting" &&
+        formatElementB.type === "nesting") ||
+      (formatElementA.type === "plural" && formatElementB.type === "plural")
+    ) {
+      if (formatElementA.prefix !== formatElementA.prefix) {
+        acc.push(
+          `Error in ${formatElementA.type}: Expected prefix "${formatElementA.prefix}" but received "${formatElementB.prefix}"`
+        );
+        return acc;
+      }
+
+      if (formatElementA.suffix !== formatElementA.suffix) {
+        acc.push(
+          `Error in ${formatElementA.type}: Expected suffix "${formatElementA.suffix}" but received "${formatElementB.suffix}"`
+        );
+        return acc;
+      }
+
+      const optionsA = formatElementA.variable
+        .split(",")
+        .map((value) => value.trim())
+        .sort();
+      const optionsB = formatElementB.variable
+        .split(",")
+        .map((value) => value.trim())
+        .sort();
+
+      let elementErrors: (string | null)[] = [];
+      optionsA.forEach((key, index) => {
+        if (key !== optionsB[index]) {
+          elementErrors.push(`Expected ${key} but received ${optionsB[index]}`);
+        }
+      });
+      if (elementErrors.length > 0) {
+        acc.push(
+          `Error in ${formatElementA.type}: ${elementErrors
+            .flatMap((elementError) => elementError)
+            .join(", ")}`
+        );
+      }
+      return acc;
+    }
+
+    return acc;
+  }, [] as string[]);
+
+  if (compA.length < compB.length) {
+    const unexpectedElements = compB
+      .slice(compA.length)
+      .reduce<string[]>((acc, formatElementB) => {
+        acc.push(`Unexpected ${formatElementB.type} element`);
+        return acc;
+      }, [])
+      .join(", ");
+
+    return [...errors, unexpectedElements].join(", ");
+  }
+
+  return errors.join(", ");
 };

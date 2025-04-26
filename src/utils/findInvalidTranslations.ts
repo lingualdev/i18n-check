@@ -43,11 +43,14 @@ const sortParsedKeys = (a: MessageFormatElement, b: MessageFormatElement) => {
 export const compareTranslationFiles = (a: Translation, b: Translation) => {
   let diffs = [];
   for (const key in a) {
-    if (
-      b[key] !== undefined &&
-      hasDiff(parse(String(a[key])), parse(String(b[key])))
-    ) {
-      diffs.push(key);
+    if (b[key] === undefined) {
+      continue;
+    }
+    const parsedTranslationA = parse(String(a[key]));
+    const parsedTranslationB = parse(String(b[key]));
+    if (hasDiff(parsedTranslationA, parsedTranslationB)) {
+      const msg = getErrorMessage(parsedTranslationA, parsedTranslationB);
+      diffs.push({ key, msg });
     }
   }
 
@@ -95,7 +98,7 @@ export const hasDiff = (
       return hasDiff(formatElementA.children, formatElementB.children);
     }
 
-    if ((isSelectElement(formatElementA) && isSelectElement(formatElementB))) {
+    if (isSelectElement(formatElementA) && isSelectElement(formatElementB)) {
       const optionsA = Object.keys(formatElementA.options).sort();
       const optionsB = Object.keys(formatElementB.options).sort();
 
@@ -132,4 +135,140 @@ export const hasDiff = (
   });
 
   return hasErrors;
+};
+
+const getErrorMessage = (
+  a: MessageFormatElement[],
+  b: MessageFormatElement[]
+): string => {
+  const compA = a
+    .filter((element) => !isLiteralElement(element))
+    .sort(sortParsedKeys);
+
+  const compB = b
+    .filter((element) => !isLiteralElement(element))
+    .sort(sortParsedKeys);
+
+  const errors = compA.reduce((acc, formatElementA, index) => {
+    const formatElementB = compB[index];
+
+    if (!formatElementB) {
+      acc.push(`Missing element ${typeLookup[formatElementA.type]}`);
+      return acc;
+    }
+
+    if (formatElementA.type !== formatElementB.type) {
+      acc.push(
+        `Expected element of type "${
+          typeLookup[formatElementA.type]
+        }" but received "${typeLookup[formatElementB.type]}"`
+      );
+      return acc;
+    }
+
+    if (formatElementA.location !== formatElementB.location) {
+      acc.push(
+        `Expected location to be ${formatElementA.location?.start?.line}:${formatElementA.location?.start?.column}`
+      );
+      return acc;
+    }
+
+    if (isPoundElement(formatElementA) && isPoundElement(formatElementB)) {
+      return acc;
+    }
+
+    if (
+      !isPoundElement(formatElementA) &&
+      !isPoundElement(formatElementB) &&
+      formatElementA.value !== formatElementB.value
+    ) {
+      acc.push(
+        `Expected ${typeLookup[formatElementA.type]} to contain "${
+          formatElementA.value
+        }" but received "${formatElementB.value}"`
+      );
+      return acc;
+    }
+
+    if (isTagElement(formatElementA) && isTagElement(formatElementB)) {
+      acc.push(
+        `Error in pound element: ${getErrorMessage(
+          formatElementA.children,
+          formatElementB.children
+        )}`
+      );
+      return acc;
+    }
+
+    if (isSelectElement(formatElementA) && isSelectElement(formatElementB)) {
+      const optionsA = Object.keys(formatElementA.options).sort();
+
+      let elementErrors: (string | null)[] = [];
+      optionsA.forEach((key) => {
+        if (formatElementB.options[key]) {
+          elementErrors.push(
+            getErrorMessage(
+              formatElementA.options[key].value,
+              formatElementB.options[key].value
+            )
+          );
+        }
+      });
+      acc.push(
+        `Error in select: ${elementErrors
+          .flatMap((elementError) => elementError)
+          .join(", ")}`
+      );
+      return acc;
+    }
+
+    if (isPluralElement(formatElementA) && isPluralElement(formatElementB)) {
+      const optionsA = Object.keys(formatElementA.options).sort();
+      let elementErrors: (string | null)[] = [];
+      optionsA.forEach((key) => {
+        if (formatElementB.options[key]) {
+          elementErrors.push(
+            getErrorMessage(
+              formatElementA.options[key].value,
+              formatElementB.options[key].value
+            )
+          );
+        }
+      });
+      acc.push(
+        `Error in plural: ${elementErrors
+          .flatMap((elementError) => elementError)
+          .join(", ")}`
+      );
+      return acc;
+    }
+
+    return acc;
+  }, [] as string[]);
+
+  if (compA.length < compB.length) {
+    const unexpectedElements = compB
+      .slice(compA.length)
+      .reduce<string[]>((acc, formatElementB) => {
+        acc.push(`Unexpected ${typeLookup[formatElementB.type]} element`);
+        return acc;
+      }, [])
+      .join(", ");
+
+    return [...errors, unexpectedElements].join(", ");
+  }
+
+  return errors.join(", ");
+};
+
+const typeLookup = {
+  0: "literal",
+  1: "argument",
+  2: "number",
+  3: "date",
+  4: "time",
+  5: "select",
+  6: "plural",
+  7: "pound",
+  8: "tag",
 };

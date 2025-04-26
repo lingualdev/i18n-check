@@ -10,6 +10,7 @@ import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from "..";
 import {
   CheckOptions,
   Context,
+  StandardReporter,
   standardReporter,
   summaryReporter,
 } from "../errorReporters";
@@ -322,7 +323,9 @@ const printTranslationResult = ({
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(invalidKeys))));
     } else {
-      console.log(chalk.red(standardReporter(getStandardRows(invalidKeys))));
+      console.log(
+        chalk.red(standardReporter(getStandardRows(invalidKeys), true))
+      );
     }
   } else if (invalidKeys) {
     console.log(chalk.green("\nNo invalid translations found!"));
@@ -371,8 +374,8 @@ const printUndefinedKeysResult = ({
   }
 };
 
-const truncate = (chars: string) =>
-  chars.length > 80 ? `${chars.substring(0, 80)}...` : chars;
+const truncate = (chars: string, len = 80) =>
+  chars.length > 80 ? `${chars.substring(0, len)}...` : chars;
 
 const getSummaryRows = (checkResult: CheckResult) => {
   const formattedRows: { file: string; total: number }[] = [];
@@ -387,14 +390,24 @@ const getSummaryRows = (checkResult: CheckResult) => {
 };
 
 const getStandardRows = (checkResult: CheckResult) => {
-  const formattedRows: { file: string; key: string }[] = [];
+  const formattedRows: StandardReporter[] = [];
 
-  for (const [file, keys] of Object.entries<string[]>(checkResult)) {
-    for (const key of keys) {
-      formattedRows.push({
-        file: truncate(file),
-        key: truncate(key),
-      });
+  for (const [file, keys] of Object.entries<
+    string[] | { key: string; msg: string }[]
+  >(checkResult)) {
+    for (const entry of keys) {
+      if (typeof entry === "object") {
+        formattedRows.push({
+          file: truncate(file),
+          key: truncate(entry.key),
+          msg: truncate(entry.msg, 120),
+        });
+      } else {
+        formattedRows.push({
+          file: truncate(file),
+          key: truncate(entry),
+        });
+      }
     }
   }
   return formattedRows;

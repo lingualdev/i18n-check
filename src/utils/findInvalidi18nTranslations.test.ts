@@ -26,7 +26,16 @@ describe("findInvalid18nTranslations:compareTranslationFiles", () => {
         }),
         flattenTranslations(targetFile)
       )
-    ).toEqual(["key_with_broken_de", "intlNumber_broken_de"]);
+    ).toEqual([
+      {
+        key: "key_with_broken_de",
+        msg: "Error in interpolation: Expected value but received val",
+      },
+      {
+        key: "intlNumber_broken_de",
+        msg: "Missing element interpolation",
+      },
+    ]);
   });
 
   it("should return an empty array if the strings contain paranthesis that have different content", () => {
@@ -63,7 +72,12 @@ describe("findInvalid18nTranslations:compareTranslationFiles", () => {
           tag: "There is some <b>bold text</b> and some other <span>italic</span> text.",
         }
       )
-    ).toEqual(["tag"]);
+    ).toEqual([
+      {
+        key: "tag",
+        msg: 'Expected tag "</i>" but received "</span>", Expected tag "<i>" but received "<span>"',
+      },
+    ]);
   });
 
   it("should return empty array if tags are identical", () => {
@@ -93,7 +107,18 @@ describe("findInvalidTranslations", () => {
         { ...sourceFile, "ten.eleven.twelve": "ten eleven twelve" },
         { de: targetFile }
       )
-    ).toEqual({ de: ["key_with_broken_de", "intlNumber_broken_de"] });
+    ).toEqual({
+      de: [
+        {
+          key: "key_with_broken_de",
+          msg: "Error in interpolation: Expected value but received val",
+        },
+        {
+          key: "intlNumber_broken_de",
+          msg: "Missing element interpolation",
+        },
+      ],
+    });
   });
 
   it("should return an object containing the keys for every language with missing key", () => {
@@ -109,8 +134,22 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["key_with_broken_de", "intlNumber_broken_de"],
-      fr: ["key_with_broken_de"],
+      de: [
+        {
+          key: "key_with_broken_de",
+          msg: "Error in interpolation: Expected value but received val",
+        },
+        {
+          key: "intlNumber_broken_de",
+          msg: "Missing element interpolation",
+        },
+      ],
+      fr: [
+        {
+          key: "key_with_broken_de",
+          msg: "Unexpected interpolation element",
+        },
+      ],
     });
   });
 
@@ -129,7 +168,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["key1_interval"],
+      de: [
+        {
+          key: "key1_interval",
+          msg: "Error in plural: Expected 1 but received 1-2, Error in plural: Expected 2-7 but received 3-7",
+        },
+      ],
     });
   });
 
@@ -146,7 +190,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["tree.one"],
+      de: [
+        {
+          key: "tree.one",
+          msg: "Error in interpolation: Expected something but received somethings",
+        },
+      ],
     });
   });
 
@@ -165,7 +214,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["intlRelativeTimeWithOptionsExplicit"],
+      de: [
+        {
+          key: "intlRelativeTimeWithOptionsExplicit",
+          msg: "Error in interpolation: Expected relativetime(range: quarter; style: narrow;) but received relativetime(range: quarter; style: long;)",
+        },
+      ],
     });
   });
 
@@ -184,7 +238,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["keyWithOptions"],
+      de: [
+        {
+          key: "keyWithOptions",
+          msg: "Error in interpolation: Expected formatname(option1Name: option1Value; option2Name: option2Value) but received formatname(option3Name: option3Value; option4Name: option4Value)",
+        },
+      ],
     });
   });
 
@@ -201,7 +260,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["nesting1"],
+      de: [
+        {
+          key: "nesting1",
+          msg: "Error in nesting: Expected nesting2 but received nesting3",
+        },
+      ],
     });
   });
 
@@ -218,7 +282,12 @@ describe("findInvalidTranslations", () => {
         }
       )
     ).toEqual({
-      de: ["tag"],
+      de: [
+        {
+          key: "tag",
+          msg: 'Expected tag "</i>" but received "</span>", Expected tag "<i>" but received "<span>"',
+        },
+      ],
     });
   });
 
