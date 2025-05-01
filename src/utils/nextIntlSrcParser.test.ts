@@ -132,98 +132,98 @@ describe("nextIntlSrcParser", () => {
       {
         key: "deepNested.level1.one",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "deepNested.level1",
         },
       },
       {
         key: "deepNested.level2.two",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "deepNested.level2",
         },
       },
       {
         key: "deepNested.level3.three",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "deepNested.level3",
         },
       },
       {
         key: "deepNested.level4.four",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "deepNested.level4",
         },
       },
       {
         key: "nested.nested.two.nestedTwoKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.nested.two",
         },
       },
       {
         key: "nested.one.nestedKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.one",
         },
       },
       {
         key: "nested.one.regularKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.one",
         },
       },
       {
         key: "nested.three.basicKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.three",
         },
       },
       {
         key: "nested.three.hasKeyCheck",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.three",
         },
       },
       {
         key: "nested.three.htmlKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.three",
         },
       },
       {
         key: "nested.three.markupKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.three",
         },
       },
       {
         key: "nested.three.richTextKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.three",
         },
       },
       {
         key: "nested.two.nestedKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.two",
         },
       },
       {
         key: "nested.two.regularKey",
         meta: {
-          file: "translations/codeExamples/next-intl/src/NestedExample.tsx",
+          file: nestedExampleFile,
           namespace: "nested.two",
         },
       },
@@ -237,14 +237,14 @@ describe("nextIntlSrcParser", () => {
       {
         key: "Async.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/AsyncExample.tsx",
+          file: asyncExampleFile,
           namespace: "Async",
         },
       },
       {
         key: "async.two.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/AsyncExample.tsx",
+          file: asyncExampleFile,
           namespace: "async.two",
         },
       },
@@ -259,7 +259,7 @@ describe("nextIntlSrcParser", () => {
         key: "dynamic",
         meta: {
           dynamic: true,
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+          file: dynamicKeysExampleFile,
           namespace: "dynamic",
         },
       },
@@ -267,35 +267,35 @@ describe("nextIntlSrcParser", () => {
         key: "dynamic.four",
         meta: {
           dynamic: true,
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+          file: dynamicKeysExampleFile,
           namespace: "dynamic.four",
         },
       },
       {
         key: "dynamic.four.nameFour",
         meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+          file: dynamicKeysExampleFile,
           namespace: "dynamic.four",
         },
       },
       {
         key: "dynamic.four.nameOne",
         meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+          file: dynamicKeysExampleFile,
           namespace: "dynamic.four",
         },
       },
       {
         key: "dynamic.four.nameThree",
         meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+          file: dynamicKeysExampleFile,
           namespace: "dynamic.four",
         },
       },
       {
         key: "dynamic.four.nameTwo",
         meta: {
-          file: "translations/codeExamples/next-intl/src/DynamicKeysExample.tsx",
+          file: dynamicKeysExampleFile,
           namespace: "dynamic.four",
         },
       },
@@ -309,196 +309,196 @@ describe("nextIntlSrcParser", () => {
       {
         key: "About.lastUpdated",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "About",
         },
       },
       {
         key: "About.lastUpdated",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "About",
         },
       },
       {
         key: "About.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "About.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "About",
         },
       },
       {
         key: "About.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "About.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "About",
         },
       },
       {
         key: "About.unknown",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "About",
         },
       },
       {
         key: "About.unknown",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "About",
         },
       },
       {
         key: "Navigation.about",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "Navigation.about",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "Navigation",
         },
       },
       {
         key: "Navigation.about",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "Navigation.about",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "Navigation",
         },
       },
       {
         key: "NotFound.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "NotFound",
         },
       },
       {
         key: "NotFound.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "NotFound",
         },
       },
       {
         key: "PageLayout.pageTitle",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "PageLayout",
         },
       },
       {
         key: "PageLayout.pageTitle",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "PageLayout",
         },
       },
       {
         key: "StrictTypes.nested.another.level",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "StrictTypes.nested",
         },
       },
       {
         key: "StrictTypes.nested.another.level",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "StrictTypes.nested",
         },
       },
       {
         key: "StrictTypes.nested.hello",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "StrictTypes",
         },
       },
       {
         key: "StrictTypes.nested.hello",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "StrictTypes",
         },
       },
       {
         key: "Test.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "Test",
         },
       },
       {
         key: "Test.title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "Test",
         },
       },
       {
         key: "title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "title",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "unknown",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "unknown",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
         key: "unknown.unknown",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "unknown",
         },
       },
       {
         key: "unknown.unknown",
         meta: {
-          file: "translations/codeExamples/next-intl/src/StrictTypesExample.tsx",
+          file: strictTypesExample,
           namespace: "unknown",
         },
       },
