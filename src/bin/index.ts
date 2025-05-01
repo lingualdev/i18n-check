@@ -129,6 +129,7 @@ const main = async () => {
 
   const files = await glob(pattern, {
     ignore: ["node_modules/**"].concat(excludedPaths),
+    windowsPathsNoEscape: true,
   });
 
   console.log("i18n translations checker");
@@ -255,6 +256,7 @@ const main = async () => {
         : `${unusedSrcPath.join(",").trim()}/**/*.{ts,tsx}`;
       const filesToParse = globSync(pattern, {
         ignore: ["node_modules/**"],
+        windowsPathsNoEscape: true,
       });
 
       const unusedKeys = await checkUnusedKeys(
