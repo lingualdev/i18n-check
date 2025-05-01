@@ -16,6 +16,7 @@ import {
 } from "../errorReporters";
 import { CheckResult, FileInfo, TranslationFile } from "../types";
 import { flattenTranslations } from "../utils/flattenTranslations";
+import path from "node:path";
 
 const version = require("../../package.json").version;
 
@@ -150,15 +151,15 @@ const main = async () => {
   }[] = [];
 
   files.sort().forEach((file) => {
-    const path = file.split("/");
-    const name = path.pop() ?? "";
+    const filePath = file.split(path.sep);
+    const name = filePath.pop() ?? "";
     const extension = name.split(".").pop() ?? "json";
 
     fileInfos.push({
       extension,
       file,
       name,
-      path,
+      path: filePath,
     });
   });
 
