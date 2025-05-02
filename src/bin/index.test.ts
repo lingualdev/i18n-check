@@ -359,27 +359,42 @@ ${formatTable([
 Source: en-US
 
 Found missing keys!
-┌──────────────────────────────────────────────────────────┬────────────────────────────────┐
-│ file                                                     │ key                            │
-├──────────────────────────────────────────────────────────┼────────────────────────────────┤
-│  translations/flattenExamples/de-de.json                 │  other.nested.three            │
-│  translations/flattenExamples/de-de.json                 │  other.nested.deep.more.final  │
-│  translations/multipleFilesFolderExample/de-DE/one.json  │  message.text-format           │
-│  translations/multipleFilesFolderExample/de-DE/two.json  │  test.drive.four               │
-└──────────────────────────────────────────────────────────┴────────────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [p("translations/flattenExamples/de-de.json"), "other.nested.three"],
+    [
+      p("translations/flattenExamples/de-de.json"),
+      "other.nested.deep.more.final",
+    ],
+    [
+      p("translations/multipleFilesFolderExample/de-DE/one.json"),
+      "message.text-format",
+    ],
+    [
+      p("translations/multipleFilesFolderExample/de-DE/two.json"),
+      "test.drive.four",
+    ],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/multipleFilesFolderExample/de-DE/one.json                                                          │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/multipleFilesFolderExample/de-DE/three.json                                                        │
-│  key   │  multipleVariables                                                                                               │
-│  msg   │  Expected argument to contain "user" but received "name"                                                         │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", p("translations/multipleFilesFolderExample/de-DE/one.json")],
+    ["key", "message.select"],
+    [
+      "msg",
+      'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+    ],
+  ],
+  [
+    ["file", p("translations/multipleFilesFolderExample/de-DE/three.json")],
+    ["key", "multipleVariables"],
+    ["msg", 'Expected argument to contain "user" but received "name"'],
+  ],
+])}
 
 `);
           done();
@@ -396,25 +411,27 @@ Found invalid keys!
 Source: en-US
 
 Found missing keys!
-┌───────────────────────────────────────────┬────────────┐
-│ file                                      │ key        │
-├───────────────────────────────────────────┼────────────┤
-│  translations/messageExamples/de-de.json  │  richText  │
-│  translations/messageExamples/de-de.json  │  yo        │
-│  translations/messageExamples/de-de.json  │  nesting1  │
-│  translations/messageExamples/de-de.json  │  nesting2  │
-│  translations/messageExamples/de-de.json  │  nesting3  │
-│  translations/messageExamples/de-de.json  │  key1      │
-└───────────────────────────────────────────┴────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [p("translations/messageExamples/de-de.json"), "richText"],
+    [p("translations/messageExamples/de-de.json"), "yo"],
+    [p("translations/messageExamples/de-de.json"), "nesting1"],
+    [p("translations/messageExamples/de-de.json"), "nesting2"],
+    [p("translations/messageExamples/de-de.json"), "nesting3"],
+    [p("translations/messageExamples/de-de.json"), "key1"],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬───────────────────────────────────────────┐
-│ info   │ result                                    │
-├────────┼───────────────────────────────────────────┤
-│  file  │  translations/messageExamples/de-de.json  │
-│  key   │  multipleVariables                        │
-│  msg   │  Unexpected date element                  │
-└────────┴───────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", p("translations/messageExamples/de-de.json")],
+    ["key", "multipleVariables"],
+    ["msg", "Unexpected date element"],
+  ],
+])}
 
 `);
           done();
@@ -431,25 +448,27 @@ Found invalid keys!
 Source: en-US
 
 Found missing keys!
-┌───────────────────────────────────────────┬────────────┐
-│ file                                      │ key        │
-├───────────────────────────────────────────┼────────────┤
-│  translations/messageExamples/de-de.json  │  richText  │
-│  translations/messageExamples/de-de.json  │  yo        │
-│  translations/messageExamples/de-de.json  │  nesting1  │
-│  translations/messageExamples/de-de.json  │  nesting2  │
-│  translations/messageExamples/de-de.json  │  nesting3  │
-│  translations/messageExamples/de-de.json  │  key1      │
-└───────────────────────────────────────────┴────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [p("translations/messageExamples/de-de.json"), "richText"],
+    [p("translations/messageExamples/de-de.json"), "yo"],
+    [p("translations/messageExamples/de-de.json"), "nesting1"],
+    [p("translations/messageExamples/de-de.json"), "nesting2"],
+    [p("translations/messageExamples/de-de.json"), "nesting3"],
+    [p("translations/messageExamples/de-de.json"), "key1"],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬───────────────────────────────────────────┐
-│ info   │ result                                    │
-├────────┼───────────────────────────────────────────┤
-│  file  │  translations/messageExamples/de-de.json  │
-│  key   │  multipleVariables                        │
-│  msg   │  Unexpected date element                  │
-└────────┴───────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", p("translations/messageExamples/de-de.json")],
+    ["key", "multipleVariables"],
+    ["msg", "Unexpected date element"],
+  ],
+])}
 
 `);
           done();
@@ -489,19 +508,30 @@ No missing keys found!
 No invalid translations found!
 
 Found unused keys!
-┌──────────────────────────────────────────────────────────────────────┬──────────────────┐
-│ file                                                                 │ key              │
-├──────────────────────────────────────────────────────────────────────┼──────────────────┤
-│  translations/codeExamples/reacti18next/locales/en/translation.json  │  format.ebook    │
-│  translations/codeExamples/reacti18next/locales/en/translation.json  │  nonExistentKey  │
-└──────────────────────────────────────────────────────────────────────┴──────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [
+      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
+      "format.ebook",
+    ],
+    [
+      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
+      "nonExistentKey",
+    ],
+  ],
+])}
 
 Found undefined keys!
-┌──────────────────────────────────────────────────────┬────────────────────────────────┐
-│ file                                                 │ key                            │
-├──────────────────────────────────────────────────────┼────────────────────────────────┤
-│  translations/codeExamples/reacti18next/src/App.tsx  │  some.key.that.is.not.defined  │
-└──────────────────────────────────────────────────────┴────────────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [
+      p("translations/codeExamples/reacti18next/src/App.tsx"),
+      "some.key.that.is.not.defined",
+    ],
+  ],
+])}
 
 `);
           done();
@@ -523,20 +553,34 @@ No missing keys found!
 No invalid translations found!
 
 Found unused keys!
-┌──────────────────────────────────────────────────────────────────────┬──────────────────┐
-│ file                                                                 │ key              │
-├──────────────────────────────────────────────────────────────────────┼──────────────────┤
-│  translations/codeExamples/reacti18next/locales/en/translation.json  │  format.ebook    │
-│  translations/codeExamples/reacti18next/locales/en/translation.json  │  nonExistentKey  │
-└──────────────────────────────────────────────────────────────────────┴──────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [
+      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
+      "format.ebook",
+    ],
+    [
+      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
+      "nonExistentKey",
+    ],
+  ],
+])}
 
 Found undefined keys!
-┌───────────────────────────────────────────────────────────────────┬───────────────────────────────────┐
-│ file                                                              │ key                               │
-├───────────────────────────────────────────────────────────────────┼───────────────────────────────────┤
-│  translations/codeExamples/reacti18next/src/App.tsx               │  some.key.that.is.not.defined     │
-│  translations/codeExamples/reacti18next/secondSrcFolder/Main.tsx  │  another.key.that.is.not.defined  │
-└───────────────────────────────────────────────────────────────────┴───────────────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [
+      p("translations/codeExamples/reacti18next/src/App.tsx"),
+      "some.key.that.is.not.defined",
+    ],
+    [
+      p("translations/codeExamples/reacti18next/secondSrcFolder/Main.tsx"),
+      "another.key.that.is.not.defined",
+    ],
+  ],
+])}
 
 `);
           done();
