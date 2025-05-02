@@ -325,12 +325,7 @@ const printTranslationResult = ({
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(missingKeys))));
     } else {
-      const table = formatTable([
-        [["file", "key"]],
-        Object.entries(missingKeys).flatMap(([file, keys]) =>
-          keys.map((key) => [truncate(file), truncate(key)])
-        ),
-      ]);
+      const table = formatCheckResultTable(missingKeys);
       console.log(chalk.red(table));
     }
   } else if (missingKeys) {
@@ -342,17 +337,7 @@ const printTranslationResult = ({
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(invalidKeys))));
     } else {
-      const table = formatTable([
-        [["info", "result"]],
-        ...Object.entries(invalidKeys).flatMap(([file, errors]) =>
-          errors.map(({ key, msg }) => [
-            ["file", truncate(file)],
-            ["key", truncate(key)],
-            ["msg", truncate(msg, 120)],
-          ])
-        ),
-      ]);
-
+      const table = formatInvalidTranslationsResultTable(invalidKeys);
       console.log(chalk.red(table));
     }
   } else if (invalidKeys) {
@@ -374,7 +359,7 @@ const printUnusedKeysResult = ({
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(unusedKeys))));
     } else {
-      console.log(chalk.red(standardReporter(getStandardRows(unusedKeys))));
+      console.log(chalk.red(formatCheckResultTable(unusedKeys)));
     }
   } else if (unusedKeys) {
     console.log(chalk.green("\nNo unused keys found!"));
@@ -395,12 +380,36 @@ const printUndefinedKeysResult = ({
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(undefinedKeys))));
     } else {
-      console.log(chalk.red(standardReporter(getStandardRows(undefinedKeys))));
+      console.log(chalk.red(formatCheckResultTable(undefinedKeys)));
     }
   } else if (undefinedKeys) {
     console.log(chalk.green("\nNo undefined keys found!"));
   }
 };
+
+function formatCheckResultTable(result: CheckResult) {
+  return formatTable([
+    [["file", "key"]],
+    Object.entries(result).flatMap(([file, keys]) =>
+      keys.map((key) => [truncate(file), truncate(key)])
+    ),
+  ]);
+}
+
+function formatInvalidTranslationsResultTable(
+  result: InvalidTranslationsResult
+) {
+  return formatTable([
+    [["info", "result"]],
+    ...Object.entries(result).flatMap(([file, errors]) =>
+      errors.map(({ key, msg }) => [
+        ["file", truncate(file)],
+        ["key", truncate(key)],
+        ["msg", truncate(msg, 120)],
+      ])
+    ),
+  ]);
+}
 
 const truncate = (chars: string, len = 80) =>
   chars.length > 80 ? `${chars.substring(0, len)}...` : chars;
@@ -415,32 +424,6 @@ const getSummaryRows = (
       file: truncate(file),
       total: keys.length,
     });
-  }
-  return formattedRows;
-};
-
-const getStandardRows = (
-  checkResult: CheckResult | InvalidTranslationsResult
-) => {
-  const formattedRows: StandardReporter[] = [];
-
-  for (const [file, keys] of Object.entries<
-    string[] | { key: string; msg: string }[]
-  >(checkResult)) {
-    for (const entry of keys) {
-      if (typeof entry === "object") {
-        formattedRows.push({
-          file: truncate(file),
-          key: truncate(entry.key),
-          msg: truncate(entry.msg, 120),
-        });
-      } else {
-        formattedRows.push({
-          file: truncate(file),
-          key: truncate(entry),
-        });
-      }
-    }
   }
   return formattedRows;
 };
