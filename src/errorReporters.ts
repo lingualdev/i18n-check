@@ -109,3 +109,51 @@ export const createVerticalTable = (input: unknown[]) => {
 
   return output.replace(/\n\n$/, "");
 };
+
+export function formatTable(rowGroups: string[][][], lineSep = "\n") {
+  // +2 for whitespace padding left and right
+  const padding = 2;
+  const colWidths: number[] = [];
+
+  for (const rows of rowGroups) {
+    for (const row of rows) {
+      for (let index = 0; index < row.length; ++index) {
+        colWidths[index] = Math.max(
+          colWidths[index] ?? 0,
+          row[index].length + padding
+        );
+      }
+    }
+  }
+  const lines: string[] = [];
+
+  lines.push(formatSeparatorRow(colWidths, "┌┬┐"));
+
+  for (const rows of rowGroups) {
+    for (const row of rows) {
+      lines.push(formatRow(row, colWidths));
+    }
+
+    lines.push(formatSeparatorRow(colWidths, "├┼┤"));
+  }
+
+  lines[lines.length - 1] = formatSeparatorRow(colWidths, "└┴┘");
+
+  return lines.join(lineSep);
+}
+
+function formatSeparatorRow(widths: number[], [left, middle, right]: string) {
+  return (
+    left + widths.map((width) => "".padEnd(width, "─")).join(middle) + right
+  );
+}
+
+function formatRow(values: string[], widths: number[]) {
+  return (
+    `│` +
+    values
+      .map((val, index) => ` ${val} `.padEnd(widths[index], " "))
+      .join("│") +
+    `│`
+  );
+}

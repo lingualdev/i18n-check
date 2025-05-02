@@ -1,22 +1,33 @@
 import { exec } from "child_process";
+import { formatTable } from "../errorReporters";
+import path from "path";
 
 describe("CLI", () => {
   describe("JSON", () => {
-    it("should return the missing keys for single folder translations", (done) => {
+    it.only("should return the missing keys for single folder translations", (done) => {
       exec(
         "node dist/bin/index.js -s en-US -l translations/flattenExamples",
         (_error, stdout, _stderr) => {
           const result = stdout.split("Done")[0];
+
+          const filePath = path.join(
+            "translations",
+            "flattenExamples",
+            "de-de.json"
+          );
+          const table = formatTable([
+            [["file", "key"]],
+            [
+              [filePath, "other.nested.three"],
+              [filePath, "other.nested.deep.more.final"],
+            ],
+          ]);
+
           expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
-┌───────────────────────────────────────────┬────────────────────────────────┐
-│ file                                      │ key                            │
-├───────────────────────────────────────────┼────────────────────────────────┤
-│  translations/flattenExamples/de-de.json  │  other.nested.three            │
-│  translations/flattenExamples/de-de.json  │  other.nested.deep.more.final  │
-└───────────────────────────────────────────┴────────────────────────────────┘
+${table}
 
 No invalid translations found!
 
@@ -26,29 +37,45 @@ No invalid translations found!
       );
     });
 
-    it("should return the missing/invalid keys for folder per locale with single file", (done) => {
+    it.only("should return the missing/invalid keys for folder per locale with single file", (done) => {
       exec(
         "node dist/bin/index.js -l translations/folderExample/ -s en-US",
         (_error, stdout, _stderr) => {
           const result = stdout.split("Done")[0];
+
+          const missingKeysTable = formatTable([
+            [["file", "key"]],
+            [
+              [
+                path.join("translations/folderExample/de-DE", "index.json"),
+                "message.text-format",
+              ],
+            ],
+          ]);
+
+          const invalidKeysTable = formatTable([
+            [["info", "result"]],
+            [
+              [
+                "file",
+                path.join("translations/folderExample/de-DE", "index.json"),
+              ],
+              ["key", "message.select"],
+              [
+                "msg",
+                'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+              ],
+            ],
+          ]);
+
           expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
-┌───────────────────────────────────────────────┬───────────────────────┐
-│ file                                          │ key                   │
-├───────────────────────────────────────────────┼───────────────────────┤
-│  translations/folderExample/de-DE/index.json  │  message.text-format  │
-└───────────────────────────────────────────────┴───────────────────────┘
+${missingKeysTable}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/folderExample/de-DE/index.json                                                                     │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${invalidKeysTable}
 
 `);
           done();
@@ -56,34 +83,71 @@ Found invalid keys!
       );
     });
 
-    it("should return the missing/invalid keys for folder per locale with multiple files", (done) => {
+    it.only("should return the missing/invalid keys for folder per locale with multiple files", (done) => {
       exec(
         "node dist/bin/index.js -l translations/multipleFilesFolderExample/ -s en-US",
         (_error, stdout, _stderr) => {
+          const missingKeysTable = formatTable([
+            [["file", "key"]],
+            [
+              [
+                path.join(
+                  "translations/multipleFilesFolderExample/de-DE",
+                  "one.json"
+                ),
+                "message.text-format",
+              ],
+              [
+                path.join(
+                  "translations/multipleFilesFolderExample/de-DE",
+                  "two.json"
+                ),
+                "test.drive.four",
+              ],
+            ],
+          ]);
+
+          const invalidKeysTable = formatTable([
+            [["info", "result"]],
+            [
+              [
+                "file",
+                path.join(
+                  "translations/multipleFilesFolderExample/de-DE",
+                  "one.json"
+                ),
+              ],
+              ["key", "message.select"],
+              [
+                "msg",
+                'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+              ],
+            ],
+            [
+              [
+                "file",
+                path.join(
+                  "translations/multipleFilesFolderExample/de-DE",
+                  "three.json"
+                ),
+              ],
+              ["key", "multipleVariables"],
+              [
+                "msg",
+                'Expected argument to contain "user" but received "name"  ',
+              ],
+            ],
+          ]);
+
           const result = stdout.split("Done")[0];
           expect(result).toEqual(`i18n translations checker
 Source: en-US
 
 Found missing keys!
-┌──────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                     │ key                   │
-├──────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/multipleFilesFolderExample/de-DE/one.json  │  message.text-format  │
-│  translations/multipleFilesFolderExample/de-DE/two.json  │  test.drive.four      │
-└──────────────────────────────────────────────────────────┴───────────────────────┘
+${missingKeysTable}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/multipleFilesFolderExample/de-DE/one.json                                                          │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/multipleFilesFolderExample/de-DE/three.json                                                        │
-│  key   │  multipleVariables                                                                                               │
-│  msg   │  Expected argument to contain "user" but received "name"                                                         │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${invalidKeysTable}
 
 `);
           done();

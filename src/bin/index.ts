@@ -10,6 +10,7 @@ import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from "..";
 import {
   CheckOptions,
   Context,
+  formatTable,
   StandardReporter,
   standardReporter,
   summaryReporter,
@@ -324,7 +325,13 @@ const printTranslationResult = ({
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(missingKeys))));
     } else {
-      console.log(chalk.red(standardReporter(getStandardRows(missingKeys))));
+      const table = formatTable([
+        [["file", "key"]],
+        Object.entries(missingKeys).flatMap(([file, keys]) =>
+          keys.map((key) => [truncate(file), truncate(key)])
+        ),
+      ]);
+      console.log(chalk.red(table));
     }
   } else if (missingKeys) {
     console.log(chalk.green("\nNo missing keys found!"));
@@ -335,9 +342,18 @@ const printTranslationResult = ({
     if (isSummary) {
       console.log(chalk.red(summaryReporter(getSummaryRows(invalidKeys))));
     } else {
-      console.log(
-        chalk.red(standardReporter(getStandardRows(invalidKeys), true))
-      );
+      const table = formatTable([
+        [["info", "result"]],
+        ...Object.entries(invalidKeys).flatMap(([file, errors]) =>
+          errors.map(({ key, msg }) => [
+            ["file", truncate(file)],
+            ["key", truncate(key)],
+            ["msg", truncate(msg, 120)],
+          ])
+        ),
+      ]);
+
+      console.log(chalk.red(table));
     }
   } else if (invalidKeys) {
     console.log(chalk.green("\nNo invalid translations found!"));
