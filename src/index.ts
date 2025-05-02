@@ -11,6 +11,7 @@ import { Context } from "./errorReporters";
 import { extract } from "@formatjs/cli-lib";
 import { extract as nextIntlExtract } from "./utils/nextIntlSrcParser";
 import fs from "fs";
+import path from "path";
 
 const ParseFormats = ["react-intl", "i18next", "next-intl"];
 
@@ -223,7 +224,7 @@ export const checkUndefinedKeys = async (
     format: "react-intl",
     checks: [],
   },
-  componentFunctions = []
+  componentFunctions: string[] = []
 ): Promise<CheckResult | undefined> => {
   if (!options.format || !ParseFormats.includes(options.format)) {
     return undefined;
@@ -259,8 +260,11 @@ const findUndefinedReactIntlKeys = async (
   let undefinedKeys: { [key: string]: string[] } = {};
   Object.entries(JSON.parse(extractedResult)).forEach(([key, meta]) => {
     if (!sourceKeys.has(key)) {
-      // @ts-ignore
-      const file = meta.file;
+      const data = meta as Record<PropertyKey, unknown>;
+      if (!("file" in data) || typeof data.file !== "string") {
+        return;
+      }
+      const file = path.normalize(data.file);
       if (!undefinedKeys[file]) {
         undefinedKeys[file] = [];
       }

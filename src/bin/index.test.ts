@@ -509,19 +509,19 @@ No missing keys found!
 No invalid translations found!
 
 Found unused keys!
-┌─────────────────────────────────────────────────────────────────┬─────────────────────────┐
-│ file                                                            │ key                     │
-├─────────────────────────────────────────────────────────────────┼─────────────────────────┤
-│  translations/codeExamples/react-intl/locales/en-US/one.json    │  message.number-format  │
-│  translations/codeExamples/react-intl/locales/en-US/three.json  │  multipleVariables      │
-└─────────────────────────────────────────────────────────────────┴─────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [codeEx("react-intl/locales/en-US/one.json"), "message.number-format"],
+    [codeEx("react-intl/locales/en-US/three.json"), "multipleVariables"],
+  ],
+])}
 
 Found undefined keys!
-┌────────────────────────────────────────────────────┬────────────────────────────────┐
-│ file                                               │ key                            │
-├────────────────────────────────────────────────────┼────────────────────────────────┤
-│  translations/codeExamples/react-intl/src/App.tsx  │  some.key.that.is.not.defined  │
-└────────────────────────────────────────────────────┴────────────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [[codeEx("react-intl/src/App.tsx"), "some.key.that.is.not.defined"]],
+])}
 
 `);
           done();
@@ -543,29 +543,31 @@ No missing keys found!
 No invalid translations found!
 
 Found unused keys!
-┌───────────────────────────────────────────────────────────────────┬──────────────────┐
-│ file                                                              │ key              │
-├───────────────────────────────────────────────────────────────────┼──────────────────┤
-│  translations/codeExamples/next-intl/locales/en/translation.json  │  message.plural  │
-│  translations/codeExamples/next-intl/locales/en/translation.json  │  notUsedKey      │
-└───────────────────────────────────────────────────────────────────┴──────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [codeEx("next-intl/locales/en/translation.json"), "message.plural"],
+    [codeEx("next-intl/locales/en/translation.json"), "notUsedKey"],
+  ],
+])}
 
 Found undefined keys!
-┌──────────────────────────────────────────────────────────────────┬───────────────────┐
-│ file                                                             │ key               │
-├──────────────────────────────────────────────────────────────────┼───────────────────┤
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  About.unknown    │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  About.unknown    │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  Test.title       │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  Test.title       │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  title            │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  title            │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown          │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown          │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown.unknown  │
-│  translations/codeExamples/next-intl/src/StrictTypesExample.tsx  │  unknown.unknown  │
-│  translations/codeExamples/next-intl/src/Basic.tsx               │  message.select   │
-└──────────────────────────────────────────────────────────────────┴───────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "About.unknown"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "About.unknown"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "Test.title"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "Test.title"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "title"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "title"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "unknown"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "unknown"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "unknown.unknown"],
+    [codeEx("next-intl/src/StrictTypesExample.tsx"), "unknown.unknown"],
+    [codeEx("next-intl/src/Basic.tsx"), "message.select"],
+  ],
+])}
 
 `);
           done();
