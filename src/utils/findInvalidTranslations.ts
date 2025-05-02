@@ -7,13 +7,17 @@ import {
   isTagElement,
   parse,
 } from "@formatjs/icu-messageformat-parser";
-import { Translation } from "../types";
+import {
+  InvalidTranslationEntry,
+  InvalidTranslationsResult,
+  Translation,
+} from "../types";
 
 export const findInvalidTranslations = (
   source: Translation,
   files: Record<string, Translation>
 ) => {
-  let differences = {};
+  const differences: InvalidTranslationsResult = {};
   if (Object.keys(files).length === 0) {
     return differences;
   }
@@ -22,7 +26,7 @@ export const findInvalidTranslations = (
     const result = compareTranslationFiles(source, file);
 
     if (result.length > 0) {
-      differences = Object.assign(differences, { [lang]: result });
+      differences[lang] = result;
     }
   }
 
@@ -41,7 +45,7 @@ const sortParsedKeys = (a: MessageFormatElement, b: MessageFormatElement) => {
 };
 
 export const compareTranslationFiles = (a: Translation, b: Translation) => {
-  let diffs = [];
+  const diffs: InvalidTranslationEntry[] = [];
   for (const key in a) {
     if (b[key] === undefined) {
       continue;
