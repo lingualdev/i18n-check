@@ -2,8 +2,20 @@ import { exec } from "child_process";
 import { formatTable } from "../errorReporters";
 import path from "path";
 
-function p(filePath: string) {
-  return path.join(filePath);
+function tr(file: string) {
+  return path.join("translations", file);
+}
+
+function multiFiles(file: string) {
+  return path.join("translations/multipleFilesFolderExample", file);
+}
+
+function multiFolders(file: string) {
+  return path.join("translations/multipleFoldersExample", file);
+}
+
+function codeEx(file: string) {
+  return path.join("translations/codeExamples", file);
 }
 
 describe("CLI", () => {
@@ -14,7 +26,7 @@ describe("CLI", () => {
         (_error, stdout, _stderr) => {
           const result = stdout.split("Done")[0];
 
-          const filePath = p("translations/flattenExamples/de-de.json");
+          const filePath = tr("flattenExamples/de-de.json");
           const table = formatTable([
             [["file", "key"]],
             [
@@ -45,18 +57,13 @@ No invalid translations found!
 
           const missingKeysTable = formatTable([
             [["file", "key"]],
-            [
-              [
-                p("translations/folderExample/de-DE/index.json"),
-                "message.text-format",
-              ],
-            ],
+            [[tr("folderExample/de-DE/index.json"), "message.text-format"]],
           ]);
 
           const invalidKeysTable = formatTable([
             [["info", "result"]],
             [
-              ["file", p("translations/folderExample/de-DE/index.json")],
+              ["file", tr("folderExample/de-DE/index.json")],
               ["key", "message.select"],
               [
                 "msg",
@@ -87,24 +94,15 @@ ${invalidKeysTable}
           const missingKeysTable = formatTable([
             [["file", "key"]],
             [
-              [
-                p("translations/multipleFilesFolderExample/de-DE/one.json"),
-                "message.text-format",
-              ],
-              [
-                p("translations/multipleFilesFolderExample/de-DE/two.json"),
-                "test.drive.four",
-              ],
+              [multiFiles("de-DE/one.json"), "message.text-format"],
+              [multiFiles("de-DE/two.json"), "test.drive.four"],
             ],
           ]);
 
           const invalidKeysTable = formatTable([
             [["info", "result"]],
             [
-              [
-                "file",
-                p("translations/multipleFilesFolderExample/de-DE/one.json"),
-              ],
+              ["file", multiFiles("de-DE/one.json")],
               ["key", "message.select"],
               [
                 "msg",
@@ -112,10 +110,7 @@ ${invalidKeysTable}
               ],
             ],
             [
-              [
-                "file",
-                p("translations/multipleFilesFolderExample/de-DE/three.json"),
-              ],
+              ["file", multiFiles("de-DE/three.json")],
               ["key", "multipleVariables"],
               [
                 "msg",
@@ -152,22 +147,10 @@ Found missing keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [
-      p("translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json"),
-      "message.text-format",
-    ],
-    [
-      p("translations/multipleFoldersExample/spaceOne/locales/de-DE/two.json"),
-      "test.drive.four",
-    ],
-    [
-      p("translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json"),
-      "message.plural",
-    ],
-    [
-      p("translations/multipleFoldersExample/spaceTwo/locales/de-DE/two.json"),
-      "test.drive.two",
-    ],
+    [multiFolders("spaceOne/locales/de-DE/one.json"), "message.text-format"],
+    [multiFolders("spaceOne/locales/de-DE/two.json"), "test.drive.four"],
+    [multiFolders("spaceTwo/locales/de-DE/one.json"), "message.plural"],
+    [multiFolders("spaceTwo/locales/de-DE/two.json"), "test.drive.two"],
   ],
 ])}
 
@@ -175,10 +158,7 @@ Found invalid keys!
 ${formatTable([
   [["info", "result"]],
   [
-    [
-      "file",
-      p("translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json"),
-    ],
+    ["file", multiFolders("spaceOne/locales/de-DE/one.json")],
     ["key", "message.select"],
     [
       "msg",
@@ -186,20 +166,12 @@ ${formatTable([
     ],
   ],
   [
-    [
-      "file",
-      p(
-        "translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json"
-      ),
-    ],
+    ["file", multiFolders("spaceOne/locales/de-DE/three.json")],
     ["key", "multipleVariables"],
     ["msg", 'Expected argument to contain "user" but received "name"'],
   ],
   [
-    [
-      "file",
-      p("translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json"),
-    ],
+    ["file", multiFolders("spaceTwo/locales/de-DE/one.json")],
     ["key", "message.text-format"],
     [
       "msg",
@@ -207,12 +179,7 @@ ${formatTable([
     ],
   ],
   [
-    [
-      "file",
-      p(
-        "translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json"
-      ),
-    ],
+    ["file", multiFolders("spaceTwo/locales/de-DE/three.json")],
     ["key", "numberFormat"],
     ["msg", "Missing element number"],
   ],
@@ -236,22 +203,10 @@ Found missing keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [
-      p("translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json"),
-      "message.text-format",
-    ],
-    [
-      p("translations/multipleFoldersExample/spaceOne/locales/de-DE/two.json"),
-      "test.drive.four",
-    ],
-    [
-      p("translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json"),
-      "message.plural",
-    ],
-    [
-      p("translations/multipleFoldersExample/spaceTwo/locales/de-DE/two.json"),
-      "test.drive.two",
-    ],
+    [multiFolders("spaceOne/locales/de-DE/one.json"), "message.text-format"],
+    [multiFolders("spaceOne/locales/de-DE/two.json"), "test.drive.four"],
+    [multiFolders("spaceTwo/locales/de-DE/one.json"), "message.plural"],
+    [multiFolders("spaceTwo/locales/de-DE/two.json"), "test.drive.two"],
   ],
 ])}
 
@@ -259,10 +214,7 @@ Found invalid keys!
 ${formatTable([
   [["info", "result"]],
   [
-    [
-      "file",
-      p("translations/multipleFoldersExample/spaceOne/locales/de-DE/one.json"),
-    ],
+    ["file", multiFolders("spaceOne/locales/de-DE/one.json")],
     ["key", "message.select"],
     [
       "msg",
@@ -270,20 +222,12 @@ ${formatTable([
     ],
   ],
   [
-    [
-      "file",
-      p(
-        "translations/multipleFoldersExample/spaceOne/locales/de-DE/three.json"
-      ),
-    ],
+    ["file", multiFolders("spaceOne/locales/de-DE/three.json")],
     ["key", "multipleVariables"],
     ["msg", 'Expected argument to contain "user" but received "name"'],
   ],
   [
-    [
-      "file",
-      p("translations/multipleFoldersExample/spaceTwo/locales/de-DE/one.json"),
-    ],
+    ["file", multiFolders("spaceTwo/locales/de-DE/one.json")],
     ["key", "message.text-format"],
     [
       "msg",
@@ -291,12 +235,7 @@ ${formatTable([
     ],
   ],
   [
-    [
-      "file",
-      p(
-        "translations/multipleFoldersExample/spaceTwo/locales/de-DE/three.json"
-      ),
-    ],
+    ["file", multiFolders("spaceTwo/locales/de-DE/three.json")],
     ["key", "numberFormat"],
     ["msg", "Missing element number"],
   ],
@@ -320,17 +259,14 @@ Found missing keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [p("translations/flattenExamples/de-de.json"), "other.nested.three"],
-    [
-      p("translations/flattenExamples/de-de.json"),
-      "other.nested.deep.more.final",
-    ],
-    [p("translations/messageExamples/de-de.json"), "richText"],
-    [p("translations/messageExamples/de-de.json"), "yo"],
-    [p("translations/messageExamples/de-de.json"), "nesting1"],
-    [p("translations/messageExamples/de-de.json"), "nesting2"],
-    [p("translations/messageExamples/de-de.json"), "nesting3"],
-    [p("translations/messageExamples/de-de.json"), "key1"],
+    [tr("flattenExamples/de-de.json"), "other.nested.three"],
+    [tr("flattenExamples/de-de.json"), "other.nested.deep.more.final"],
+    [tr("messageExamples/de-de.json"), "richText"],
+    [tr("messageExamples/de-de.json"), "yo"],
+    [tr("messageExamples/de-de.json"), "nesting1"],
+    [tr("messageExamples/de-de.json"), "nesting2"],
+    [tr("messageExamples/de-de.json"), "nesting3"],
+    [tr("messageExamples/de-de.json"), "key1"],
   ],
 ])}
 
@@ -338,7 +274,7 @@ Found invalid keys!
 ${formatTable([
   [["info", "result"]],
   [
-    ["file", p("translations/messageExamples/de-de.json")],
+    ["file", tr("messageExamples/de-de.json")],
     ["key", "multipleVariables"],
     ["msg", "Unexpected date element"],
   ],
@@ -362,19 +298,10 @@ Found missing keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [p("translations/flattenExamples/de-de.json"), "other.nested.three"],
-    [
-      p("translations/flattenExamples/de-de.json"),
-      "other.nested.deep.more.final",
-    ],
-    [
-      p("translations/multipleFilesFolderExample/de-DE/one.json"),
-      "message.text-format",
-    ],
-    [
-      p("translations/multipleFilesFolderExample/de-DE/two.json"),
-      "test.drive.four",
-    ],
+    [tr("flattenExamples/de-de.json"), "other.nested.three"],
+    [tr("flattenExamples/de-de.json"), "other.nested.deep.more.final"],
+    [multiFiles("de-DE/one.json"), "message.text-format"],
+    [multiFiles("de-DE/two.json"), "test.drive.four"],
   ],
 ])}
 
@@ -382,7 +309,7 @@ Found invalid keys!
 ${formatTable([
   [["info", "result"]],
   [
-    ["file", p("translations/multipleFilesFolderExample/de-DE/one.json")],
+    ["file", multiFiles("de-DE/one.json")],
     ["key", "message.select"],
     [
       "msg",
@@ -390,7 +317,7 @@ ${formatTable([
     ],
   ],
   [
-    ["file", p("translations/multipleFilesFolderExample/de-DE/three.json")],
+    ["file", multiFiles("de-DE/three.json")],
     ["key", "multipleVariables"],
     ["msg", 'Expected argument to contain "user" but received "name"'],
   ],
@@ -414,12 +341,12 @@ Found missing keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [p("translations/messageExamples/de-de.json"), "richText"],
-    [p("translations/messageExamples/de-de.json"), "yo"],
-    [p("translations/messageExamples/de-de.json"), "nesting1"],
-    [p("translations/messageExamples/de-de.json"), "nesting2"],
-    [p("translations/messageExamples/de-de.json"), "nesting3"],
-    [p("translations/messageExamples/de-de.json"), "key1"],
+    [tr("messageExamples/de-de.json"), "richText"],
+    [tr("messageExamples/de-de.json"), "yo"],
+    [tr("messageExamples/de-de.json"), "nesting1"],
+    [tr("messageExamples/de-de.json"), "nesting2"],
+    [tr("messageExamples/de-de.json"), "nesting3"],
+    [tr("messageExamples/de-de.json"), "key1"],
   ],
 ])}
 
@@ -427,7 +354,7 @@ Found invalid keys!
 ${formatTable([
   [["info", "result"]],
   [
-    ["file", p("translations/messageExamples/de-de.json")],
+    ["file", tr("messageExamples/de-de.json")],
     ["key", "multipleVariables"],
     ["msg", "Unexpected date element"],
   ],
@@ -451,12 +378,12 @@ Found missing keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [p("translations/messageExamples/de-de.json"), "richText"],
-    [p("translations/messageExamples/de-de.json"), "yo"],
-    [p("translations/messageExamples/de-de.json"), "nesting1"],
-    [p("translations/messageExamples/de-de.json"), "nesting2"],
-    [p("translations/messageExamples/de-de.json"), "nesting3"],
-    [p("translations/messageExamples/de-de.json"), "key1"],
+    [tr("messageExamples/de-de.json"), "richText"],
+    [tr("messageExamples/de-de.json"), "yo"],
+    [tr("messageExamples/de-de.json"), "nesting1"],
+    [tr("messageExamples/de-de.json"), "nesting2"],
+    [tr("messageExamples/de-de.json"), "nesting3"],
+    [tr("messageExamples/de-de.json"), "key1"],
   ],
 ])}
 
@@ -464,7 +391,7 @@ Found invalid keys!
 ${formatTable([
   [["info", "result"]],
   [
-    ["file", p("translations/messageExamples/de-de.json")],
+    ["file", tr("messageExamples/de-de.json")],
     ["key", "multipleVariables"],
     ["msg", "Unexpected date element"],
   ],
@@ -511,26 +438,15 @@ Found unused keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [
-      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
-      "format.ebook",
-    ],
-    [
-      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
-      "nonExistentKey",
-    ],
+    [codeEx("reacti18next/locales/en/translation.json"), "format.ebook"],
+    [codeEx("reacti18next/locales/en/translation.json"), "nonExistentKey"],
   ],
 ])}
 
 Found undefined keys!
 ${formatTable([
   [["file", "key"]],
-  [
-    [
-      p("translations/codeExamples/reacti18next/src/App.tsx"),
-      "some.key.that.is.not.defined",
-    ],
-  ],
+  [[codeEx("reacti18next/src/App.tsx"), "some.key.that.is.not.defined"]],
 ])}
 
 `);
@@ -556,14 +472,8 @@ Found unused keys!
 ${formatTable([
   [["file", "key"]],
   [
-    [
-      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
-      "format.ebook",
-    ],
-    [
-      p("translations/codeExamples/reacti18next/locales/en/translation.json"),
-      "nonExistentKey",
-    ],
+    [codeEx("reacti18next/locales/en/translation.json"), "format.ebook"],
+    [codeEx("reacti18next/locales/en/translation.json"), "nonExistentKey"],
   ],
 ])}
 
@@ -571,12 +481,9 @@ Found undefined keys!
 ${formatTable([
   [["file", "key"]],
   [
+    [codeEx("reacti18next/src/App.tsx"), "some.key.that.is.not.defined"],
     [
-      p("translations/codeExamples/reacti18next/src/App.tsx"),
-      "some.key.that.is.not.defined",
-    ],
-    [
-      p("translations/codeExamples/reacti18next/secondSrcFolder/Main.tsx"),
+      codeEx("reacti18next/secondSrcFolder/Main.tsx"),
       "another.key.that.is.not.defined",
     ],
   ],
