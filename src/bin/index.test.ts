@@ -18,6 +18,10 @@ function codeEx(file: string) {
   return path.join("translations/codeExamples", file);
 }
 
+function ymlMultiFolders(file: string) {
+  return path.join("translations/yaml/multipleFoldersExample", file);
+}
+
 describe("CLI", () => {
   describe("JSON", () => {
     it("should return the missing keys for single folder translations", (done) => {
@@ -586,12 +590,13 @@ ${formatTable([
 Source: en-US
 
 Found missing keys!
-┌────────────────────────────────────────────────┬────────────────────────────────┐
-│ file                                           │ key                            │
-├────────────────────────────────────────────────┼────────────────────────────────┤
-│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.three            │
-│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.deep.more.final  │
-└────────────────────────────────────────────────┴────────────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [tr("yaml/flattenExamples/de-de.yaml"), "other.nested.three"],
+    [tr("yaml/flattenExamples/de-de.yaml"), "other.nested.deep.more.final"],
+  ],
+])}
 
 No invalid translations found!
 
@@ -610,20 +615,23 @@ No invalid translations found!
 Source: en-US
 
 Found missing keys!
-┌────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                               │ key                   │
-├────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/yaml/folderExample/de-DE/index.yaml  │  message.text-format  │
-└────────────────────────────────────────────────────┴───────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [[tr("yaml/folderExample/de-DE/index.yaml"), "message.text-format"]],
+])}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/folderExample/de-DE/index.yaml                                                                │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", tr("yaml/folderExample/de-DE/index.yaml")],
+    ["key", "message.select"],
+    [
+      "msg",
+      'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+    ],
+  ],
+])}
 
 `);
           done();
@@ -640,25 +648,34 @@ Found invalid keys!
 Source: en-US
 
 Found missing keys!
-┌───────────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                          │ key                   │
-├───────────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml  │  message.text-format  │
-│  translations/yaml/multipleFilesFolderExample/de-DE/two.yaml  │  test.drive.four      │
-└───────────────────────────────────────────────────────────────┴───────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [
+      tr("yaml/multipleFilesFolderExample/de-DE/one.yaml"),
+      "message.text-format",
+    ],
+    [tr("yaml/multipleFilesFolderExample/de-DE/two.yaml"), "test.drive.four"],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml                                                     │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml                                                   │
-│  key   │  multipleVariables                                                                                               │
-│  msg   │  Expected argument to contain "user" but received "name"                                                         │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", tr("yaml/multipleFilesFolderExample/de-DE/one.yaml")],
+    ["key", "message.select"],
+    [
+      "msg",
+      'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+    ],
+  ],
+  [
+    ["file", tr("yaml/multipleFilesFolderExample/de-DE/three.yaml")],
+    ["key", "multipleVariables"],
+    ["msg", 'Expected argument to contain "user" but received "name"'],
+  ],
+])}
 
 `);
           done();
@@ -675,35 +692,46 @@ Found invalid keys!
 Source: en-US
 
 Found missing keys!
-┌────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                                       │ key                   │
-├────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml  │  message.text-format  │
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/two.yaml  │  test.drive.four      │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml  │  message.plural       │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/two.yaml  │  test.drive.two       │
-└────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [ymlMultiFolders("spaceOne/locales/de-DE/one.yaml"), "message.text-format"],
+    [ymlMultiFolders("spaceOne/locales/de-DE/two.yaml"), "test.drive.four"],
+    [ymlMultiFolders("spaceTwo/locales/de-DE/one.yaml"), "message.plural"],
+    [ymlMultiFolders("spaceTwo/locales/de-DE/two.yaml"), "test.drive.two"],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml                                        │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml                                      │
-│  key   │  multipleVariables                                                                                               │
-│  msg   │  Expected argument to contain "user" but received "name"                                                         │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml                                        │
-│  key   │  message.text-format                                                                                             │
-│  msg   │  Expected element of type "tag" but received "number", Unexpected tag element                                    │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml                                      │
-│  key   │  numberFormat                                                                                                    │
-│  msg   │  Missing element number                                                                                          │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", ymlMultiFolders("spaceOne/locales/de-DE/one.yaml")],
+    ["key", "message.select"],
+    [
+      "msg",
+      'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+    ],
+  ],
+  [
+    ["file", ymlMultiFolders("spaceOne/locales/de-DE/three.yaml")],
+    ["key", "multipleVariables"],
+    ["msg", 'Expected argument to contain "user" but received "name"'],
+  ],
+  [
+    ["file", ymlMultiFolders("spaceTwo/locales/de-DE/one.yaml")],
+    ["key", "message.text-format"],
+    [
+      "msg",
+      'Expected element of type "tag" but received "number", Unexpected tag element',
+    ],
+  ],
+  [
+    ["file", ymlMultiFolders("spaceTwo/locales/de-DE/three.yaml")],
+    ["key", "numberFormat"],
+    ["msg", "Missing element number"],
+  ],
+])}
 
 `);
           done();
@@ -720,35 +748,46 @@ Found invalid keys!
 Source: en-US
 
 Found missing keys!
-┌────────────────────────────────────────────────────────────────────────────┬───────────────────────┐
-│ file                                                                       │ key                   │
-├────────────────────────────────────────────────────────────────────────────┼───────────────────────┤
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml  │  message.text-format  │
-│  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/two.yaml  │  test.drive.four      │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml  │  message.plural       │
-│  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/two.yaml  │  test.drive.two       │
-└────────────────────────────────────────────────────────────────────────────┴───────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [ymlMultiFolders("spaceOne/locales/de-DE/one.yaml"), "message.text-format"],
+    [ymlMultiFolders("spaceOne/locales/de-DE/two.yaml"), "test.drive.four"],
+    [ymlMultiFolders("spaceTwo/locales/de-DE/one.yaml"), "message.plural"],
+    [ymlMultiFolders("spaceTwo/locales/de-DE/two.yaml"), "test.drive.two"],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/one.yaml                                        │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceOne/locales/de-DE/three.yaml                                      │
-│  key   │  multipleVariables                                                                                               │
-│  msg   │  Expected argument to contain "user" but received "name"                                                         │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/one.yaml                                        │
-│  key   │  message.text-format                                                                                             │
-│  msg   │  Expected element of type "tag" but received "number", Unexpected tag element                                    │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFoldersExample/spaceTwo/locales/de-DE/three.yaml                                      │
-│  key   │  numberFormat                                                                                                    │
-│  msg   │  Missing element number                                                                                          │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", ymlMultiFolders("spaceOne/locales/de-DE/one.yaml")],
+    ["key", "message.select"],
+    [
+      "msg",
+      'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+    ],
+  ],
+  [
+    ["file", ymlMultiFolders("spaceOne/locales/de-DE/three.yaml")],
+    ["key", "multipleVariables"],
+    ["msg", 'Expected argument to contain "user" but received "name"'],
+  ],
+  [
+    ["file", ymlMultiFolders("spaceTwo/locales/de-DE/one.yaml")],
+    ["key", "message.text-format"],
+    [
+      "msg",
+      'Expected element of type "tag" but received "number", Unexpected tag element',
+    ],
+  ],
+  [
+    ["file", ymlMultiFolders("spaceTwo/locales/de-DE/three.yaml")],
+    ["key", "numberFormat"],
+    ["msg", "Missing element number"],
+  ],
+])}
 
 `);
           done();
@@ -765,27 +804,29 @@ Found invalid keys!
 Source: en-US
 
 Found missing keys!
-┌────────────────────────────────────────────────┬────────────────────────────────┐
-│ file                                           │ key                            │
-├────────────────────────────────────────────────┼────────────────────────────────┤
-│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.three            │
-│  translations/yaml/flattenExamples/de-de.yaml  │  other.nested.deep.more.final  │
-│  translations/yaml/messageExamples/de-de.yaml  │  richText                      │
-│  translations/yaml/messageExamples/de-de.yaml  │  yo                            │
-│  translations/yaml/messageExamples/de-de.yaml  │  nesting1                      │
-│  translations/yaml/messageExamples/de-de.yaml  │  nesting2                      │
-│  translations/yaml/messageExamples/de-de.yaml  │  nesting3                      │
-│  translations/yaml/messageExamples/de-de.yaml  │  key1                          │
-└────────────────────────────────────────────────┴────────────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [tr("yaml/flattenExamples/de-de.yaml"), "other.nested.three"],
+    [tr("yaml/flattenExamples/de-de.yaml"), "other.nested.deep.more.final"],
+    [tr("yaml/messageExamples/de-de.yaml"), "richText"],
+    [tr("yaml/messageExamples/de-de.yaml"), "yo"],
+    [tr("yaml/messageExamples/de-de.yaml"), "nesting1"],
+    [tr("yaml/messageExamples/de-de.yaml"), "nesting2"],
+    [tr("yaml/messageExamples/de-de.yaml"), "nesting3"],
+    [tr("yaml/messageExamples/de-de.yaml"), "key1"],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬────────────────────────────────────────────────┐
-│ info   │ result                                         │
-├────────┼────────────────────────────────────────────────┤
-│  file  │  translations/yaml/messageExamples/de-de.yaml  │
-│  key   │  multipleVariables                             │
-│  msg   │  Unexpected date element                       │
-└────────┴────────────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", tr("yaml/messageExamples/de-de.yaml")],
+    ["key", "multipleVariables"],
+    ["msg", "Unexpected date element"],
+  ],
+])}
 
 `);
           done();
@@ -802,27 +843,36 @@ Found invalid keys!
 Source: en-US
 
 Found missing keys!
-┌───────────────────────────────────────────────────────────────┬────────────────────────────────┐
-│ file                                                          │ key                            │
-├───────────────────────────────────────────────────────────────┼────────────────────────────────┤
-│  translations/yaml/flattenExamples/de-de.yaml                 │  other.nested.three            │
-│  translations/yaml/flattenExamples/de-de.yaml                 │  other.nested.deep.more.final  │
-│  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml  │  message.text-format           │
-│  translations/yaml/multipleFilesFolderExample/de-DE/two.yaml  │  test.drive.four               │
-└───────────────────────────────────────────────────────────────┴────────────────────────────────┘
+${formatTable([
+  [["file", "key"]],
+  [
+    [tr("yaml/flattenExamples/de-de.yaml"), "other.nested.three"],
+    [tr("yaml/flattenExamples/de-de.yaml"), "other.nested.deep.more.final"],
+    [
+      tr("yaml/multipleFilesFolderExample/de-DE/one.yaml"),
+      "message.text-format",
+    ],
+    [tr("yaml/multipleFilesFolderExample/de-DE/two.yaml"), "test.drive.four"],
+  ],
+])}
 
 Found invalid keys!
-┌────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ info   │ result                                                                                                           │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/one.yaml                                                     │
-│  key   │  message.select                                                                                                  │
-│  msg   │  Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...  │
-├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│  file  │  translations/yaml/multipleFilesFolderExample/de-DE/three.yaml                                                   │
-│  key   │  multipleVariables                                                                                               │
-│  msg   │  Expected argument to contain "user" but received "name"                                                         │
-└────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+${formatTable([
+  [["info", "result"]],
+  [
+    ["file", tr("yaml/multipleFilesFolderExample/de-DE/one.yaml")],
+    ["key", "message.select"],
+    [
+      "msg",
+      'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+    ],
+  ],
+  [
+    ["file", tr("yaml/multipleFilesFolderExample/de-DE/three.yaml")],
+    ["key", "multipleVariables"],
+    ["msg", 'Expected argument to contain "user" but received "name"'],
+  ],
+])}
 
 `);
           done();
