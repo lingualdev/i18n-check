@@ -111,6 +111,26 @@ export const createVerticalTable = (input: unknown[]) => {
   return output.replace(/\n\n$/, "");
 };
 
+export function formatSummaryTable(
+  result: CheckResult | InvalidTranslationsResult
+) {
+  return summaryReporter(getSummaryRows(result));
+}
+
+const getSummaryRows = (
+  checkResult: CheckResult | InvalidTranslationsResult
+) => {
+  const formattedRows: { file: string; total: number }[] = [];
+
+  for (const [file, keys] of Object.entries(checkResult)) {
+    formattedRows.push({
+      file: truncate(file),
+      total: keys.length,
+    });
+  }
+  return formattedRows;
+};
+
 export function formatTable(rowGroups: string[][][], lineSep = "\n") {
   // +2 for whitespace padding left and right
   const padding = 2;

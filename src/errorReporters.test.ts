@@ -1,6 +1,7 @@
 import {
   formatCheckResultTable,
   formatInvalidTranslationsResultTable,
+  formatSummaryTable,
   formatTable,
 } from "./errorReporters";
 
@@ -155,6 +156,63 @@ describe("formatInvalidTranslationsResultTable", () => {
 │ key  │ key.three         │
 │ msg  │ key three msg     │
 └──────┴───────────────────┘
+`.trim()
+    );
+  });
+});
+
+describe("formatSummaryTable", () => {
+  test("with CheckResult with single file and key", () => {
+    expect(
+      formatSummaryTable({
+        "some/file.json": ["key.one"],
+      })
+    ).toEqual(
+      `
+┌──────────────────┬───────┐
+│ file             │ total │
+├──────────────────┼───────┤
+│  some/file.json  │ 1     │
+└──────────────────┴───────┘
+`.trim()
+    );
+  });
+
+  test("with CheckResult with two files and three keys", () => {
+    expect(
+      formatSummaryTable({
+        "some/de.json": ["key.one", "key.two"],
+        "some/en.json": ["key.three"],
+      })
+    ).toEqual(
+      `
+┌────────────────┬───────┐
+│ file           │ total │
+├────────────────┼───────┤
+│  some/de.json  │ 2     │
+│  some/en.json  │ 1     │
+└────────────────┴───────┘
+`.trim()
+    );
+  });
+
+  test("with InvalidTranslationsResult with two files and three keys", () => {
+    expect(
+      formatSummaryTable({
+        "some/en-US.json": [
+          { key: "key.one", msg: "key one error msg" },
+          { key: "key.two", msg: "another msg" },
+        ],
+        "some/de.json": [{ key: "key.three", msg: "key three msg" }],
+      })
+    ).toEqual(
+      `
+┌───────────────────┬───────┐
+│ file              │ total │
+├───────────────────┼───────┤
+│  some/en-US.json  │ 2     │
+│  some/de.json     │ 1     │
+└───────────────────┴───────┘
 `.trim()
     );
   });

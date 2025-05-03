@@ -12,10 +12,7 @@ import {
   Context,
   formatCheckResultTable,
   formatInvalidTranslationsResultTable,
-  formatTable,
-  StandardReporter,
-  standardReporter,
-  summaryReporter,
+  formatSummaryTable,
 } from "../errorReporters";
 import {
   CheckResult,
@@ -325,7 +322,7 @@ const printTranslationResult = ({
   if (missingKeys && Object.keys(missingKeys).length > 0) {
     console.log(chalk.red("\nFound missing keys!"));
     if (isSummary) {
-      console.log(chalk.red(summaryReporter(getSummaryRows(missingKeys))));
+      console.log(chalk.red(formatSummaryTable(missingKeys)));
     } else {
       const table = formatCheckResultTable(missingKeys);
       console.log(chalk.red(table));
@@ -337,7 +334,7 @@ const printTranslationResult = ({
   if (invalidKeys && Object.keys(invalidKeys).length > 0) {
     console.log(chalk.red("\nFound invalid keys!"));
     if (isSummary) {
-      console.log(chalk.red(summaryReporter(getSummaryRows(invalidKeys))));
+      console.log(chalk.red(formatSummaryTable(invalidKeys)));
     } else {
       const table = formatInvalidTranslationsResultTable(invalidKeys);
       console.log(chalk.red(table));
@@ -359,7 +356,7 @@ const printUnusedKeysResult = ({
   if (unusedKeys && hasKeys(unusedKeys)) {
     console.log(chalk.red("\nFound unused keys!"));
     if (isSummary) {
-      console.log(chalk.red(summaryReporter(getSummaryRows(unusedKeys))));
+      console.log(chalk.red(formatSummaryTable(unusedKeys)));
     } else {
       console.log(chalk.red(formatCheckResultTable(unusedKeys)));
     }
@@ -380,7 +377,7 @@ const printUndefinedKeysResult = ({
   if (undefinedKeys && hasKeys(undefinedKeys)) {
     console.log(chalk.red("\nFound undefined keys!"));
     if (isSummary) {
-      console.log(chalk.red(summaryReporter(getSummaryRows(undefinedKeys))));
+      console.log(chalk.red(formatSummaryTable(undefinedKeys)));
     } else {
       console.log(chalk.red(formatCheckResultTable(undefinedKeys)));
     }
@@ -391,20 +388,6 @@ const printUndefinedKeysResult = ({
 
 const truncate = (chars: string, len = 80) =>
   chars.length > 80 ? `${chars.substring(0, len)}...` : chars;
-
-const getSummaryRows = (
-  checkResult: CheckResult | InvalidTranslationsResult
-) => {
-  const formattedRows: { file: string; total: number }[] = [];
-
-  for (const [file, keys] of Object.entries(checkResult)) {
-    formattedRows.push({
-      file: truncate(file),
-      total: keys.length,
-    });
-  }
-  return formattedRows;
-};
 
 const hasKeys = (checkResult: CheckResult) => {
   for (const [_, keys] of Object.entries(checkResult)) {
