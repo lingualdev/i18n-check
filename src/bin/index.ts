@@ -14,7 +14,12 @@ import {
   standardReporter,
   summaryReporter,
 } from "../errorReporters";
-import { CheckResult, FileInfo, TranslationFile } from "../types";
+import {
+  CheckResult,
+  FileInfo,
+  InvalidTranslationsResult,
+  TranslationFile,
+} from "../types";
 import { flattenTranslations } from "../utils/flattenTranslations";
 import path from "node:path";
 
@@ -308,7 +313,7 @@ const printTranslationResult = ({
   invalidKeys,
 }: {
   missingKeys: CheckResult | undefined;
-  invalidKeys: CheckResult | undefined;
+  invalidKeys: InvalidTranslationsResult | undefined;
 }) => {
   const reporter = program.getOptionValue("reporter");
 
@@ -384,10 +389,12 @@ const printUndefinedKeysResult = ({
 const truncate = (chars: string, len = 80) =>
   chars.length > 80 ? `${chars.substring(0, len)}...` : chars;
 
-const getSummaryRows = (checkResult: CheckResult) => {
+const getSummaryRows = (
+  checkResult: CheckResult | InvalidTranslationsResult
+) => {
   const formattedRows: { file: string; total: number }[] = [];
 
-  for (const [file, keys] of Object.entries<string[]>(checkResult)) {
+  for (const [file, keys] of Object.entries(checkResult)) {
     formattedRows.push({
       file: truncate(file),
       total: keys.length,
@@ -396,7 +403,9 @@ const getSummaryRows = (checkResult: CheckResult) => {
   return formattedRows;
 };
 
-const getStandardRows = (checkResult: CheckResult) => {
+const getStandardRows = (
+  checkResult: CheckResult | InvalidTranslationsResult
+) => {
   const formattedRows: StandardReporter[] = [];
 
   for (const [file, keys] of Object.entries<
@@ -421,7 +430,7 @@ const getStandardRows = (checkResult: CheckResult) => {
 };
 
 const hasKeys = (checkResult: CheckResult) => {
-  for (const [_, keys] of Object.entries<string[]>(checkResult)) {
+  for (const [_, keys] of Object.entries(checkResult)) {
     if (keys.length > 0) {
       return true;
     }

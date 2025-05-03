@@ -24,7 +24,7 @@ export const flattenEntry = (
   entry: Translation,
   keys: string[] = []
 ): Translation => {
-  let result = {};
+  const result: Translation = {};
   if (!entry) {
     return result;
   }

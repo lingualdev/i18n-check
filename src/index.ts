@@ -1,5 +1,10 @@
 import { findMissingKeys } from "./utils/findMissingKeys";
-import { CheckResult, Translation, TranslationFile } from "./types";
+import {
+  CheckResult,
+  InvalidTranslationsResult,
+  Translation,
+  TranslationFile,
+} from "./types";
 import { findInvalidTranslations } from "./utils/findInvalidTranslations";
 import { findInvalid18nTranslations } from "./utils/findInvalidi18nTranslations";
 import { Context } from "./errorReporters";
@@ -18,7 +23,7 @@ export const checkInvalidTranslations = (
   source: Translation,
   targets: Record<string, Translation>,
   options: Options = { format: "icu" }
-): CheckResult => {
+): InvalidTranslationsResult => {
   return options.format === "i18next"
     ? findInvalid18nTranslations(source, targets)
     : findInvalidTranslations(source, targets);
@@ -37,32 +42,29 @@ export const checkTranslations = (
   options: Options = { format: "icu", checks: ["invalidKeys", "missingKeys"] }
 ): {
   missingKeys: CheckResult | undefined;
-  invalidKeys: CheckResult | undefined;
+  invalidKeys: InvalidTranslationsResult | undefined;
 } => {
   const { checks = ["invalidKeys", "missingKeys"] } = options;
 
-  let missingKeys = {};
-  let invalidKeys = {};
+  let missingKeys: CheckResult = {};
+  let invalidKeys: InvalidTranslationsResult = {};
 
   const hasMissingKeys = checks.includes("missingKeys");
   const hasInvalidKeys = checks.includes("invalidKeys");
 
   source.forEach(({ name, content }) => {
-    const files = targets
-      .filter(({ reference }) => reference === name)
-      .reduce((obj, { name: key, content }) => {
-        return Object.assign(obj, { [key]: content });
-      }, {});
+    const files = Object.fromEntries(
+      targets
+        .filter(({ reference }) => reference === name)
+        .map(({ name, content }) => [name, content])
+    );
 
     if (hasMissingKeys) {
-      Object.assign(missingKeys, checkMissingTranslations(content, files));
+      merge(missingKeys, checkMissingTranslations(content, files));
     }
 
     if (hasInvalidKeys) {
-      Object.assign(
-        invalidKeys,
-        checkInvalidTranslations(content, files, options)
-      );
+      merge(invalidKeys, checkInvalidTranslations(content, files, options));
     }
   });
 
@@ -72,6 +74,12 @@ export const checkTranslations = (
   };
 };
 
+function merge<T>(left: Record<string, T[]>, right: Record<string, T[]>) {
+  for (let [k, v] of Object.entries(right)) {
+    left[k] = (left?.[k] ?? []).concat(v);
+  }
+}
+
 export const checkUnusedKeys = async (
   translationFiles: TranslationFile[],
   filesToParse: string[],
@@ -79,7 +87,7 @@ export const checkUnusedKeys = async (
     format: "react-intl",
     checks: [],
   },
-  componentFunctions = []
+  componentFunctions: string[] = []
 ): Promise<CheckResult | undefined> => {
   if (!options.format || !ParseFormats.includes(options.format)) {
     return undefined;
@@ -106,7 +114,7 @@ const findUnusedReactIntlTranslations = async (
   translationFiles: TranslationFile[],
   filesToParse: string[]
 ) => {
-  let unusedKeys = {};
+  const unusedKeys: Record<string, string[]> = {};
 
   const extracted = await extract(filesToParse, {});
   const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
@@ -119,8 +127,7 @@ const findUnusedReactIntlTranslations = async (
         found.push(keyInSource);
       }
     }
-
-    Object.assign(unusedKeys, { [name]: found });
+    unusedKeys[name] = found;
   });
 
   return unusedKeys;
@@ -131,7 +138,7 @@ const findUnusedI18NextTranslations = async (
   filesToParse: string[],
   componentFunctions: string[] = []
 ) => {
-  let unusedKeys = {};
+  const unusedKeys: Record<string, string[]> = {};
 
   const { extractedResult, skippableKeys } = await getI18NextKeysInCode(
     filesToParse,
@@ -155,7 +162,7 @@ const findUnusedI18NextTranslations = async (
       }
     }
 
-    Object.assign(unusedKeys, { [name]: found });
+    unusedKeys[name] = found;
   });
 
   return unusedKeys;
@@ -165,7 +172,7 @@ const findUnusedNextIntlTranslations = async (
   translationFiles: TranslationFile[],
   filesToParse: string[]
 ) => {
-  let unusedKeys = {};
+  const unusedKeys: Record<string, string[]> = {};
 
   const extracted = nextIntlExtract(filesToParse);
   const dynamicNamespaces = extracted.flatMap((namespace) => {
@@ -203,7 +210,7 @@ const findUnusedNextIntlTranslations = async (
       }
     }
 
-    Object.assign(unusedKeys, { [name]: found });
+    unusedKeys[name] = found;
   });
 
   return unusedKeys;

@@ -6,13 +6,17 @@
  */
 
 import { parse, MessageFormatElement } from "./i18NextParser";
-import { Translation } from "../types";
+import {
+  InvalidTranslationEntry,
+  InvalidTranslationsResult,
+  Translation,
+} from "../types";
 
 export const findInvalid18nTranslations = (
   source: Translation,
   targets: Record<string, Translation>
 ) => {
-  let differences = {};
+  let differences: InvalidTranslationsResult = {};
   if (Object.keys(targets).length === 0) {
     return differences;
   }
@@ -21,7 +25,7 @@ export const findInvalid18nTranslations = (
     const result = compareTranslationFiles(source, file);
 
     if (result.length > 0) {
-      differences = Object.assign(differences, { [lang]: result });
+      differences[lang] = result;
     }
   }
 
@@ -29,7 +33,7 @@ export const findInvalid18nTranslations = (
 };
 
 export const compareTranslationFiles = (a: Translation, b: Translation) => {
-  let diffs: unknown[] = [];
+  let diffs: InvalidTranslationEntry[] = [];
   for (const key in a) {
     if (b[key] === undefined) {
       continue;
