@@ -386,9 +386,6 @@ const printUndefinedKeysResult = ({
   }
 };
 
-const truncate = (chars: string, len = 80) =>
-  chars.length > 80 ? `${chars.substring(0, len)}...` : chars;
-
 const hasKeys = (checkResult: CheckResult) => {
   for (const [_, keys] of Object.entries(checkResult)) {
     if (keys.length > 0) {

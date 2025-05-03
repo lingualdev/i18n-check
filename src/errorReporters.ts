@@ -1,5 +1,3 @@
-import { Console } from "console";
-import { Transform } from "stream";
 import { CheckResult, InvalidTranslationsResult } from "./types";
 
 export type StandardReporter = {
@@ -24,111 +22,20 @@ export const contextMapping: Record<Context, string> = {
   undefined: "undefined",
 };
 
-export const standardReporter = (
-  result: StandardReporter[],
-  flatten = false
-) => {
-  if (flatten) {
-    const data = result.reduce((acc, row) => {
-      Object.entries(row).forEach(([info, result]) => {
-        acc.push({ info, result });
-      });
-      return acc;
-    }, [] as Record<string, unknown>[]);
-
-    return createVerticalTable(data);
-  }
-  return createTable(result);
-};
-
-export const summaryReporter = (
-  result: {
-    file: string;
-    total: number;
-  }[]
-) => {
-  return createTable(result.map(({ file, total }) => ({ file, total })));
-};
-
-export const createTable = (input: unknown[]) => {
-  // https://stackoverflow.com/a/67859384
-  const ts = new Transform({
-    transform(chunk, enc, cb) {
-      cb(null, chunk);
-    },
-  });
-  const logger = new Console({ stdout: ts });
-  logger.table(input);
-  const table = (ts.read() || "").toString();
-  // https://stackoverflow.com/a/69874540
-  let output = "";
-  const lines = table.split(/[\r\n]+/);
-  for (let line of lines) {
-    output += `${line
-      .replace(/[^┬]*┬/, "┌")
-      .replace(/^├─*┼/, "├")
-      .replace(/│[^│]*/, "")
-      .replace(/^└─*┴/, "└")
-      .replace(/'/g, " ")}\n`;
-  }
-
-  return output.replace(/\n\n$/, "");
-};
-
-export const createVerticalTable = (input: unknown[]) => {
-  // https://stackoverflow.com/a/67859384
-  const ts = new Transform({
-    transform(chunk, enc, cb) {
-      cb(null, chunk);
-    },
-  });
-  const logger = new Console({ stdout: ts });
-  logger.table(input);
-  const table = (ts.read() || "").toString();
-  // https://stackoverflow.com/a/69874540
-  let output = "";
-  let firstLine = "";
-  let index = 0;
-  const lines = table.split(/[\r\n]+/);
-  for (let line of lines) {
-    const transformedLine = `${line
-      .replace(/[^┬]*┬/, "┌")
-      .replace(/^├─*┼/, "├")
-      .replace(/│[^│]*/, "")
-      .replace(/^└─*┴/, "└")
-      .replace(/'/g, " ")}\n`;
-    output += transformedLine;
-
-    if (index === 2) {
-      firstLine = transformedLine;
-    }
-    if (index > 3 && (index + 1) % 3 === 0 && index !== lines.length - 3) {
-      output += firstLine;
-    }
-    index++;
-  }
-
-  return output.replace(/\n\n$/, "");
-};
-
 export function formatSummaryTable(
   result: CheckResult | InvalidTranslationsResult
 ) {
-  return summaryReporter(getSummaryRows(result));
+  return formatTable(getSummaryRows(result));
 }
 
 const getSummaryRows = (
   checkResult: CheckResult | InvalidTranslationsResult
-) => {
-  const formattedRows: { file: string; total: number }[] = [];
-
+): string[][][] => {
+  const rows: string[][] = [];
   for (const [file, keys] of Object.entries(checkResult)) {
-    formattedRows.push({
-      file: truncate(file),
-      total: keys.length,
-    });
+    rows.push([truncate(file), String(keys.length)]);
   }
-  return formattedRows;
+  return [[["file", "total"]], rows];
 };
 
 export function formatTable(rowGroups: string[][][], lineSep = "\n") {
