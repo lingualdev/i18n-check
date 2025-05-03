@@ -22,15 +22,11 @@ export const contextMapping: Record<Context, string> = {
   undefined: "undefined",
 };
 
-export function formatSummaryTable(
-  result: CheckResult | InvalidTranslationsResult
-) {
+export function formatSummaryTable<T>(result: Record<string, T[]>) {
   return formatTable(getSummaryRows(result));
 }
 
-const getSummaryRows = (
-  checkResult: CheckResult | InvalidTranslationsResult
-): string[][][] => {
+const getSummaryRows = <T>(checkResult: Record<string, T[]>): string[][][] => {
   const rows: string[][] = [];
   for (const [file, keys] of Object.entries(checkResult)) {
     rows.push([truncate(file), String(keys.length)]);
