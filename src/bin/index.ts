@@ -10,6 +10,8 @@ import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from "..";
 import {
   CheckOptions,
   Context,
+  formatCheckResultTable,
+  formatInvalidTranslationsResultTable,
   formatTable,
   StandardReporter,
   standardReporter,
@@ -386,30 +388,6 @@ const printUndefinedKeysResult = ({
     console.log(chalk.green("\nNo undefined keys found!"));
   }
 };
-
-function formatCheckResultTable(result: CheckResult) {
-  return formatTable([
-    [["file", "key"]],
-    Object.entries(result).flatMap(([file, keys]) =>
-      keys.map((key) => [truncate(file), truncate(key)])
-    ),
-  ]);
-}
-
-function formatInvalidTranslationsResultTable(
-  result: InvalidTranslationsResult
-) {
-  return formatTable([
-    [["info", "result"]],
-    ...Object.entries(result).flatMap(([file, errors]) =>
-      errors.map(({ key, msg }) => [
-        ["file", truncate(file)],
-        ["key", truncate(key)],
-        ["msg", truncate(msg, 120)],
-      ])
-    ),
-  ]);
-}
 
 const truncate = (chars: string, len = 80) =>
   chars.length > 80 ? `${chars.substring(0, len)}...` : chars;

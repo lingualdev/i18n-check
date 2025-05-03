@@ -1,5 +1,6 @@
 import { Console } from "console";
 import { Transform } from "stream";
+import { CheckResult, InvalidTranslationsResult } from "./types";
 
 export type StandardReporter = {
   file: string;
@@ -156,4 +157,31 @@ function formatRow(values: string[], widths: number[]) {
       .join("│") +
     `│`
   );
+}
+
+const truncate = (chars: string, len = 80) =>
+  chars.length > 80 ? `${chars.substring(0, len)}...` : chars;
+
+export function formatCheckResultTable(result: CheckResult) {
+  return formatTable([
+    [["file", "key"]],
+    Object.entries(result).flatMap(([file, keys]) =>
+      keys.map((key) => [truncate(file), truncate(key)])
+    ),
+  ]);
+}
+
+export function formatInvalidTranslationsResultTable(
+  result: InvalidTranslationsResult
+) {
+  return formatTable([
+    [["info", "result"]],
+    ...Object.entries(result).flatMap(([file, errors]) =>
+      errors.map(({ key, msg }) => [
+        ["file", truncate(file)],
+        ["key", truncate(key)],
+        ["msg", truncate(msg, 120)],
+      ])
+    ),
+  ]);
 }
