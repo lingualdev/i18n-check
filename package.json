@@ -1,6 +1,6 @@
 {
   "name": "@lingual/i18n-check",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "i18n translation messages check",
   "license": "MIT",
   "main": "dist/index.js",
