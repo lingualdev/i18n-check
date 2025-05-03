@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React from "react";
-import { useTranslation, Trans } from "react-i18next";
+import React from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 
 export const Content = () => {
   const { t } = useTranslation();
@@ -12,7 +12,9 @@ export const Content = () => {
 
       <p>{t("more:hello", "hello")}</p>
 
-      {t("format.audio", "An audio format")}
+      <p>{t("more:hello", "hello")}</p>
+
+      {t('format.audio', 'An audio format')}
     </p>
   );
 };

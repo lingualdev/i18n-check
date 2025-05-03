@@ -3,11 +3,11 @@ import {
   formatInvalidTranslationsResultTable,
   formatSummaryTable,
   formatTable,
-} from "./errorReporters";
+} from './errorReporters';
 
-describe("formatTable", () => {
-  test("single col and row", () => {
-    expect(formatTable([[["lorem ipsum"]]])).toEqual(
+describe('formatTable', () => {
+  test('single col and row', () => {
+    expect(formatTable([[['lorem ipsum']]])).toEqual(
       `
 ┌─────────────┐
 │ lorem ipsum │
@@ -16,8 +16,8 @@ describe("formatTable", () => {
     );
   });
 
-  test("single col and two rows", () => {
-    expect(formatTable([[["lorem ipsum"], ["foo bar"]]])).toEqual(
+  test('single col and two rows', () => {
+    expect(formatTable([[['lorem ipsum'], ['foo bar']]])).toEqual(
       `
 ┌─────────────┐
 │ lorem ipsum │
@@ -27,13 +27,13 @@ describe("formatTable", () => {
     );
   });
 
-  test("with two columns and two row groups", () => {
+  test('with two columns and two row groups', () => {
     expect(
       formatTable([
-        [["col1", "col2"]],
+        [['col1', 'col2']],
         [
-          ["lorem ipsum dolor", "foobar"],
-          ["baz", "more text"],
+          ['lorem ipsum dolor', 'foobar'],
+          ['baz', 'more text'],
         ],
       ])
     ).toEqual(
@@ -48,15 +48,15 @@ describe("formatTable", () => {
     );
   });
 
-  test("with two columns and three row groups", () => {
+  test('with two columns and three row groups', () => {
     expect(
       formatTable([
-        [["one", "two"]],
+        [['one', 'two']],
         [
-          ["lorem ipsum dolor", "foobar"],
-          ["baz", "more text"],
+          ['lorem ipsum dolor', 'foobar'],
+          ['baz', 'more text'],
         ],
-        [["hello world", "here is more text for testing"]],
+        [['hello world', 'here is more text for testing']],
       ])
     ).toEqual(
       `
@@ -73,11 +73,11 @@ describe("formatTable", () => {
   });
 });
 
-describe("formatCheckResultTable", () => {
-  test("with one file and two keys", () => {
+describe('formatCheckResultTable', () => {
+  test('with one file and two keys', () => {
     expect(
       formatCheckResultTable({
-        "some/file.json": ["key.one", "key.two"],
+        'some/file.json': ['key.one', 'key.two'],
       })
     ).toEqual(
       `
@@ -91,11 +91,11 @@ describe("formatCheckResultTable", () => {
     );
   });
 
-  test("with two files and three keys", () => {
+  test('with two files and three keys', () => {
     expect(
       formatCheckResultTable({
-        "some/de.json": ["key.one", "key.two"],
-        "some/en.json": ["key.three"],
+        'some/de.json': ['key.one', 'key.two'],
+        'some/en.json': ['key.three'],
       })
     ).toEqual(
       `
@@ -111,11 +111,11 @@ describe("formatCheckResultTable", () => {
   });
 });
 
-describe("formatInvalidTranslationsResultTable", () => {
-  test("with one file and one key", () => {
+describe('formatInvalidTranslationsResultTable', () => {
+  test('with one file and one key', () => {
     expect(
       formatInvalidTranslationsResultTable({
-        "some/en.json": [{ key: "key.one", msg: "key one error msg" }],
+        'some/en.json': [{ key: 'key.one', msg: 'key one error msg' }],
       })
     ).toEqual(
       `
@@ -130,14 +130,14 @@ describe("formatInvalidTranslationsResultTable", () => {
     );
   });
 
-  test("with two files and three keys", () => {
+  test('with two files and three keys', () => {
     expect(
       formatInvalidTranslationsResultTable({
-        "some/en-US.json": [
-          { key: "key.one", msg: "key one error msg" },
-          { key: "key.two", msg: "another msg" },
+        'some/en-US.json': [
+          { key: 'key.one', msg: 'key one error msg' },
+          { key: 'key.two', msg: 'another msg' },
         ],
-        "some/de.json": [{ key: "key.three", msg: "key three msg" }],
+        'some/de.json': [{ key: 'key.three', msg: 'key three msg' }],
       })
     ).toEqual(
       `
@@ -161,11 +161,11 @@ describe("formatInvalidTranslationsResultTable", () => {
   });
 });
 
-describe("formatSummaryTable", () => {
-  test("with CheckResult with single file and key", () => {
+describe('formatSummaryTable', () => {
+  test('with CheckResult with single file and key', () => {
     expect(
       formatSummaryTable({
-        "some/file.json": ["key.one"],
+        'some/file.json': ['key.one'],
       })
     ).toEqual(
       `
@@ -178,11 +178,11 @@ describe("formatSummaryTable", () => {
     );
   });
 
-  test("with CheckResult with two files and three keys", () => {
+  test('with CheckResult with two files and three keys', () => {
     expect(
       formatSummaryTable({
-        "some/de.json": ["key.one", "key.two"],
-        "some/en.json": ["key.three"],
+        'some/de.json': ['key.one', 'key.two'],
+        'some/en.json': ['key.three'],
       })
     ).toEqual(
       `
@@ -196,14 +196,14 @@ describe("formatSummaryTable", () => {
     );
   });
 
-  test("with InvalidTranslationsResult with two files and three keys", () => {
+  test('with InvalidTranslationsResult with two files and three keys', () => {
     expect(
       formatSummaryTable({
-        "some/en-US.json": [
-          { key: "key.one", msg: "key one error msg" },
-          { key: "key.two", msg: "another msg" },
+        'some/en-US.json': [
+          { key: 'key.one', msg: 'key one error msg' },
+          { key: 'key.two', msg: 'another msg' },
         ],
-        "some/de.json": [{ key: "key.three", msg: "key three msg" }],
+        'some/de.json': [{ key: 'key.three', msg: 'key three msg' }],
       })
     ).toEqual(
       `

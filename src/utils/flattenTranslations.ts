@@ -1,4 +1,4 @@
-import { Translation } from "../types";
+import { Translation } from '../types';
 
 export const flattenTranslations = (translations: Translation) => {
   if (!hasNestedDefinitions(translations)) {
@@ -12,12 +12,12 @@ export const flattenTranslations = (translations: Translation) => {
  */
 const hasNestedDefinitions = (translations: Translation) => {
   return Object.values(translations).find(
-    (translation) => typeof translation === "object"
+    (translation) => typeof translation === 'object'
   );
 };
 
 const isTranslationObject = (entry: unknown): entry is Translation => {
-  return typeof entry === "object";
+  return typeof entry === 'object';
 };
 
 export const flattenEntry = (
@@ -34,7 +34,7 @@ export const flattenEntry = (
       result,
       isTranslationObject(v)
         ? flattenEntry(v, [...keys, String(k)])
-        : { [[...keys, String(k)].join(".")]: v }
+        : { [[...keys, String(k)].join('.')]: v }
     );
   }
 

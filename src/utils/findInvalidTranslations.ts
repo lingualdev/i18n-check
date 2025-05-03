@@ -6,12 +6,12 @@ import {
   isSelectElement,
   isTagElement,
   parse,
-} from "@formatjs/icu-messageformat-parser";
+} from '@formatjs/icu-messageformat-parser';
 import {
   InvalidTranslationEntry,
   InvalidTranslationsResult,
   Translation,
-} from "../types";
+} from '../types';
 
 export const findInvalidTranslations = (
   source: Translation,
@@ -93,8 +93,11 @@ export const hasDiff = (
       return false;
     }
 
-    // @ts-ignore
-    if (formatElementA.value !== formatElementB.value) {
+    if (
+      !isPoundElement(formatElementA) &&
+      !isPoundElement(formatElementB) &&
+      formatElementA.value !== formatElementB.value
+    ) {
       return true;
     }
 
@@ -106,7 +109,7 @@ export const hasDiff = (
       const optionsA = Object.keys(formatElementA.options).sort();
       const optionsB = Object.keys(formatElementB.options).sort();
 
-      if (optionsA.join("-") !== optionsB.join("-")) {
+      if (optionsA.join('-') !== optionsB.join('-')) {
         return true;
       }
       return optionsA.some((key) => {
@@ -207,7 +210,7 @@ const getErrorMessage = (
     if (isSelectElement(formatElementA) && isSelectElement(formatElementB)) {
       const optionsA = Object.keys(formatElementA.options).sort();
 
-      let elementErrors: (string | null)[] = [];
+      const elementErrors: (string | null)[] = [];
       optionsA.forEach((key) => {
         if (formatElementB.options[key]) {
           elementErrors.push(
@@ -221,14 +224,14 @@ const getErrorMessage = (
       acc.push(
         `Error in select: ${elementErrors
           .flatMap((elementError) => elementError)
-          .join(", ")}`
+          .join(', ')}`
       );
       return acc;
     }
 
     if (isPluralElement(formatElementA) && isPluralElement(formatElementB)) {
       const optionsA = Object.keys(formatElementA.options).sort();
-      let elementErrors: (string | null)[] = [];
+      const elementErrors: (string | null)[] = [];
       optionsA.forEach((key) => {
         if (formatElementB.options[key]) {
           elementErrors.push(
@@ -242,7 +245,7 @@ const getErrorMessage = (
       acc.push(
         `Error in plural: ${elementErrors
           .flatMap((elementError) => elementError)
-          .join(", ")}`
+          .join(', ')}`
       );
       return acc;
     }
@@ -257,22 +260,22 @@ const getErrorMessage = (
         acc.push(`Unexpected ${typeLookup[formatElementB.type]} element`);
         return acc;
       }, [])
-      .join(", ");
+      .join(', ');
 
-    return [...errors, unexpectedElements].join(", ");
+    return [...errors, unexpectedElements].join(', ');
   }
 
-  return errors.join(", ");
+  return errors.join(', ');
 };
 
 const typeLookup = {
-  0: "literal",
-  1: "argument",
-  2: "number",
-  3: "date",
-  4: "time",
-  5: "select",
-  6: "plural",
-  7: "pound",
-  8: "tag",
+  0: 'literal',
+  1: 'argument',
+  2: 'number',
+  3: 'date',
+  4: 'time',
+  5: 'select',
+  6: 'plural',
+  7: 'pound',
+  8: 'tag',
 };

@@ -1,75 +1,75 @@
 #! /usr/bin/env node
 
-import fs from "node:fs";
-import { exit } from "node:process";
-import chalk from "chalk";
-import { program } from "commander";
-import { glob, globSync } from "glob";
-import yaml from "js-yaml";
-import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from "..";
+import fs from 'node:fs';
+import { exit } from 'node:process';
+import chalk from 'chalk';
+import { program } from 'commander';
+import { glob, globSync } from 'glob';
+import yaml from 'js-yaml';
+import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from '..';
 import {
   CheckOptions,
   Context,
   formatCheckResultTable,
   formatInvalidTranslationsResultTable,
   formatSummaryTable,
-} from "../errorReporters";
+} from '../errorReporters';
 import {
   CheckResult,
   FileInfo,
   InvalidTranslationsResult,
   TranslationFile,
-} from "../types";
-import { flattenTranslations } from "../utils/flattenTranslations";
-import path from "node:path";
+} from '../types';
+import { flattenTranslations } from '../utils/flattenTranslations';
+import path from 'node:path';
 
-const version = require("../../package.json").version;
+const version = require('../../package.json').version;
 
 program
   .version(version)
   .option(
-    "-l, --locales <locales...>",
-    "name of the directory containing the locales to validate"
+    '-l, --locales <locales...>',
+    'name of the directory containing the locales to validate'
   )
-  .option("-s, --source <locale>", "the source locale to validate against")
+  .option('-s, --source <locale>', 'the source locale to validate against')
   .option(
-    "-f, --format <type>",
-    "define the specific format: i18next, react-intl or next-intl"
-  )
-  .option(
-    "-c, --check <checks...>",
-    "this option is deprecated - use -o or --only instead"
+    '-f, --format <type>',
+    'define the specific format: i18next, react-intl or next-intl'
   )
   .option(
-    "-o, --only <only...>",
-    "define the specific checks you want to run: invalidKeys, missingKeys, unused, undefined. By default the check will validate against missing and invalid keys, i.e. --only invalidKeys,missingKeys"
+    '-c, --check <checks...>',
+    'this option is deprecated - use -o or --only instead'
   )
   .option(
-    "-r, --reporter <style>",
-    "define the reporting style: standard or summary"
+    '-o, --only <only...>',
+    'define the specific checks you want to run: invalidKeys, missingKeys, unused, undefined. By default the check will validate against missing and invalid keys, i.e. --only invalidKeys,missingKeys'
   )
   .option(
-    "-e, --exclude <exclude...>",
-    "define the file(s) and/or folders(s) that should be excluded from the check"
+    '-r, --reporter <style>',
+    'define the reporting style: standard or summary'
   )
   .option(
-    "-u, --unused <paths...>",
-    "define the source path(s) to find all unused and undefined keys"
+    '-e, --exclude <exclude...>',
+    'define the file(s) and/or folders(s) that should be excluded from the check'
   )
   .option(
-    "--parser-component-functions <components...>",
-    "a list of component names to parse when using the --unused option"
+    '-u, --unused <paths...>',
+    'define the source path(s) to find all unused and undefined keys'
+  )
+  .option(
+    '--parser-component-functions <components...>',
+    'a list of component names to parse when using the --unused option'
   )
   .parse();
 
 const getCheckOptions = (): Context[] => {
   const checkOption =
-    program.getOptionValue("only") || program.getOptionValue("check");
+    program.getOptionValue('only') || program.getOptionValue('check');
 
-  if (program.getOptionValue("check")) {
+  if (program.getOptionValue('check')) {
     console.log(
       chalk.yellow(
-        "The --check option has been deprecated, use the --only option instead."
+        'The --check option has been deprecated, use the --only option instead.'
       )
     );
   }
@@ -95,17 +95,17 @@ const isSource = (fileInfo: FileInfo, srcPath: string) => {
 
 const main = async () => {
   const start = performance.now();
-  const srcPath = program.getOptionValue("source");
-  const localePath = program.getOptionValue("locales");
-  const format = program.getOptionValue("format");
-  const exclude = program.getOptionValue("exclude");
-  const unusedSrcPath = program.getOptionValue("unused");
-  const componentFunctions = program.getOptionValue("parserComponentFunctions");
+  const srcPath = program.getOptionValue('source');
+  const localePath = program.getOptionValue('locales');
+  const format = program.getOptionValue('format');
+  const exclude = program.getOptionValue('exclude');
+  const unusedSrcPath = program.getOptionValue('unused');
+  const componentFunctions = program.getOptionValue('parserComponentFunctions');
 
   if (!srcPath) {
     console.log(
       chalk.red(
-        "Source not found. Please provide a valid source locale, i.e. -s en-US"
+        'Source not found. Please provide a valid source locale, i.e. -s en-US'
       )
     );
     exit(1);
@@ -114,7 +114,7 @@ const main = async () => {
   if (!localePath || localePath.length === 0) {
     console.log(
       chalk.red(
-        "Locale file(s) not found. Please provide valid locale file(s), i.e. -locales translations/"
+        'Locale file(s) not found. Please provide valid locale file(s), i.e. -locales translations/'
       )
     );
     exit(1);
@@ -125,19 +125,19 @@ const main = async () => {
 
   const isMultiFolders = localePathFolders.length > 1;
 
-  let srcFiles: TranslationFile[] = [];
-  let targetFiles: TranslationFile[] = [];
+  const srcFiles: TranslationFile[] = [];
+  const targetFiles: TranslationFile[] = [];
 
   const pattern = isMultiFolders
-    ? `{${localePath.join(",").trim()}}/**/*.{json,yaml,yml}`
-    : `${localePath.join(",").trim()}/**/*.{json,yaml,yml}`;
+    ? `{${localePath.join(',').trim()}}/**/*.{json,yaml,yml}`
+    : `${localePath.join(',').trim()}/**/*.{json,yaml,yml}`;
 
   const files = await glob(pattern, {
-    ignore: ["node_modules/**"].concat(excludedPaths),
+    ignore: ['node_modules/**'].concat(excludedPaths),
     windowsPathsNoEscape: true,
   });
 
-  console.log("i18n translations checker");
+  console.log('i18n translations checker');
   console.log(chalk.gray(`Source: ${srcPath}`));
 
   if (format) {
@@ -158,8 +158,8 @@ const main = async () => {
 
   files.sort().forEach((file) => {
     const filePath = file.split(path.sep);
-    const name = filePath.pop() ?? "";
-    const extension = name.split(".").pop() ?? "json";
+    const name = filePath.pop() ?? '';
+    const extension = name.split('.').pop() ?? 'json';
 
     fileInfos.push({
       extension,
@@ -171,10 +171,10 @@ const main = async () => {
 
   fileInfos.forEach(({ extension, file, name, path }) => {
     let rawContent;
-    if (extension === "yaml") {
-      rawContent = yaml.load(fs.readFileSync(file, "utf-8"));
+    if (extension === 'yaml') {
+      rawContent = yaml.load(fs.readFileSync(file, 'utf-8'));
     } else {
-      rawContent = JSON.parse(fs.readFileSync(file, "utf-8"));
+      rawContent = JSON.parse(fs.readFileSync(file, 'utf-8'));
     }
     const content = flattenTranslations(rawContent);
     if (isSource({ file, name, path }, srcPath)) {
@@ -184,12 +184,12 @@ const main = async () => {
         content,
       });
     } else {
-      const fullPath = path.join("-");
+      const fullPath = path.join('-');
       const reference = fileInfos.find((fileInfo) => {
         if (!isSource(fileInfo, srcPath)) {
           return false;
         }
-        if (fileInfo.path.join("-") === fullPath) {
+        if (fileInfo.path.join('-') === fullPath) {
           return true;
         }
 
@@ -209,8 +209,8 @@ const main = async () => {
         // Referencing: `path/to/locales/en-US/one.json`, `path/to/locales/de-DE/one.json`
         // Non Referencing: `path/to/locales/en-US/one.json`, `path/to/other/locales/de-DE/one.json`
         if (
-          fileInfo.path.slice(0, fileInfo.path.length - 1).join("-") ===
-          path.slice(0, path.length - 1).join("-")
+          fileInfo.path.slice(0, fileInfo.path.length - 1).join('-') ===
+          path.slice(0, path.length - 1).join('-')
         ) {
           return fileInfo.name === name;
         }
@@ -231,20 +231,20 @@ const main = async () => {
   if (srcFiles.length === 0) {
     console.log(
       chalk.red(
-        "Source not found. Please provide a valid source locale, i.e. -s en-US"
+        'Source not found. Please provide a valid source locale, i.e. -s en-US'
       )
     );
     exit(1);
   }
 
   if (
-    (options.checks.includes("missingKeys") ||
-      options.checks.includes("invalidKeys")) &&
+    (options.checks.includes('missingKeys') ||
+      options.checks.includes('invalidKeys')) &&
     targetFiles.length === 0
   ) {
     console.log(
       chalk.red(
-        "Locale file(s) not found. Please provide valid locale file(s), i.e. --locales translations/"
+        'Locale file(s) not found. Please provide valid locale file(s), i.e. --locales translations/'
       )
     );
     exit(1);
@@ -257,10 +257,10 @@ const main = async () => {
     if (unusedSrcPath) {
       const isMultiUnusedFolders = unusedSrcPath.length > 1;
       const pattern = isMultiUnusedFolders
-        ? `{${unusedSrcPath.join(",").trim()}}/**/*.{ts,tsx}`
-        : `${unusedSrcPath.join(",").trim()}/**/*.{ts,tsx}`;
+        ? `{${unusedSrcPath.join(',').trim()}}/**/*.{ts,tsx}`
+        : `${unusedSrcPath.join(',').trim()}/**/*.{ts,tsx}`;
       const filesToParse = globSync(pattern, {
-        ignore: ["node_modules/**"],
+        ignore: ['node_modules/**'],
         windowsPathsNoEscape: true,
       });
 
@@ -298,6 +298,7 @@ const main = async () => {
     } else {
       exit(0);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     console.log(
       chalk.red(
@@ -315,12 +316,12 @@ const printTranslationResult = ({
   missingKeys: CheckResult | undefined;
   invalidKeys: InvalidTranslationsResult | undefined;
 }) => {
-  const reporter = program.getOptionValue("reporter");
+  const reporter = program.getOptionValue('reporter');
 
-  const isSummary = reporter === "summary";
+  const isSummary = reporter === 'summary';
 
   if (missingKeys && Object.keys(missingKeys).length > 0) {
-    console.log(chalk.red("\nFound missing keys!"));
+    console.log(chalk.red('\nFound missing keys!'));
     if (isSummary) {
       console.log(chalk.red(formatSummaryTable(missingKeys)));
     } else {
@@ -328,11 +329,11 @@ const printTranslationResult = ({
       console.log(chalk.red(table));
     }
   } else if (missingKeys) {
-    console.log(chalk.green("\nNo missing keys found!"));
+    console.log(chalk.green('\nNo missing keys found!'));
   }
 
   if (invalidKeys && Object.keys(invalidKeys).length > 0) {
-    console.log(chalk.red("\nFound invalid keys!"));
+    console.log(chalk.red('\nFound invalid keys!'));
     if (isSummary) {
       console.log(chalk.red(formatSummaryTable(invalidKeys)));
     } else {
@@ -340,7 +341,7 @@ const printTranslationResult = ({
       console.log(chalk.red(table));
     }
   } else if (invalidKeys) {
-    console.log(chalk.green("\nNo invalid translations found!"));
+    console.log(chalk.green('\nNo invalid translations found!'));
   }
 };
 
@@ -349,19 +350,19 @@ const printUnusedKeysResult = ({
 }: {
   unusedKeys: CheckResult | undefined;
 }) => {
-  const reporter = program.getOptionValue("reporter");
+  const reporter = program.getOptionValue('reporter');
 
-  const isSummary = reporter === "summary";
+  const isSummary = reporter === 'summary';
 
   if (unusedKeys && hasKeys(unusedKeys)) {
-    console.log(chalk.red("\nFound unused keys!"));
+    console.log(chalk.red('\nFound unused keys!'));
     if (isSummary) {
       console.log(chalk.red(formatSummaryTable(unusedKeys)));
     } else {
       console.log(chalk.red(formatCheckResultTable(unusedKeys)));
     }
   } else if (unusedKeys) {
-    console.log(chalk.green("\nNo unused keys found!"));
+    console.log(chalk.green('\nNo unused keys found!'));
   }
 };
 
@@ -370,19 +371,19 @@ const printUndefinedKeysResult = ({
 }: {
   undefinedKeys: CheckResult | undefined;
 }) => {
-  const reporter = program.getOptionValue("reporter");
+  const reporter = program.getOptionValue('reporter');
 
-  const isSummary = reporter === "summary";
+  const isSummary = reporter === 'summary';
 
   if (undefinedKeys && hasKeys(undefinedKeys)) {
-    console.log(chalk.red("\nFound undefined keys!"));
+    console.log(chalk.red('\nFound undefined keys!'));
     if (isSummary) {
       console.log(chalk.red(formatSummaryTable(undefinedKeys)));
     } else {
       console.log(chalk.red(formatCheckResultTable(undefinedKeys)));
     }
   } else if (undefinedKeys) {
-    console.log(chalk.green("\nNo undefined keys found!"));
+    console.log(chalk.green('\nNo undefined keys found!'));
   }
 };
 

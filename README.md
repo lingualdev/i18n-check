@@ -371,7 +371,7 @@ Aside from using the CLI, i18n-check also exposes a set of check functions that 
 Start by importing i18n-check:
 
 ```ts
-import * as i18nCheck from "@lingual/i18n-check";
+import * as i18nCheck from '@lingual/i18n-check';
 ```
 
 ### `i18nCheck.checkTranslations(source, targets [, options])`
@@ -379,10 +379,10 @@ import * as i18nCheck from "@lingual/i18n-check";
 `checkTranslations` expects the base and comparison or target files and returns an object containing the missing and invalid keys. The optional `options` objects can be provided as a third argument to define the format style via the `format` property, this is useful if you want to validate `i18next` specific translations.
 
 ```ts
-import { checkTranslations } from "@lingual/i18n-check";
+import { checkTranslations } from '@lingual/i18n-check';
 
 const options = {
-  format: "i18next",
+  format: 'i18next',
 };
 
 const { invalidKeys, missingKeys } = checkTranslations(
@@ -395,11 +395,11 @@ const { invalidKeys, missingKeys } = checkTranslations(
 Additionally the `options` object enables to also define which checks should run via the `checks` property, f.e. if you only want to check for missing or invalid keys only.
 
 ```ts
-import { checkTranslations } from "@lingual/i18n-check";
+import { checkTranslations } from '@lingual/i18n-check';
 
 const options = {
-  format: "icu",
-  checks: ["invalidKeys"],
+  format: 'icu',
+  checks: ['invalidKeys'],
 };
 
 const { invalidKeys } = checkTranslations(source, targets, options);
@@ -433,7 +433,7 @@ The result for `missingKeys` as well as `invalidKeys` is an object containing th
 `checkMissingTranslations` checks for any missing keys in the target files. All files are compared against the source file.
 
 ```ts
-import { checkMissingTranslations } from "@lingual/i18n-check";
+import { checkMissingTranslations } from '@lingual/i18n-check';
 
 const result = checkMissingTranslations(source, targets);
 
@@ -450,10 +450,10 @@ The result is an object containing the provided locales and their corresponding 
 `checkInvalidTranslations` checks if there are any invalid keys in the target files. All files are compared against the source file.
 
 ```ts
-import { checkInvalidTranslations } from "@lingual/i18n-check";
+import { checkInvalidTranslations } from '@lingual/i18n-check';
 
 const options = {
-  format: "i18next",
+  format: 'i18next',
 };
 
 const result = checkInvalidTranslations(source, targets, options);
@@ -470,7 +470,7 @@ The result is an object containing the provided locales and their corresponding 
 
 If you want to checkout and run the code, you need to run the `build` command first.
 
-Run `yarn build`, `pnpm run build` or `npm run build` and then depending on the scenario one of the following commands.
+Run `pnpm run build` and then depending on the scenario one of the following commands.
 
 Basic icu translation example:
 
@@ -514,14 +514,6 @@ To run the tests use one of the following commands:
 
 ```bash
 pnpm test
-```
-
-```bash
-yarn test
-```
-
-```bash
-npm test
 ```
 
 ## Links

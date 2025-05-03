@@ -1,8 +1,8 @@
-import fs from "node:fs";
-import * as ts from "typescript";
+import fs from 'node:fs';
+import * as ts from 'typescript';
 
-const USE_TRANSLATIONS = "useTranslations";
-const GET_TRANSLATIONS = "getTranslations";
+const USE_TRANSLATIONS = 'useTranslations';
+const GET_TRANSLATIONS = 'getTranslations';
 const COMMENT_CONTAINS_STATIC_KEY_REGEX = /t\((["'])(.*?[^\\])(["'])\)/;
 
 export const extract = (filesPaths: string[]) => {
@@ -12,7 +12,7 @@ export const extract = (filesPaths: string[]) => {
 };
 
 const getKeys = (path: string) => {
-  const content = fs.readFileSync(path, "utf-8");
+  const content = fs.readFileSync(path, 'utf-8');
   const sourceFile = ts.createSourceFile(
     path,
     content,
@@ -61,7 +61,7 @@ const getKeys = (path: string) => {
 
   const visit = (node: ts.Node) => {
     let key: { name: string; identifier: string } | null = null;
-    let initialNamespacesLength = namespaces.length;
+    const initialNamespacesLength = namespaces.length;
 
     if (node === undefined) {
       return;
@@ -76,11 +76,11 @@ const getKeys = (path: string) => {
           if (node.initializer.expression.text === USE_TRANSLATIONS) {
             const [argument] = node.initializer.arguments;
 
-            const variable = ts.isIdentifier(node.name) ? node.name.text : "t";
+            const variable = ts.isIdentifier(node.name) ? node.name.text : 't';
             if (argument && ts.isStringLiteral(argument)) {
               pushNamespace({ name: argument.text, variable });
             } else if (argument === undefined) {
-              pushNamespace({ name: "", variable });
+              pushNamespace({ name: '', variable });
             }
           }
         }
@@ -105,7 +105,7 @@ const getKeys = (path: string) => {
             node.initializer.expression.expression.text === GET_TRANSLATIONS
           ) {
             const [argument] = node.initializer.expression.arguments;
-            const variable = ts.isIdentifier(node.name) ? node.name.text : "t";
+            const variable = ts.isIdentifier(node.name) ? node.name.text : 't';
             if (argument && ts.isObjectLiteralExpression(argument)) {
               argument.properties.forEach((property) => {
                 if (
@@ -113,7 +113,7 @@ const getKeys = (path: string) => {
                   ts.isPropertyAssignment(property) &&
                   property.name &&
                   ts.isIdentifier(property.name) &&
-                  property.name.text === "namespace" &&
+                  property.name.text === 'namespace' &&
                   ts.isStringLiteral(property.initializer)
                 ) {
                   pushNamespace({ name: property.initializer.text, variable });
@@ -122,7 +122,7 @@ const getKeys = (path: string) => {
             } else if (argument && ts.isStringLiteral(argument)) {
               pushNamespace({ name: argument.text, variable });
             } else if (argument === undefined) {
-              pushNamespace({ name: "", variable });
+              pushNamespace({ name: '', variable });
             }
           }
         }
@@ -222,7 +222,7 @@ const getKeys = (path: string) => {
 
     if (key) {
       const namespace = getCurrentNamespaceForIdentifier(key.identifier);
-      const namespaceName = namespace ? namespace.name : "";
+      const namespaceName = namespace ? namespace.name : '';
       foundKeys.push({
         key: namespaceName ? `${namespaceName}.${key.name}` : key.name,
         meta: { file: path, namespace: namespaceName },
@@ -254,7 +254,7 @@ const getKeys = (path: string) => {
             COMMENT_CONTAINS_STATIC_KEY_REGEX.exec(comment)?.[2];
           if (commentKey) {
             const namespace = getCurrentNamespaces();
-            const namespaceName = namespace ? namespace[0]?.name : "";
+            const namespaceName = namespace ? namespace[0]?.name : '';
 
             foundKeys.push({
               key: namespaceName
