@@ -1,4 +1,8 @@
-import { formatCheckResultTable, formatTable } from "./errorReporters";
+import {
+  formatCheckResultTable,
+  formatInvalidTranslationsResultTable,
+  formatTable,
+} from "./errorReporters";
 
 describe("formatTable", () => {
   test("single col and row", () => {
@@ -101,6 +105,56 @@ describe("formatCheckResultTable", () => {
 │ some/de.json │ key.two   │
 │ some/en.json │ key.three │
 └──────────────┴───────────┘
+`.trim()
+    );
+  });
+});
+
+describe("formatInvalidTranslationsResultTable", () => {
+  test("with one file and one key", () => {
+    expect(
+      formatInvalidTranslationsResultTable({
+        "some/en.json": [{ key: "key.one", msg: "key one error msg" }],
+      })
+    ).toEqual(
+      `
+┌──────┬───────────────────┐
+│ info │ result            │
+├──────┼───────────────────┤
+│ file │ some/en.json      │
+│ key  │ key.one           │
+│ msg  │ key one error msg │
+└──────┴───────────────────┘
+`.trim()
+    );
+  });
+
+  test("with two files and three keys", () => {
+    expect(
+      formatInvalidTranslationsResultTable({
+        "some/en-US.json": [
+          { key: "key.one", msg: "key one error msg" },
+          { key: "key.two", msg: "another msg" },
+        ],
+        "some/de.json": [{ key: "key.three", msg: "key three msg" }],
+      })
+    ).toEqual(
+      `
+┌──────┬───────────────────┐
+│ info │ result            │
+├──────┼───────────────────┤
+│ file │ some/en-US.json   │
+│ key  │ key.one           │
+│ msg  │ key one error msg │
+├──────┼───────────────────┤
+│ file │ some/en-US.json   │
+│ key  │ key.two           │
+│ msg  │ another msg       │
+├──────┼───────────────────┤
+│ file │ some/de.json      │
+│ key  │ key.three         │
+│ msg  │ key three msg     │
+└──────┴───────────────────┘
 `.trim()
     );
   });
