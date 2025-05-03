@@ -22,7 +22,7 @@
     "@formatjs/icu-messageformat-parser": "^2.11.2",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
-    "glob": "^11.0.1",
+    "glob": "^11.0.2",
     "i18next-parser": "^9.3.0",
     "js-yaml": "^4.1.0",
     "typescript": "^5.8.3"
