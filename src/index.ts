@@ -146,7 +146,11 @@ const findUnusedI18NextTranslations = async (
     componentFunctions
   );
 
-  const extractedResultSet = new Set(extractedResult.map(({ key }) => key));
+  const extractedResultSet = new Set(
+    extractedResult.map(({ key, namespace }) =>
+      namespace ? `${namespace}.${key}` : key
+    )
+  );
 
   source.forEach(({ name, content }) => {
     const keysInSource = Object.keys(content);
@@ -158,7 +162,14 @@ const findUnusedI18NextTranslations = async (
       if (isSkippable !== undefined) {
         continue;
       }
-      if (!extractedResultSet.has(keyInSource)) {
+
+      // find the file name
+      const [fileName] = (name.split(path.sep).pop() ?? "").split(".");
+
+      if (
+        !extractedResultSet.has(`${fileName}.${keyInSource}`) &&
+        !extractedResultSet.has(keyInSource)
+      ) {
         found.push(keyInSource);
       }
     }
@@ -372,7 +383,7 @@ const getI18NextKeysInCode = async (
   // As these are used dynamically, they will be skipped to prevent
   // these keys from being marked as unused.
 
-  let extractedResult: { file: string; key: string }[] = [];
+  let extractedResult: { file: string; key: string; namespace?: string }[] = [];
 
   const skippableKeys: string[] = [];
 
@@ -386,10 +397,24 @@ const getI18NextKeysInCode = async (
     // the key against the namespace corresponding file.
     // The current implementation considers the key as used no matter the namespace.
     for (const entry of entries) {
+      // check for namespace, i.e. `namespace:some.key`
+      const [namespace, ...keyParts] = entry.key.split(":");
+      // If there is a namespace make sure to assign the namespace
+      // and update the key name
+      // Ensure that the assumed key is not the default value
+      if (keyParts.length > 0 && entry.key !== entry.defaultValue) {
+        entry.namespace = namespace;
+        // rebuild the key without the namespace
+        entry.key = keyParts.join(":");
+      }
       if (entry.returnObjects) {
         skippableKeys.push(entry.key);
       } else {
-        extractedResult.push({ file, key: entry.key });
+        extractedResult.push({
+          file,
+          key: entry.key,
+          namespace: entry.namespace,
+        });
       }
     }
   });

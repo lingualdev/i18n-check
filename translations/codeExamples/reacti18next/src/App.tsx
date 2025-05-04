@@ -47,13 +47,13 @@ export const I18NextExample = () => {
         <a href="some-link">here</a>!
       </WrappedTransComponent>
 
-      <WrappedTransComponent i18nKey="user.one" ns="one">
+      <WrappedTransComponent i18nKey="user.one" ns="translation">
         Welcome <b>{user}</b>!
       </WrappedTransComponent>
 
       <WrappedTransComponent
         i18nKey="some.deep.nested.key"
-        ns="two"
+        ns="translation"
         components={[
           <>
             <div />
