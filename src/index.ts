@@ -1,31 +1,31 @@
-import { findMissingKeys } from "./utils/findMissingKeys";
+import { findMissingKeys } from './utils/findMissingKeys';
 import {
   CheckResult,
   InvalidTranslationsResult,
   Translation,
   TranslationFile,
-} from "./types";
-import { findInvalidTranslations } from "./utils/findInvalidTranslations";
-import { findInvalid18nTranslations } from "./utils/findInvalidi18nTranslations";
-import { Context } from "./errorReporters";
-import { extract } from "@formatjs/cli-lib";
-import { extract as nextIntlExtract } from "./utils/nextIntlSrcParser";
-import fs from "fs";
-import path from "path";
+} from './types';
+import { findInvalidTranslations } from './utils/findInvalidTranslations';
+import { findInvalid18nTranslations } from './utils/findInvalidi18nTranslations';
+import { Context } from './errorReporters';
+import { extract } from '@formatjs/cli-lib';
+import { extract as nextIntlExtract } from './utils/nextIntlSrcParser';
+import fs from 'fs';
+import path from 'path';
 
-const ParseFormats = ["react-intl", "i18next", "next-intl"];
+const ParseFormats = ['react-intl', 'i18next', 'next-intl'];
 
 export type Options = {
-  format?: "icu" | "i18next" | "react-intl" | "next-intl";
+  format?: 'icu' | 'i18next' | 'react-intl' | 'next-intl';
   checks?: Context[];
 };
 
 export const checkInvalidTranslations = (
   source: Translation,
   targets: Record<string, Translation>,
-  options: Options = { format: "icu" }
+  options: Options = { format: 'icu' }
 ): InvalidTranslationsResult => {
-  return options.format === "i18next"
+  return options.format === 'i18next'
     ? findInvalid18nTranslations(source, targets)
     : findInvalidTranslations(source, targets);
 };
@@ -40,18 +40,18 @@ export const checkMissingTranslations = (
 export const checkTranslations = (
   source: TranslationFile[],
   targets: TranslationFile[],
-  options: Options = { format: "icu", checks: ["invalidKeys", "missingKeys"] }
+  options: Options = { format: 'icu', checks: ['invalidKeys', 'missingKeys'] }
 ): {
   missingKeys: CheckResult | undefined;
   invalidKeys: InvalidTranslationsResult | undefined;
 } => {
-  const { checks = ["invalidKeys", "missingKeys"] } = options;
+  const { checks = ['invalidKeys', 'missingKeys'] } = options;
 
-  let missingKeys: CheckResult = {};
-  let invalidKeys: InvalidTranslationsResult = {};
+  const missingKeys: CheckResult = {};
+  const invalidKeys: InvalidTranslationsResult = {};
 
-  const hasMissingKeys = checks.includes("missingKeys");
-  const hasInvalidKeys = checks.includes("invalidKeys");
+  const hasMissingKeys = checks.includes('missingKeys');
+  const hasInvalidKeys = checks.includes('invalidKeys');
 
   source.forEach(({ name, content }) => {
     const files = Object.fromEntries(
@@ -76,7 +76,7 @@ export const checkTranslations = (
 };
 
 function merge<T>(left: Record<string, T[]>, right: Record<string, T[]>) {
-  for (let [k, v] of Object.entries(right)) {
+  for (const [k, v] of Object.entries(right)) {
     left[k] = (left?.[k] ?? []).concat(v);
   }
 }
@@ -85,7 +85,7 @@ export const checkUnusedKeys = async (
   translationFiles: TranslationFile[],
   filesToParse: string[],
   options: Options = {
-    format: "react-intl",
+    format: 'react-intl',
     checks: [],
   },
   componentFunctions: string[] = []
@@ -94,19 +94,19 @@ export const checkUnusedKeys = async (
     return undefined;
   }
 
-  if (!options.checks || !options.checks.includes("unused")) {
+  if (!options.checks || !options.checks.includes('unused')) {
     return undefined;
   }
 
-  if (options.format === "react-intl") {
+  if (options.format === 'react-intl') {
     return findUnusedReactIntlTranslations(translationFiles, filesToParse);
-  } else if (options.format === "i18next") {
+  } else if (options.format === 'i18next') {
     return findUnusedI18NextTranslations(
       translationFiles,
       filesToParse,
       componentFunctions
     );
-  } else if (options.format === "next-intl") {
+  } else if (options.format === 'next-intl') {
     return findUnusedNextIntlTranslations(translationFiles, filesToParse);
   }
 };
@@ -209,8 +209,8 @@ const findUnusedNextIntlTranslations = async (
       // Check if key is part of a dynamic namespace
       // Skip the key if it is part of the dynamic namespace
       const isDynamicNamespace = dynamicNamespaces.find((dynamicNamespace) => {
-        const keyInSourceNamespaces = keyInSource.split(".");
-        return dynamicNamespace.split(".").every((namePart, index) => {
+        const keyInSourceNamespaces = keyInSource.split('.');
+        return dynamicNamespace.split('.').every((namePart, index) => {
           return namePart === keyInSourceNamespaces[index];
         });
       });
@@ -232,7 +232,7 @@ export const checkUndefinedKeys = async (
   source: TranslationFile[],
   filesToParse: string[],
   options: Options = {
-    format: "react-intl",
+    format: 'react-intl',
     checks: [],
   },
   componentFunctions: string[] = []
@@ -241,15 +241,15 @@ export const checkUndefinedKeys = async (
     return undefined;
   }
 
-  if (!options.checks || !options.checks.includes("undefined")) {
+  if (!options.checks || !options.checks.includes('undefined')) {
     return undefined;
   }
 
-  if (options.format === "react-intl") {
+  if (options.format === 'react-intl') {
     return findUndefinedReactIntlKeys(source, filesToParse);
-  } else if (options.format === "i18next") {
+  } else if (options.format === 'i18next') {
     return findUndefinedI18NextKeys(source, filesToParse, componentFunctions);
-  } else if (options.format === "next-intl") {
+  } else if (options.format === 'next-intl') {
     return findUndefinedNextIntlKeys(source, filesToParse);
   }
 };
@@ -268,11 +268,11 @@ const findUndefinedReactIntlKeys = async (
     extractSourceLocation: true,
   });
 
-  let undefinedKeys: { [key: string]: string[] } = {};
+  const undefinedKeys: { [key: string]: string[] } = {};
   Object.entries(JSON.parse(extractedResult)).forEach(([key, meta]) => {
     if (!sourceKeys.has(key)) {
       const data = meta as Record<PropertyKey, unknown>;
-      if (!("file" in data) || typeof data.file !== "string") {
+      if (!('file' in data) || typeof data.file !== 'string') {
         return;
       }
       const file = path.normalize(data.file);
@@ -302,7 +302,7 @@ const findUndefinedI18NextKeys = async (
     })
   );
 
-  let undefinedKeys: { [key: string]: string[] } = {};
+  const undefinedKeys: { [key: string]: string[] } = {};
 
   extractedResult.forEach(({ file, key }) => {
     const isSkippable = skippableKeys.find((skippableKey) => {
@@ -331,10 +331,9 @@ const findUndefinedNextIntlKeys = async (
 
   const extractedResult = nextIntlExtract(filesToParse);
 
-  let undefinedKeys: { [key: string]: string[] } = {};
+  const undefinedKeys: { [key: string]: string[] } = {};
   extractedResult.forEach(({ key, meta }) => {
     if (!meta.dynamic && !sourceKeys.has(key)) {
-      // @ts-ignore
       const file = meta.file;
       if (!undefinedKeys[file]) {
         undefinedKeys[file] = [];
@@ -348,7 +347,7 @@ const findUndefinedNextIntlKeys = async (
 
 const isRecord = (data: unknown): data is Record<string, unknown> => {
   return (
-    typeof data === "object" &&
+    typeof data === 'object' &&
     !Array.isArray(data) &&
     data !== null &&
     data !== undefined
@@ -359,21 +358,22 @@ const getI18NextKeysInCode = async (
   filesToParse: string[],
   componentFunctions: string[] = []
 ) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { transform } = await import("i18next-parser");
+  const { transform } = await import('i18next-parser');
 
   const i18nextParser = new transform({
     lexers: {
       jsx: [
         {
-          lexer: "JsxLexer",
-          componentFunctions: componentFunctions.concat(["Trans"]),
+          lexer: 'JsxLexer',
+          componentFunctions: componentFunctions.concat(['Trans']),
         },
       ],
       tsx: [
         {
-          lexer: "JsxLexer",
-          componentFunctions: componentFunctions.concat(["Trans"]),
+          lexer: 'JsxLexer',
+          componentFunctions: componentFunctions.concat(['Trans']),
         },
       ],
     },
@@ -383,12 +383,12 @@ const getI18NextKeysInCode = async (
   // As these are used dynamically, they will be skipped to prevent
   // these keys from being marked as unused.
 
-  let extractedResult: { file: string; key: string; namespace?: string }[] = [];
+  const extractedResult: { file: string; key: string; namespace?: string }[] = [];
 
   const skippableKeys: string[] = [];
 
   filesToParse.forEach((file) => {
-    const rawContent = fs.readFileSync(file, "utf-8");
+    const rawContent = fs.readFileSync(file, 'utf-8');
 
     const entries = i18nextParser.parser.parse(rawContent, file);
 
@@ -422,16 +422,16 @@ const getI18NextKeysInCode = async (
   return { extractedResult, skippableKeys };
 };
 
-function flatten(
+function _flatten(
   object: Record<string, unknown>,
   prefix: string | null = null,
   result: Record<string, unknown> = {}
 ) {
-  for (let key in object) {
-    let propName = prefix ? `${prefix}.${key}` : key;
+  for (const key in object) {
+    const propName = prefix ? `${prefix}.${key}` : key;
     const data = object[key];
     if (isRecord(data)) {
-      flatten(data, propName, result);
+      _flatten(data, propName, result);
     } else {
       result[propName] = data;
     }

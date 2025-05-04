@@ -1,5 +1,5 @@
-message.simple: "A simple message."
-message.argument: "Hi, {name}! 👋"
-message.plural: "{count, plural, one {# item} other {# items}}"
-message.select: "Hi {user}, it is {today, date, medium} and tomorrow it is {tomorrow, date, medium}."
-message.number-format: "Formatted number: {num, number, ::K}"
+message.simple: 'A simple message.'
+message.argument: 'Hi, {name}! 👋'
+message.plural: '{count, plural, one {# item} other {# items}}'
+message.select: 'Hi {user}, it is {today, date, medium} and tomorrow it is {tomorrow, date, medium}.'
+message.number-format: 'Formatted number: {num, number, ::K}'

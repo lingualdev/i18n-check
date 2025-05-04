@@ -6,6 +6,22 @@ on:
       - main
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'pnpm'
+      - name: pnpm install & lint
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm lint
+
   test:
     strategy:
       matrix:
@@ -19,8 +35,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "pnpm"
+          node-version: '20.x'
+          cache: 'pnpm'
       - name: pnpm install & test
         run: |
           pnpm install --frozen-lockfile
@@ -39,8 +55,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "pnpm"
+          node-version: '20.x'
+          cache: 'pnpm'
       - name: pnpm install & test
         run: |
           pnpm install --frozen-lockfile
@@ -59,8 +75,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "pnpm"
+          node-version: '20.x'
+          cache: 'pnpm'
 
       - name: pnpm install & build
         run: |

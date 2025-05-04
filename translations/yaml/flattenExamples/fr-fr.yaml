@@ -1,10 +1,10 @@
 test:
   drive:
-    one: "testing one"
-    two: "testing two"
+    one: 'testing one'
+    two: 'testing two'
 other:
   nested:
-    three: "testing three"
+    three: 'testing three'
     deep:
       more:
-        final: "nested translation"
+        final: 'nested translation'

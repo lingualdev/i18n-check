@@ -2,11 +2,11 @@
 
 export type MessageFormatElement =
   | {
-      type: "text";
+      type: 'text';
       content: string;
     }
   | {
-      type: "interpolation";
+      type: 'interpolation';
       raw: string;
       prefix: string;
       suffix: string;
@@ -14,7 +14,7 @@ export type MessageFormatElement =
       variable: string;
     }
   | {
-      type: "interpolation_unescaped";
+      type: 'interpolation_unescaped';
       raw: string;
       prefix: string;
       suffix: string;
@@ -22,7 +22,7 @@ export type MessageFormatElement =
       variable: string;
     }
   | {
-      type: "nesting";
+      type: 'nesting';
       raw: string;
       prefix: string;
       suffix: string;
@@ -30,7 +30,7 @@ export type MessageFormatElement =
       variable: string;
     }
   | {
-      type: "plural";
+      type: 'plural';
       raw: string;
       prefix: string;
       suffix: string;
@@ -38,22 +38,22 @@ export type MessageFormatElement =
       variable: string;
     }
   | {
-      type: "tag";
+      type: 'tag';
       raw: string;
       voidElement: boolean;
     };
 
 const REGEXP = new RegExp(
-  "({{[^}]+}}|\\$t{[^}]+}|\\$t\\([^\\)]+\\)|\\([0-9\\-inf]+\\)(?=\\[)|<[^>]+>)",
-  "g"
+  '({{[^}]+}}|\\$t{[^}]+}|\\$t\\([^\\)]+\\)|\\([0-9\\-inf]+\\)(?=\\[)|<[^>]+>)',
+  'g'
 );
 
-const DOUBLE_BRACE = "{{";
-const $_T_BRACE = "$t{";
-const $_T_PARENTHESIS = "$t(";
-const OPEN_PARENTHESIS = "(";
-const OPEN_TAG = "<";
-const CLOSE_TAG = "</";
+const DOUBLE_BRACE = '{{';
+const $_T_BRACE = '$t{';
+const $_T_PARENTHESIS = '$t(';
+const OPEN_PARENTHESIS = '(';
+const OPEN_TAG = '<';
+const CLOSE_TAG = '</';
 
 export const parse = (input: string) => {
   let ast: MessageFormatElement[] = [];
@@ -69,45 +69,45 @@ const parseInput = (input: string[]): MessageFormatElement[] => {
   }
   let ast: MessageFormatElement[] = [];
   input.forEach((element) => {
-    const elements = element.split(REGEXP).filter((element) => element !== "");
+    const elements = element.split(REGEXP).filter((element) => element !== '');
     const result = elements.reduce((acc, match) => {
-      if (match.indexOf("{{-") === 0) {
+      if (match.indexOf('{{-') === 0) {
         const content = match.substring(3, match.length - 2);
         acc.push({
-          type: "interpolation_unescaped",
+          type: 'interpolation_unescaped',
           raw: match,
-          prefix: "{{-",
-          suffix: "}}",
+          prefix: '{{-',
+          suffix: '}}',
           content,
           variable: content.trim(),
         });
       } else if (match.indexOf(DOUBLE_BRACE) === 0) {
         const content = match.substring(2, match.length - 2);
         acc.push({
-          type: "interpolation",
+          type: 'interpolation',
           raw: match,
-          prefix: "{{",
-          suffix: "}}",
+          prefix: '{{',
+          suffix: '}}',
           content,
           variable: content.trim(),
         });
       } else if (match.indexOf($_T_BRACE) === 0) {
         const content = match.substring(3, match.length - 1);
         acc.push({
-          type: "nesting",
+          type: 'nesting',
           raw: match,
-          prefix: "$t{",
-          suffix: "}",
+          prefix: '$t{',
+          suffix: '}',
           content,
           variable: content.trim(),
         });
       } else if (match.indexOf($_T_PARENTHESIS) === 0) {
         const content = match.substring(3, match.length - 1);
         acc.push({
-          type: "nesting",
+          type: 'nesting',
           raw: match,
-          prefix: "$t(",
-          suffix: ")",
+          prefix: '$t(',
+          suffix: ')',
           content,
           variable: content.trim(),
         });
@@ -117,27 +117,27 @@ const parseInput = (input: string[]): MessageFormatElement[] => {
       ) {
         const content = match.substring(1, match.length - 1);
         acc.push({
-          type: "plural",
+          type: 'plural',
           raw: match,
-          prefix: "(",
-          suffix: ")",
+          prefix: '(',
+          suffix: ')',
           content,
           variable: content.trim(),
         });
       } else if (match.indexOf(CLOSE_TAG) === 0) {
         acc.push({
-          type: "tag",
+          type: 'tag',
           raw: match,
-          voidElement: match.substring(match.length - 2) === "/>",
+          voidElement: match.substring(match.length - 2) === '/>',
         });
       } else if (match.indexOf(OPEN_TAG) === 0 && /<[^\s]+/.test(match)) {
         acc.push({
-          type: "tag",
+          type: 'tag',
           raw: match,
-          voidElement: match.substring(match.length - 2) === "/>",
+          voidElement: match.substring(match.length - 2) === '/>',
         });
       } else {
-        acc.push({ type: "text", content: match });
+        acc.push({ type: 'text', content: match });
       }
 
       return acc;

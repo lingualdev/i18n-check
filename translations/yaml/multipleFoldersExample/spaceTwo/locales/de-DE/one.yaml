@@ -1,4 +1,4 @@
-message.argument: "Hi, {name}! 👋"
-message.select: "{gender, select, male {Mr} female {Mrs} other {User}}"
-message.text-format: "Hi, <b>John</b>! and  {num, number, ::K}"
-message.number-format: "Formatted number: {num, number, ::K}"
+message.argument: 'Hi, {name}! 👋'
+message.select: '{gender, select, male {Mr} female {Mrs} other {User}}'
+message.text-format: 'Hi, <b>John</b>! and  {num, number, ::K}'
+message.number-format: 'Formatted number: {num, number, ::K}'

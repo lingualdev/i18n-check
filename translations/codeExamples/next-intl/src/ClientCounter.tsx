@@ -1,11 +1,11 @@
 // @ts-nocheck
-"use client";
+'use client';
 
-import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 export default function ClientCounterOne() {
-  const t = useTranslations("ClientCounter");
+  const t = useTranslations('ClientCounter');
   const [count, setCount] = useState(0);
 
   function onIncrement() {
@@ -14,16 +14,16 @@ export default function ClientCounterOne() {
 
   return (
     <div data-testid="MessagesOnClientCounter">
-      <p>{t("count", { count: String(count) })}</p>
+      <p>{t('count', { count: String(count) })}</p>
       <button onClick={onIncrement} type="button">
-        {t("increment")}
+        {t('increment')}
       </button>
     </div>
   );
 }
 
 export default function ClientCounterTwo() {
-  const differentNameForT = useTranslations("ClientCounter2");
+  const differentNameForT = useTranslations('ClientCounter2');
   const [count, setCount] = useState(0);
 
   function onIncrement() {
@@ -32,9 +32,9 @@ export default function ClientCounterTwo() {
 
   return (
     <div data-testid="MessagesOnClientCounter">
-      <p>{differentNameForT("count", { count: String(count) })}</p>
+      <p>{differentNameForT('count', { count: String(count) })}</p>
       <button onClick={onIncrement} type="button">
-        {differentNameForT("increment")}
+        {differentNameForT('increment')}
       </button>
     </div>
   );

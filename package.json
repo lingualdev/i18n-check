@@ -11,6 +11,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "format": "prettier --write .",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix ",
+    "check-format": "prettier --check './{src,translations}/**/*.{js,jsx,ts,tsx,json,html,css}'",
     "test": "jest src/ --testPathIgnorePatterns src/bin/*",
     "test:cli": "tsc && jest src/bin/index.test.ts"
   },
@@ -28,13 +32,18 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.26.0",
     "@types/jest": "^29.5.14",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.14.1",
     "@types/vinyl": "^2.0.12",
     "braces": "^3.0.3",
+    "eslint": "^9.26.0",
+    "globals": "^16.0.0",
     "jest": "^29.7.0",
-    "ts-jest": "^29.3.2"
+    "prettier": "^3.5.3",
+    "ts-jest": "^29.3.2",
+    "typescript-eslint": "^8.31.1"
   },
   "repository": {
     "type": "git",

@@ -1,575 +1,575 @@
-import { extract } from "./nextIntlSrcParser";
-import path from "node:path";
+import { extract } from './nextIntlSrcParser';
+import path from 'node:path';
 
-const srcPath = "./translations/codeExamples/next-intl/src/";
+const srcPath = './translations/codeExamples/next-intl/src/';
 
-const basicFile = path.join(srcPath, "Basic.tsx");
-const counterFile = path.join(srcPath, "Counter.tsx");
-const clientCounterFile = path.join(srcPath, "ClientCounter.tsx");
-const nestedExampleFile = path.join(srcPath, "NestedExample.tsx");
-const asyncExampleFile = path.join(srcPath, "AsyncExample.tsx");
-const dynamicKeysExampleFile = path.join(srcPath, "DynamicKeysExample.tsx");
-const strictTypesExample = path.join(srcPath, "StrictTypesExample.tsx");
-const advancedExample = path.join(srcPath, "AdvancedExample.tsx");
+const basicFile = path.join(srcPath, 'Basic.tsx');
+const counterFile = path.join(srcPath, 'Counter.tsx');
+const clientCounterFile = path.join(srcPath, 'ClientCounter.tsx');
+const nestedExampleFile = path.join(srcPath, 'NestedExample.tsx');
+const asyncExampleFile = path.join(srcPath, 'AsyncExample.tsx');
+const dynamicKeysExampleFile = path.join(srcPath, 'DynamicKeysExample.tsx');
+const strictTypesExample = path.join(srcPath, 'StrictTypesExample.tsx');
+const advancedExample = path.join(srcPath, 'AdvancedExample.tsx');
 
-describe("nextIntlSrcParser", () => {
-  it("should find all the translation keys", () => {
+describe('nextIntlSrcParser', () => {
+  it('should find all the translation keys', () => {
     const keys = extract([basicFile, counterFile, clientCounterFile]);
 
     expect(keys).toEqual([
       {
-        key: "ClientCounter.count",
+        key: 'ClientCounter.count',
         meta: {
           file: clientCounterFile,
-          namespace: "ClientCounter",
+          namespace: 'ClientCounter',
         },
       },
       {
-        key: "ClientCounter.increment",
+        key: 'ClientCounter.increment',
         meta: {
           file: clientCounterFile,
-          namespace: "ClientCounter",
+          namespace: 'ClientCounter',
         },
       },
       {
-        key: "ClientCounter2.count",
+        key: 'ClientCounter2.count',
         meta: {
           file: clientCounterFile,
-          namespace: "ClientCounter2",
+          namespace: 'ClientCounter2',
         },
       },
       {
-        key: "ClientCounter2.increment",
+        key: 'ClientCounter2.increment',
         meta: {
           file: clientCounterFile,
-          namespace: "ClientCounter2",
+          namespace: 'ClientCounter2',
         },
       },
       {
-        key: "Counter.count",
+        key: 'Counter.count',
         meta: {
           file: counterFile,
-          namespace: "Counter",
+          namespace: 'Counter',
         },
       },
       {
-        key: "Counter.increment",
+        key: 'Counter.increment',
         meta: {
           file: counterFile,
-          namespace: "Counter",
+          namespace: 'Counter',
         },
       },
       {
-        key: "Navigation.about",
+        key: 'Navigation.about',
         meta: {
           file: basicFile,
-          namespace: "Navigation",
+          namespace: 'Navigation',
         },
       },
       {
-        key: "Navigation.client",
+        key: 'Navigation.client',
         meta: {
           file: basicFile,
-          namespace: "Navigation",
+          namespace: 'Navigation',
         },
       },
       {
-        key: "Navigation.home",
+        key: 'Navigation.home',
         meta: {
           file: basicFile,
-          namespace: "Navigation",
+          namespace: 'Navigation',
         },
       },
       {
-        key: "Navigation.nested",
+        key: 'Navigation.nested',
         meta: {
           file: basicFile,
-          namespace: "Navigation",
+          namespace: 'Navigation',
         },
       },
       {
-        key: "Navigation.news",
+        key: 'Navigation.news',
         meta: {
           file: basicFile,
-          namespace: "Navigation",
+          namespace: 'Navigation',
         },
       },
       {
-        key: "message.argument",
+        key: 'message.argument',
         meta: {
           file: basicFile,
-          namespace: "message",
+          namespace: 'message',
         },
       },
       {
-        key: "message.select",
+        key: 'message.select',
         meta: {
           file: basicFile,
-          namespace: "message",
+          namespace: 'message',
         },
       },
       {
-        key: "message.simple",
+        key: 'message.simple',
         meta: {
           file: basicFile,
-          namespace: "message",
+          namespace: 'message',
         },
       },
       {
-        key: "testKeyWithoutNamespace",
+        key: 'testKeyWithoutNamespace',
         meta: {
           file: basicFile,
-          namespace: "",
+          namespace: '',
         },
       },
     ]);
   });
 
-  it("should find all the nested translation keys", () => {
+  it('should find all the nested translation keys', () => {
     const keys = extract([nestedExampleFile]);
 
     expect(keys).toEqual([
       {
-        key: "deepNested.level1.one",
+        key: 'deepNested.level1.one',
         meta: {
           file: nestedExampleFile,
-          namespace: "deepNested.level1",
+          namespace: 'deepNested.level1',
         },
       },
       {
-        key: "deepNested.level2.two",
+        key: 'deepNested.level2.two',
         meta: {
           file: nestedExampleFile,
-          namespace: "deepNested.level2",
+          namespace: 'deepNested.level2',
         },
       },
       {
-        key: "deepNested.level3.three",
+        key: 'deepNested.level3.three',
         meta: {
           file: nestedExampleFile,
-          namespace: "deepNested.level3",
+          namespace: 'deepNested.level3',
         },
       },
       {
-        key: "deepNested.level4.four",
+        key: 'deepNested.level4.four',
         meta: {
           file: nestedExampleFile,
-          namespace: "deepNested.level4",
+          namespace: 'deepNested.level4',
         },
       },
       {
-        key: "nested.nested.two.nestedTwoKey",
+        key: 'nested.nested.two.nestedTwoKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.nested.two",
+          namespace: 'nested.nested.two',
         },
       },
       {
-        key: "nested.one.nestedKey",
+        key: 'nested.one.nestedKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.one",
+          namespace: 'nested.one',
         },
       },
       {
-        key: "nested.one.regularKey",
+        key: 'nested.one.regularKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.one",
+          namespace: 'nested.one',
         },
       },
       {
-        key: "nested.three.basicKey",
+        key: 'nested.three.basicKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.three",
+          namespace: 'nested.three',
         },
       },
       {
-        key: "nested.three.hasKeyCheck",
+        key: 'nested.three.hasKeyCheck',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.three",
+          namespace: 'nested.three',
         },
       },
       {
-        key: "nested.three.htmlKey",
+        key: 'nested.three.htmlKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.three",
+          namespace: 'nested.three',
         },
       },
       {
-        key: "nested.three.markupKey",
+        key: 'nested.three.markupKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.three",
+          namespace: 'nested.three',
         },
       },
       {
-        key: "nested.three.richTextKey",
+        key: 'nested.three.richTextKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.three",
+          namespace: 'nested.three',
         },
       },
       {
-        key: "nested.two.nestedKey",
+        key: 'nested.two.nestedKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.two",
+          namespace: 'nested.two',
         },
       },
       {
-        key: "nested.two.regularKey",
+        key: 'nested.two.regularKey',
         meta: {
           file: nestedExampleFile,
-          namespace: "nested.two",
+          namespace: 'nested.two',
         },
       },
     ]);
   });
 
-  it("should find all the async translation keys", () => {
+  it('should find all the async translation keys', () => {
     const keys = extract([asyncExampleFile]);
 
     expect(keys).toEqual([
       {
-        key: "Async.title",
+        key: 'Async.title',
         meta: {
           file: asyncExampleFile,
-          namespace: "Async",
+          namespace: 'Async',
         },
       },
       {
-        key: "async.two.title",
+        key: 'async.two.title',
         meta: {
           file: asyncExampleFile,
-          namespace: "async.two",
+          namespace: 'async.two',
         },
       },
     ]);
   });
 
-  it("should find all dynamic keys defined as comments", () => {
+  it('should find all dynamic keys defined as comments', () => {
     const keys = extract([dynamicKeysExampleFile]);
 
     expect(keys).toEqual([
       {
-        key: "dynamic",
+        key: 'dynamic',
         meta: {
           dynamic: true,
           file: dynamicKeysExampleFile,
-          namespace: "dynamic",
+          namespace: 'dynamic',
         },
       },
       {
-        key: "dynamic.four",
+        key: 'dynamic.four',
         meta: {
           dynamic: true,
           file: dynamicKeysExampleFile,
-          namespace: "dynamic.four",
+          namespace: 'dynamic.four',
         },
       },
       {
-        key: "dynamic.four.nameFour",
+        key: 'dynamic.four.nameFour',
         meta: {
           file: dynamicKeysExampleFile,
-          namespace: "dynamic.four",
+          namespace: 'dynamic.four',
         },
       },
       {
-        key: "dynamic.four.nameOne",
+        key: 'dynamic.four.nameOne',
         meta: {
           file: dynamicKeysExampleFile,
-          namespace: "dynamic.four",
+          namespace: 'dynamic.four',
         },
       },
       {
-        key: "dynamic.four.nameThree",
+        key: 'dynamic.four.nameThree',
         meta: {
           file: dynamicKeysExampleFile,
-          namespace: "dynamic.four",
+          namespace: 'dynamic.four',
         },
       },
       {
-        key: "dynamic.four.nameTwo",
+        key: 'dynamic.four.nameTwo',
         meta: {
           file: dynamicKeysExampleFile,
-          namespace: "dynamic.four",
+          namespace: 'dynamic.four',
         },
       },
     ]);
   });
 
-  it("should find all strict typed keys", () => {
+  it('should find all strict typed keys', () => {
     const keys = extract([strictTypesExample]);
 
     expect(keys).toEqual([
       {
-        key: "About.lastUpdated",
+        key: 'About.lastUpdated',
         meta: {
           file: strictTypesExample,
-          namespace: "About",
+          namespace: 'About',
         },
       },
       {
-        key: "About.lastUpdated",
+        key: 'About.lastUpdated',
         meta: {
           file: strictTypesExample,
-          namespace: "About",
+          namespace: 'About',
         },
       },
       {
-        key: "About.title",
+        key: 'About.title',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "About.title",
+        key: 'About.title',
         meta: {
           file: strictTypesExample,
-          namespace: "About",
+          namespace: 'About',
         },
       },
       {
-        key: "About.title",
+        key: 'About.title',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "About.title",
+        key: 'About.title',
         meta: {
           file: strictTypesExample,
-          namespace: "About",
+          namespace: 'About',
         },
       },
       {
-        key: "About.unknown",
+        key: 'About.unknown',
         meta: {
           file: strictTypesExample,
-          namespace: "About",
+          namespace: 'About',
         },
       },
       {
-        key: "About.unknown",
+        key: 'About.unknown',
         meta: {
           file: strictTypesExample,
-          namespace: "About",
+          namespace: 'About',
         },
       },
       {
-        key: "Navigation.about",
+        key: 'Navigation.about',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "Navigation.about",
+        key: 'Navigation.about',
         meta: {
           file: strictTypesExample,
-          namespace: "Navigation",
+          namespace: 'Navigation',
         },
       },
       {
-        key: "Navigation.about",
+        key: 'Navigation.about',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "Navigation.about",
+        key: 'Navigation.about',
         meta: {
           file: strictTypesExample,
-          namespace: "Navigation",
+          namespace: 'Navigation',
         },
       },
       {
-        key: "NotFound.title",
+        key: 'NotFound.title',
         meta: {
           file: strictTypesExample,
-          namespace: "NotFound",
+          namespace: 'NotFound',
         },
       },
       {
-        key: "NotFound.title",
+        key: 'NotFound.title',
         meta: {
           file: strictTypesExample,
-          namespace: "NotFound",
+          namespace: 'NotFound',
         },
       },
       {
-        key: "PageLayout.pageTitle",
+        key: 'PageLayout.pageTitle',
         meta: {
           file: strictTypesExample,
-          namespace: "PageLayout",
+          namespace: 'PageLayout',
         },
       },
       {
-        key: "PageLayout.pageTitle",
+        key: 'PageLayout.pageTitle',
         meta: {
           file: strictTypesExample,
-          namespace: "PageLayout",
+          namespace: 'PageLayout',
         },
       },
       {
-        key: "StrictTypes.nested.another.level",
+        key: 'StrictTypes.nested.another.level',
         meta: {
           file: strictTypesExample,
-          namespace: "StrictTypes.nested",
+          namespace: 'StrictTypes.nested',
         },
       },
       {
-        key: "StrictTypes.nested.another.level",
+        key: 'StrictTypes.nested.another.level',
         meta: {
           file: strictTypesExample,
-          namespace: "StrictTypes.nested",
+          namespace: 'StrictTypes.nested',
         },
       },
       {
-        key: "StrictTypes.nested.hello",
+        key: 'StrictTypes.nested.hello',
         meta: {
           file: strictTypesExample,
-          namespace: "StrictTypes",
+          namespace: 'StrictTypes',
         },
       },
       {
-        key: "StrictTypes.nested.hello",
+        key: 'StrictTypes.nested.hello',
         meta: {
           file: strictTypesExample,
-          namespace: "StrictTypes",
+          namespace: 'StrictTypes',
         },
       },
       {
-        key: "Test.title",
+        key: 'Test.title',
         meta: {
           file: strictTypesExample,
-          namespace: "Test",
+          namespace: 'Test',
         },
       },
       {
-        key: "Test.title",
+        key: 'Test.title',
         meta: {
           file: strictTypesExample,
-          namespace: "Test",
+          namespace: 'Test',
         },
       },
       {
-        key: "title",
+        key: 'title',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "title",
+        key: 'title',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "unknown",
+        key: 'unknown',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "unknown",
+        key: 'unknown',
         meta: {
           file: strictTypesExample,
           namespace: undefined,
         },
       },
       {
-        key: "unknown.unknown",
+        key: 'unknown.unknown',
         meta: {
           file: strictTypesExample,
-          namespace: "unknown",
+          namespace: 'unknown',
         },
       },
       {
-        key: "unknown.unknown",
+        key: 'unknown.unknown',
         meta: {
           file: strictTypesExample,
-          namespace: "unknown",
+          namespace: 'unknown',
         },
       },
     ]);
   });
 
-  it("should find all the keys for multiple useTranslations aliases", () => {
+  it('should find all the keys for multiple useTranslations aliases', () => {
     const keys = extract([advancedExample]);
 
     expect(keys).toEqual([
       {
-        key: "aliasNestedFour.four",
+        key: 'aliasNestedFour.four',
         meta: {
           file: advancedExample,
-          namespace: "aliasNestedFour",
+          namespace: 'aliasNestedFour',
         },
       },
       {
-        key: "aliasNestedOne.one",
+        key: 'aliasNestedOne.one',
         meta: {
           file: advancedExample,
-          namespace: "aliasNestedOne",
+          namespace: 'aliasNestedOne',
         },
       },
       {
-        key: "aliasNestedOne.threeOne",
+        key: 'aliasNestedOne.threeOne',
         meta: {
           file: advancedExample,
-          namespace: "aliasNestedOne",
+          namespace: 'aliasNestedOne',
         },
       },
       {
-        key: "aliasNestedThree.three",
+        key: 'aliasNestedThree.three',
         meta: {
           file: advancedExample,
-          namespace: "aliasNestedThree",
+          namespace: 'aliasNestedThree',
         },
       },
       {
-        key: "aliasNestedThree.threeThree",
+        key: 'aliasNestedThree.threeThree',
         meta: {
           file: advancedExample,
-          namespace: "aliasNestedThree",
+          namespace: 'aliasNestedThree',
         },
       },
       {
-        key: "aliasNestedTwo.threeTwo",
+        key: 'aliasNestedTwo.threeTwo',
         meta: {
           file: advancedExample,
-          namespace: "aliasNestedTwo",
+          namespace: 'aliasNestedTwo',
         },
       },
       {
-        key: "aliasNestedTwo.two",
+        key: 'aliasNestedTwo.two',
         meta: {
           file: advancedExample,
-          namespace: "aliasNestedTwo",
+          namespace: 'aliasNestedTwo',
         },
       },
       {
-        key: "aliasOne.keyOne",
+        key: 'aliasOne.keyOne',
         meta: {
           file: advancedExample,
-          namespace: "aliasOne",
+          namespace: 'aliasOne',
         },
       },
       {
-        key: "aliasTwo.keyTwo",
+        key: 'aliasTwo.keyTwo',
         meta: {
           file: advancedExample,
-          namespace: "aliasTwo",
+          namespace: 'aliasTwo',
         },
       },
     ]);

@@ -5,18 +5,18 @@
  *
  */
 
-import { parse, MessageFormatElement } from "./i18NextParser";
+import { parse, MessageFormatElement } from './i18NextParser';
 import {
   InvalidTranslationEntry,
   InvalidTranslationsResult,
   Translation,
-} from "../types";
+} from '../types';
 
 export const findInvalid18nTranslations = (
   source: Translation,
   targets: Record<string, Translation>
 ) => {
-  let differences: InvalidTranslationsResult = {};
+  const differences: InvalidTranslationsResult = {};
   if (Object.keys(targets).length === 0) {
     return differences;
   }
@@ -33,7 +33,7 @@ export const findInvalid18nTranslations = (
 };
 
 export const compareTranslationFiles = (a: Translation, b: Translation) => {
-  let diffs: InvalidTranslationEntry[] = [];
+  const diffs: InvalidTranslationEntry[] = [];
   for (const key in a) {
     if (b[key] === undefined) {
       continue;
@@ -48,7 +48,7 @@ export const compareTranslationFiles = (a: Translation, b: Translation) => {
   return diffs;
 };
 
-const lookUp: Record<MessageFormatElement["type"], number> = {
+const lookUp: Record<MessageFormatElement['type'], number> = {
   text: 0,
   interpolation: 1,
   interpolation_unescaped: 2,
@@ -58,11 +58,11 @@ const lookUp: Record<MessageFormatElement["type"], number> = {
 };
 
 const sortParsedKeys = (a: MessageFormatElement, b: MessageFormatElement) => {
-  if (a.type === b.type && a.type !== "tag" && b.type !== "tag") {
+  if (a.type === b.type && a.type !== 'tag' && b.type !== 'tag') {
     return a.content < b.content ? -1 : 1;
   }
 
-  if (a.type === "tag" && b.type === "tag") {
+  if (a.type === 'tag' && b.type === 'tag') {
     return a.raw < b.raw ? -1 : 1;
   }
 
@@ -74,10 +74,10 @@ export const hasDiff = (
   b: MessageFormatElement[]
 ) => {
   const compA = a
-    .filter((element) => element.type !== "text")
+    .filter((element) => element.type !== 'text')
     .sort(sortParsedKeys);
   const compB = b
-    .filter((element) => element.type !== "text")
+    .filter((element) => element.type !== 'text')
     .sort(sortParsedKeys);
 
   if (compA.length !== compB.length) {
@@ -91,7 +91,7 @@ export const hasDiff = (
       return true;
     }
 
-    if (formatElementA.type === "tag" && formatElementB.type === "tag") {
+    if (formatElementA.type === 'tag' && formatElementB.type === 'tag') {
       return (
         formatElementA.raw !== formatElementB.raw ||
         formatElementA.voidElement !== formatElementB.voidElement
@@ -99,25 +99,25 @@ export const hasDiff = (
     }
 
     if (
-      (formatElementA.type === "interpolation" &&
-        formatElementB.type === "interpolation") ||
-      (formatElementA.type === "interpolation_unescaped" &&
-        formatElementB.type === "interpolation_unescaped") ||
-      (formatElementA.type === "nesting" &&
-        formatElementB.type === "nesting") ||
-      (formatElementA.type === "plural" && formatElementB.type === "plural")
+      (formatElementA.type === 'interpolation' &&
+        formatElementB.type === 'interpolation') ||
+      (formatElementA.type === 'interpolation_unescaped' &&
+        formatElementB.type === 'interpolation_unescaped') ||
+      (formatElementA.type === 'nesting' &&
+        formatElementB.type === 'nesting') ||
+      (formatElementA.type === 'plural' && formatElementB.type === 'plural')
     ) {
       const optionsA = formatElementA.variable
-        .split(",")
+        .split(',')
         .map((value) => value.trim())
         .sort()
-        .join("-")
+        .join('-')
         .trim();
       const optionsB = formatElementB.variable
-        .split(",")
+        .split(',')
         .map((value) => value.trim())
         .sort()
-        .join("-")
+        .join('-')
         .trim();
 
       if (optionsA !== optionsB) {
@@ -144,10 +144,10 @@ const getErrorMessage = (
   b: MessageFormatElement[]
 ): string => {
   const compA = a
-    .filter((element) => element.type !== "text")
+    .filter((element) => element.type !== 'text')
     .sort(sortParsedKeys);
   const compB = b
-    .filter((element) => element.type !== "text")
+    .filter((element) => element.type !== 'text')
     .sort(sortParsedKeys);
 
   const errors = compA.reduce((acc, formatElementA, index) => {
@@ -165,7 +165,7 @@ const getErrorMessage = (
       return acc;
     }
 
-    if (formatElementA.type === "tag" && formatElementB.type === "tag") {
+    if (formatElementA.type === 'tag' && formatElementB.type === 'tag') {
       if (formatElementA.raw !== formatElementB.raw) {
         acc.push(
           `Expected tag "${formatElementA.raw}" but received "${formatElementB.raw}"`
@@ -186,13 +186,13 @@ const getErrorMessage = (
     }
 
     if (
-      (formatElementA.type === "interpolation" &&
-        formatElementB.type === "interpolation") ||
-      (formatElementA.type === "interpolation_unescaped" &&
-        formatElementB.type === "interpolation_unescaped") ||
-      (formatElementA.type === "nesting" &&
-        formatElementB.type === "nesting") ||
-      (formatElementA.type === "plural" && formatElementB.type === "plural")
+      (formatElementA.type === 'interpolation' &&
+        formatElementB.type === 'interpolation') ||
+      (formatElementA.type === 'interpolation_unescaped' &&
+        formatElementB.type === 'interpolation_unescaped') ||
+      (formatElementA.type === 'nesting' &&
+        formatElementB.type === 'nesting') ||
+      (formatElementA.type === 'plural' && formatElementB.type === 'plural')
     ) {
       if (formatElementA.prefix !== formatElementA.prefix) {
         acc.push(
@@ -209,15 +209,15 @@ const getErrorMessage = (
       }
 
       const optionsA = formatElementA.variable
-        .split(",")
+        .split(',')
         .map((value) => value.trim())
         .sort();
       const optionsB = formatElementB.variable
-        .split(",")
+        .split(',')
         .map((value) => value.trim())
         .sort();
 
-      let elementErrors: (string | null)[] = [];
+      const elementErrors: (string | null)[] = [];
       optionsA.forEach((key, index) => {
         if (key !== optionsB[index]) {
           elementErrors.push(`Expected ${key} but received ${optionsB[index]}`);
@@ -227,7 +227,7 @@ const getErrorMessage = (
         acc.push(
           `Error in ${formatElementA.type}: ${elementErrors
             .flatMap((elementError) => elementError)
-            .join(", ")}`
+            .join(', ')}`
         );
       }
       return acc;
@@ -243,10 +243,10 @@ const getErrorMessage = (
         acc.push(`Unexpected ${formatElementB.type} element`);
         return acc;
       }, [])
-      .join(", ");
+      .join(', ');
 
-    return [...errors, unexpectedElements].join(", ");
+    return [...errors, unexpectedElements].join(', ');
   }
 
-  return errors.join(", ");
+  return errors.join(', ');
 };

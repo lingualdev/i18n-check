@@ -1,19 +1,19 @@
-message.simple: "Un mensaje sencillo."
-message.argument: "¡Hola, {name}! 👋"
-message.plural: "{count, plural, one {# articulo} other {# artículos}}"
-message.select: "{gender, select, male {Sr.} female {Sra.} other {Usuario}}"
-message.text-format: "¡Hola, <b>John</b>!"
-message.number-format: "Número formateado: {num, number, ::K}"
-message.currency-format: "Moneda formateada: {amount, number, ::currency/USD}"
-foo: "bar"
+message.simple: 'Un mensaje sencillo.'
+message.argument: '¡Hola, {name}! 👋'
+message.plural: '{count, plural, one {# articulo} other {# artículos}}'
+message.select: '{gender, select, male {Sr.} female {Sra.} other {Usuario}}'
+message.text-format: '¡Hola, <b>John</b>!'
+message.number-format: 'Número formateado: {num, number, ::K}'
+message.currency-format: 'Moneda formateada: {amount, number, ::currency/USD}'
+foo: 'bar'
 rawText:
-  label1: "Title"
+  label1: 'Title'
 noformat:
   search:
-    label2: "Hi {user}"
-multipleVariables: "Hi {user}, it is {today, date, medium} and tomorrow it is {tomorrow, date, medium}."
-numberFormat: "{count, number} users"
-select: "You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}"
-nested.select: "{done, select, no {There is more to it {count, number}.} other {Done.}}"
-plural.with.substitution: "Shopping cart: {itemCount, plural, =0 {keine Einheiten} one {# Eiheit} other {# Einheiten}}."
-user_messages: "{count, plural, one {You had # message.} other {You had # messages.}}"
+    label2: 'Hi {user}'
+multipleVariables: 'Hi {user}, it is {today, date, medium} and tomorrow it is {tomorrow, date, medium}.'
+numberFormat: '{count, number} users'
+select: 'You selected {choice, select, yes {Yea} no {Nay} other {Maybe}}'
+nested.select: '{done, select, no {There is more to it {count, number}.} other {Done.}}'
+plural.with.substitution: 'Shopping cart: {itemCount, plural, =0 {keine Einheiten} one {# Eiheit} other {# Einheiten}}.'
+user_messages: '{count, plural, one {You had # message.} other {You had # messages.}}'
