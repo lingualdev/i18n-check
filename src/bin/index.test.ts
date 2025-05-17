@@ -555,6 +555,42 @@ ${formatTable([
 
 `);
     });
+
+    it('should skip ignored keys when checking for missing/invalid keys', async () => {
+      const stdout = await execAsync(
+        'node dist/bin/index.js -l translations/multipleFilesFolderExample translations/flattenExamples -s en-US -i "other.nested.*" test.drive.four'
+      );
+
+      const result = stdout.split('Done')[0];
+      expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+Found missing keys!
+${formatTable([
+  [['file', 'key']],
+  [[multiFiles('de-DE/one.json'), 'message.text-format']],
+])}
+
+Found invalid keys!
+${formatTable([
+  [['info', 'result']],
+  [
+    ['file', multiFiles('de-DE/one.json')],
+    ['key', 'message.select'],
+    [
+      'msg',
+      'Expected element of type "select" but received "argument", Unexpected date element, Unexpected date element...',
+    ],
+  ],
+  [
+    ['file', multiFiles('de-DE/three.json')],
+    ['key', 'multipleVariables'],
+    ['msg', 'Expected argument to contain "user" but received "name"'],
+  ],
+])}
+
+`);
+    });
   });
 
   describe('YAML', () => {

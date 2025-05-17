@@ -223,6 +223,28 @@ yarn i18n:check --locales translations/folderExamples -s en-US -e translations/f
 The `--exclude` option also accepts a mix of files and folders, which follows the same pattern as above, i.e.
 `-e translations/folderExamples/fr/* translations/messageExamples/it.json`
 
+### --ignore, -i
+
+There can be situations where we only want to translate a feature for a specific region and therefore need to ignore any missing key checks against non supported locales. Another scenario is that we know of the missing keys and want to be able to skip these missing keys when running checks. For these aforementioned scenarios, by using the `--ignore` or `-i` option you can specify which keys to ignore, additionally also being able to define ignoring all keys inside a defined path, i.e. `some.keys.path.*`.
+
+To ignore regular keys:
+
+```bash
+yarn i18n:check --locales translations/folderExamples -s en-US -i some.key.to.ignore other.key.to.ignore
+```
+
+To ignore all keys within a provided path:
+
+```bash
+yarn i18n:check --locales translations/folderExamples -s en-US -i "some.path.to.keys.*"
+```
+
+A mix of regular keys and paths:
+
+```bash
+yarn i18n:check --locales translations/folderExamples -s en-US -i "some.path.to.keys.*" some.key.to.ignore other.key.to.ignore
+```
+
 ### --parser-component-functions
 
 When using the `--unused` option, there will be situations where the i18next-parser will not be able to find components that wrap a `Trans` component.The component names for i18next-parser to match should be provided via the `--parser-component-functions` option. This option should onlybe used to define additional names for matching, a by default `Trans` will always be matched.
