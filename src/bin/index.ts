@@ -53,6 +53,10 @@ program
     'define the file(s) and/or folders(s) that should be excluded from the check'
   )
   .option(
+    '-i, --ignore <ignore...>',
+    'define the key(s) or group of keys (i.e. `some.namespace.*`) that should be excluded from the check'
+  )
+  .option(
     '-u, --unused <paths...>',
     'define the source path(s) to find all unused and undefined keys'
   )
@@ -99,6 +103,7 @@ const main = async () => {
   const localePath = program.getOptionValue('locales');
   const format = program.getOptionValue('format');
   const exclude = program.getOptionValue('exclude');
+  const ignore = program.getOptionValue('ignore');
   const unusedSrcPath = program.getOptionValue('unused');
   const componentFunctions = program.getOptionValue('parserComponentFunctions');
 
@@ -147,6 +152,7 @@ const main = async () => {
   const options = {
     checks: getCheckOptions(),
     format: format ?? undefined,
+    ignore,
   };
 
   const fileInfos: {

@@ -18,6 +18,7 @@ const ParseFormats = ['react-intl', 'i18next', 'next-intl'];
 export type Options = {
   format?: 'icu' | 'i18next' | 'react-intl' | 'next-intl';
   checks?: Context[];
+  ignore?: string[];
 };
 
 export const checkInvalidTranslations = (
@@ -50,8 +51,8 @@ export const checkTranslations = (
   const missingKeys: CheckResult = {};
   const invalidKeys: InvalidTranslationsResult = {};
 
-  const hasMissingKeys = checks.includes('missingKeys');
-  const hasInvalidKeys = checks.includes('invalidKeys');
+  const hasMissingKeysCheck = checks.includes('missingKeys');
+  const hasInvalidKeysCheck = checks.includes('invalidKeys');
 
   source.forEach(({ name, content }) => {
     const files = Object.fromEntries(
@@ -60,18 +61,19 @@ export const checkTranslations = (
         .map(({ name, content }) => [name, content])
     );
 
-    if (hasMissingKeys) {
-      merge(missingKeys, checkMissingTranslations(content, files));
+    if (hasMissingKeysCheck) {
+      const filteredContent = filterKeys(content, options.ignore ?? []);
+      merge(missingKeys, checkMissingTranslations(filteredContent, files));
     }
 
-    if (hasInvalidKeys) {
+    if (hasInvalidKeysCheck) {
       merge(invalidKeys, checkInvalidTranslations(content, files, options));
     }
   });
 
   return {
-    missingKeys: hasMissingKeys ? missingKeys : undefined,
-    invalidKeys: hasInvalidKeys ? invalidKeys : undefined,
+    missingKeys: hasMissingKeysCheck ? missingKeys : undefined,
+    invalidKeys: hasInvalidKeysCheck ? invalidKeys : undefined,
   };
 };
 
@@ -164,7 +166,7 @@ const findUnusedI18NextTranslations = async (
       }
 
       // find the file name
-      const [fileName] = (name.split(path.sep).pop() ?? "").split(".");
+      const [fileName] = (name.split(path.sep).pop() ?? '').split('.');
 
       if (
         !extractedResultSet.has(`${fileName}.${keyInSource}`) &&
@@ -383,7 +385,8 @@ const getI18NextKeysInCode = async (
   // As these are used dynamically, they will be skipped to prevent
   // these keys from being marked as unused.
 
-  const extractedResult: { file: string; key: string; namespace?: string }[] = [];
+  const extractedResult: { file: string; key: string; namespace?: string }[] =
+    [];
 
   const skippableKeys: string[] = [];
 
@@ -398,14 +401,14 @@ const getI18NextKeysInCode = async (
     // The current implementation considers the key as used no matter the namespace.
     for (const entry of entries) {
       // check for namespace, i.e. `namespace:some.key`
-      const [namespace, ...keyParts] = entry.key.split(":");
+      const [namespace, ...keyParts] = entry.key.split(':');
       // If there is a namespace make sure to assign the namespace
       // and update the key name
       // Ensure that the assumed key is not the default value
       if (keyParts.length > 0 && entry.key !== entry.defaultValue) {
         entry.namespace = namespace;
         // rebuild the key without the namespace
-        entry.key = keyParts.join(":");
+        entry.key = keyParts.join(':');
       }
       if (entry.returnObjects) {
         skippableKeys.push(entry.key);
@@ -420,6 +423,27 @@ const getI18NextKeysInCode = async (
   });
 
   return { extractedResult, skippableKeys };
+};
+
+const filterKeys = (content: Translation, keysToIgnore: string[] = []) => {
+  if (keysToIgnore.length > 0) {
+    return Object.entries(content).reduce((acc, [key, value]) => {
+      if (
+        keysToIgnore.find((ignoreKey) => {
+          if (ignoreKey.endsWith('*')) {
+            return key.includes(ignoreKey.slice(0, ignoreKey.length - 1));
+          }
+          return ignoreKey === key;
+        })
+      ) {
+        return acc;
+      }
+      acc[key] = value;
+      return acc;
+    }, {} as Translation);
+  }
+
+  return content;
 };
 
 function _flatten(
