@@ -4,9 +4,9 @@
 It compares the defined source language with all target translation files and finds inconsistencies between source and target files.
 You can run these checks as a pre-commit hook or on the CI depending on your use-case and setup.
 
-![example 1](./assets/i18n-check-screenshot-full.png)
+![example 1](./assets/i18n_check_multipleFilesFolderExample_basic_v2.png)
 
-![example 2](./assets/i18n-check-screenshot-summary.png)
+![example 2](./assets/i18n_check_multipleFilesFolderExample_react_intl_unused_v2.png)
 
 ## Table of Contents
 
