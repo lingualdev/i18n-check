@@ -106,7 +106,7 @@ Additionally the `i18next` format is supported and can be set via the `-f` or `-
 
 There are i18n libraries that have their own specific format, which might not be based on ICU and therefore can not be validated against currently. On a side-note: there might be future support for more specific formats.
 
-Hint: If you want to use the `--unused` flag, you should provide `react-intl` or `i18-next` as the format. Also see the [`unused` section](#--unused) for more details.
+Hint: If you want to use the `--unused` flag, you should provide `react-intl` or `i18-next` as the format. Also see the [`unused` section](#--unused--u) for more details.
 
 ```bash
 yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
@@ -165,7 +165,7 @@ This feature is currently only supported for `react-intl` and `i18next` as well 
 
 Via the `-u` or `--unused` option you provide a source path to the code, which will be parsed to find all unused as well as undefined keys in the primary target language.
 
-It is important to note that you must also provide the `-f` or `--format` option with `react-intl`, `i18next` or `next-intl` as value. See the [`format` section](#--format) for more information.
+It is important to note that you must also provide the `-f` or `--format` option with `react-intl`, `i18next` or `next-intl` as value. See the [`format` section](#--format--f) for more information.
 
 ```bash
 yarn i18n:check --locales translations/messageExamples -s en-US -u client/ -f react-intl
