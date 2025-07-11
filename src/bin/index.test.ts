@@ -30,6 +30,15 @@ function execAsync(cmd: string) {
   });
 }
 
+function execAsyncWithExitCode(cmd: string) {
+  return new Promise<{ stdout: string; exitCode: number }>((resolve) => {
+    exec(cmd, (error, stdout) => {
+      const exitCode = error ? error.code || 1 : 0;
+      resolve({ stdout, exitCode });
+    });
+  });
+}
+
 describe('CLI', () => {
   describe('JSON', () => {
     it('should return the missing keys for single folder translations', async () => {
@@ -554,6 +563,67 @@ ${formatTable([
 ])}
 
 `);
+    });
+
+    it('should exit with code 1 when undefined keys are found', async () => {
+      const cmd =
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('Found undefined keys!');
+    });
+
+    it('should exit with code 0 when no undefined keys are found', async () => {
+      const cmd =
+        'node dist/bin/index.js --source en-US --locales translations/flattenExamples --only missingKeys,invalidKeys -i "other.nested.*"';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('No missing keys found!');
+      expect(result.stdout).not.toContain('Found undefined keys!');
+    });
+
+    it('should exit with code 1 when both missing keys and undefined keys are found', async () => {
+      const cmd =
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src --only missingKeys,undefined';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('Found undefined keys!');
+    });
+
+    it('should exit with code 1 when missing keys are found', async () => {
+      const cmd =
+        'node dist/bin/index.js -s en-US -l translations/flattenExamples --only missingKeys';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('Found missing keys!');
+    });
+
+    it('should exit with code 1 when invalid keys are found', async () => {
+      const cmd =
+        'node dist/bin/index.js -l translations/folderExample/ -s en-US --only invalidKeys';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('Found invalid keys!');
+    });
+
+    it('should exit with code 0 when no issues are found', async () => {
+      const cmd =
+        'node dist/bin/index.js -s en-US -l translations/flattenExamples --only missingKeys -i "other.nested.*"';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('No missing keys found!');
     });
 
     it('should skip ignored keys when checking for missing/invalid keys', async () => {
