@@ -257,6 +257,7 @@ const main = async () => {
   }
   try {
     const result = checkTranslations(srcFiles, targetFiles, options);
+    let undefinedKeyResult: CheckResult | undefined = undefined;
 
     printTranslationResult(result);
 
@@ -287,6 +288,7 @@ const main = async () => {
       printUndefinedKeysResult({
         undefinedKeys,
       });
+      undefinedKeyResult = undefinedKeys;
     }
 
     const end = performance.now();
@@ -298,7 +300,8 @@ const main = async () => {
     );
     if (
       (result.missingKeys && Object.keys(result.missingKeys).length > 0) ||
-      (result.invalidKeys && Object.keys(result.invalidKeys).length > 0)
+      (result.invalidKeys && Object.keys(result.invalidKeys).length > 0) ||
+      (undefinedKeyResult && Object.keys(undefinedKeyResult).length > 0)
     ) {
       exit(1);
     } else {
