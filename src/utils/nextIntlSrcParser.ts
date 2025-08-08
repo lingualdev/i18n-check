@@ -126,6 +126,67 @@ const getKeys = (path: string) => {
             }
           }
         }
+
+        // Check if getTranslations is called inside a promise.all
+        // Example:
+        // const [data, t] = await Promise.all([
+        //    loadData(id),
+        //    getTranslations('asyncPromiseAll'),
+        // ]);
+        if (
+          ts.isCallExpression(node.initializer.expression) &&
+          node.initializer.expression.arguments.length > 0 &&
+          ts.isArrayLiteralExpression(node.initializer.expression.arguments[0])
+        ) {
+          const functionNameIndex =
+            node.initializer.expression.arguments[0].elements.findIndex(
+              (argument) => {
+                return (
+                  ts.isCallExpression(argument) &&
+                  ts.isIdentifier(argument.expression) &&
+                  argument.expression.text === GET_TRANSLATIONS
+                );
+              }
+            );
+
+          // Try to find the correct function name via the position in the variable declaration
+          if (
+            functionNameIndex !== -1 &&
+            ts.isArrayBindingPattern(node.name) &&
+            ts.isBindingElement(node.name.elements[functionNameIndex]) &&
+            ts.isIdentifier(node.name.elements[functionNameIndex].name)
+          ) {
+            const variable = node.name.elements[functionNameIndex].name.text;
+            const [argument] = ts.isCallExpression(
+              node.initializer.expression.arguments[0].elements[
+                functionNameIndex
+              ]
+            )
+              ? node.initializer.expression.arguments[0].elements[
+                  functionNameIndex
+                ].arguments
+              : [];
+
+            if (argument && ts.isObjectLiteralExpression(argument)) {
+              argument.properties.forEach((property) => {
+                if (
+                  property &&
+                  ts.isPropertyAssignment(property) &&
+                  property.name &&
+                  ts.isIdentifier(property.name) &&
+                  property.name.text === 'namespace' &&
+                  ts.isStringLiteral(property.initializer)
+                ) {
+                  pushNamespace({ name: property.initializer.text, variable });
+                }
+              });
+            } else if (argument && ts.isStringLiteral(argument)) {
+              pushNamespace({ name: argument.text, variable });
+            } else if (argument === undefined) {
+              pushNamespace({ name: '', variable });
+            }
+          }
+        }
       }
     }
 

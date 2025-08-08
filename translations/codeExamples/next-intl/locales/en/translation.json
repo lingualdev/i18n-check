@@ -75,6 +75,10 @@
   "Async": {
     "title": "title"
   },
+  "asyncPromiseAll": {
+    "title": "title",
+    "subtitle": "subtitle"
+  },
   "testKeyWithoutNamespace": "testKeyWithoutNamespace",
   "notUsedKey": "notUsedKey",
   "deepNested": {

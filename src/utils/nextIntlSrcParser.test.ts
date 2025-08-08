@@ -8,6 +8,10 @@ const counterFile = path.join(srcPath, 'Counter.tsx');
 const clientCounterFile = path.join(srcPath, 'ClientCounter.tsx');
 const nestedExampleFile = path.join(srcPath, 'NestedExample.tsx');
 const asyncExampleFile = path.join(srcPath, 'AsyncExample.tsx');
+const asyncPromiseAllExampleFile = path.join(
+  srcPath,
+  'AsyncPromiseAllExample.tsx'
+);
 const dynamicKeysExampleFile = path.join(srcPath, 'DynamicKeysExample.tsx');
 const strictTypesExample = path.join(srcPath, 'StrictTypesExample.tsx');
 const advancedExample = path.join(srcPath, 'AdvancedExample.tsx');
@@ -246,6 +250,27 @@ describe('nextIntlSrcParser', () => {
         meta: {
           file: asyncExampleFile,
           namespace: 'async.two',
+        },
+      },
+    ]);
+  });
+
+  it('should find all the async translation keys when using promise.all', () => {
+    const keys = extract([asyncPromiseAllExampleFile]);
+
+    expect(keys).toEqual([
+      {
+        key: 'asyncPromiseAll.subtitle',
+        meta: {
+          file: asyncPromiseAllExampleFile,
+          namespace: 'asyncPromiseAll',
+        },
+      },
+      {
+        key: 'asyncPromiseAll.title',
+        meta: {
+          file: asyncPromiseAllExampleFile,
+          namespace: 'asyncPromiseAll',
         },
       },
     ]);
