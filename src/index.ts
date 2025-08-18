@@ -61,13 +61,17 @@ export const checkTranslations = (
         .map(({ name, content }) => [name, content])
     );
 
+    const filteredContent = filterKeys(content, options.ignore ?? []);
+
     if (hasMissingKeysCheck) {
-      const filteredContent = filterKeys(content, options.ignore ?? []);
       merge(missingKeys, checkMissingTranslations(filteredContent, files));
     }
 
     if (hasInvalidKeysCheck) {
-      merge(invalidKeys, checkInvalidTranslations(content, files, options));
+      merge(
+        invalidKeys,
+        checkInvalidTranslations(filteredContent, files, options)
+      );
     }
   });
 
