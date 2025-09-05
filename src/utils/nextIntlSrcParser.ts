@@ -117,6 +117,8 @@ const getKeys = (path: string) => {
                   ts.isStringLiteral(property.initializer)
                 ) {
                   pushNamespace({ name: property.initializer.text, variable });
+                } else {
+                  pushNamespace({ name: '', variable });
                 }
               });
             } else if (argument && ts.isStringLiteral(argument)) {

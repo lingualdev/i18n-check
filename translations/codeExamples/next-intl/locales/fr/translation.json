@@ -133,5 +133,14 @@
   },
   "aliasNestedFour": {
     "four": "four"
+  },
+  "generate": {
+    "meta": {
+      "data": {
+        "key": "This key",
+        "otherKey": "That key",
+        "title": "title"
+      }
+    }
   }
 }

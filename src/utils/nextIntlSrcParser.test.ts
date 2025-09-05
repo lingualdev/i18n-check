@@ -15,6 +15,10 @@ const asyncPromiseAllExampleFile = path.join(
 const dynamicKeysExampleFile = path.join(srcPath, 'DynamicKeysExample.tsx');
 const strictTypesExample = path.join(srcPath, 'StrictTypesExample.tsx');
 const advancedExample = path.join(srcPath, 'AdvancedExample.tsx');
+const generateMetaDataExample = path.join(
+  srcPath,
+  'GenerateMetadataExample.tsx'
+);
 
 describe('nextIntlSrcParser', () => {
   it('should find all the translation keys', () => {
@@ -595,6 +599,34 @@ describe('nextIntlSrcParser', () => {
         meta: {
           file: advancedExample,
           namespace: 'aliasTwo',
+        },
+      },
+    ]);
+  });
+
+  it('should find all the keys definded in generateMetaData', () => {
+    const keys = extract([generateMetaDataExample]);
+
+    expect(keys).toEqual([
+      {
+        key: 'generate.meta.data.key',
+        meta: {
+          file: generateMetaDataExample,
+          namespace: '',
+        },
+      },
+      {
+        key: 'generate.meta.data.otherKey',
+        meta: {
+          file: generateMetaDataExample,
+          namespace: '',
+        },
+      },
+      {
+        key: 'generate.meta.data.title',
+        meta: {
+          file: generateMetaDataExample,
+          namespace: 'generate',
         },
       },
     ]);
