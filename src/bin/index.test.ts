@@ -565,6 +565,16 @@ ${formatTable([
 `);
     });
 
+    it('should exit with code 1 when unused keys are found', async () => {
+      const cmd =
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src --only unused';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('Found unused keys!');
+    });
+
     it('should exit with code 1 when undefined keys are found', async () => {
       const cmd =
         'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src';
