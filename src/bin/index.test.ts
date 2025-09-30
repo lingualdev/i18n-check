@@ -567,7 +567,7 @@ ${formatTable([
 
     it('should exit with code 0 when no unused keys are found', async () => {
       const cmd =
-        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src translations/codeExamples/next-intl/unused --only unused  -i "message.*"';
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src translations/codeExamples/next-intl/unused --only unused';
 
       const result = await execAsyncWithExitCode(cmd);
 
