@@ -304,7 +304,7 @@ const main = async () => {
       (result.missingKeys && Object.keys(result.missingKeys).length > 0) ||
       (result.invalidKeys && Object.keys(result.invalidKeys).length > 0) ||
       (unusedKeyResult && hasKeys(unusedKeyResult)) ||
-      (undefinedKeyResult && Object.keys(undefinedKeyResult).length > 0)
+      (undefinedKeyResult && hasKeys(undefinedKeyResult))
     ) {
       exit(1);
     } else {

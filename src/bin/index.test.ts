@@ -567,7 +567,7 @@ ${formatTable([
 
     it('should exit with code 0 when no unused keys are found', async () => {
       const cmd =
-        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src translations/codeExamples/next-intl/unused --only unused';
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src translations/codeExamples/next-intl/unused --only unused -i notUsedKey message.plural';
 
       const result = await execAsyncWithExitCode(cmd);
 
@@ -588,7 +588,7 @@ ${formatTable([
 
     it('should exit with code 1 when undefined keys are found', async () => {
       const cmd =
-        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src';
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src --only undefined';
 
       const result = await execAsyncWithExitCode(cmd);
 
@@ -598,12 +598,11 @@ ${formatTable([
 
     it('should exit with code 0 when no undefined keys are found', async () => {
       const cmd =
-        'node dist/bin/index.js --source en-US --locales translations/flattenExamples --only missingKeys,invalidKeys -i "other.nested.*"';
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src --only undefined -i "About.*" "Test.*" "unknown.*" unknown title "message.select"';
 
       const result = await execAsyncWithExitCode(cmd);
 
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('No missing keys found!');
       expect(result.stdout).not.toContain('Found undefined keys!');
     });
 
@@ -645,6 +644,28 @@ ${formatTable([
 
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toContain('No missing keys found!');
+    });
+
+    it('should skip ignored keys when checking unused and undefined keys for react-intl applications', async () => {
+      const cmd =
+        'node dist/bin/index.js --source en-US --locales translations/codeExamples/react-intl/locales -f react-intl -u translations/codeExamples/react-intl/src --only unused undefined -i "some.key.that.is.not.defined" "message.number-format" multipleVariables';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('No unused keys found!');
+      expect(result.stdout).toContain('No undefined keys found!');
+    });
+
+    it('should skip ignored keys when checking unused and undefined keys for i18next applications', async () => {
+      const cmd =
+        'node dist/bin/index.js --source en --locales translations/codeExamples/reacti18next/locales -f i18next -u translations/codeExamples/reacti18next/src translations/codeExamples/reacti18next/secondSrcFolder --parser-component-functions WrappedTransComponent --only unused undefined -i format.ebook nonExistentKey some.key.that.is.not.defined another.key.that.is.not.defined';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('No unused keys found!');
+      expect(result.stdout).toContain('No undefined keys found!');
     });
 
     it('should skip ignored keys when checking for missing/invalid keys', async () => {

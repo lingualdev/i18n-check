@@ -104,16 +104,29 @@ export const checkUnusedKeys = async (
     return undefined;
   }
 
+  const filteredTranslationFiles = translationFiles.map(
+    ({ content, ...rest }) => ({
+      ...rest,
+      content: filterKeys(content, options.ignore),
+    })
+  );
+
   if (options.format === 'react-intl') {
-    return findUnusedReactIntlTranslations(translationFiles, filesToParse);
+    return findUnusedReactIntlTranslations(
+      filteredTranslationFiles,
+      filesToParse
+    );
   } else if (options.format === 'i18next') {
     return findUnusedI18NextTranslations(
-      translationFiles,
+      filteredTranslationFiles,
       filesToParse,
       componentFunctions
     );
   } else if (options.format === 'next-intl') {
-    return findUnusedNextIntlTranslations(translationFiles, filesToParse);
+    return findUnusedNextIntlTranslations(
+      filteredTranslationFiles,
+      filesToParse
+    );
   }
 };
 
@@ -252,17 +265,25 @@ export const checkUndefinedKeys = async (
   }
 
   if (options.format === 'react-intl') {
-    return findUndefinedReactIntlKeys(source, filesToParse);
+    return findUndefinedReactIntlKeys(source, filesToParse, options);
   } else if (options.format === 'i18next') {
-    return findUndefinedI18NextKeys(source, filesToParse, componentFunctions);
+    return findUndefinedI18NextKeys(
+      source,
+      filesToParse,
+      options,
+      componentFunctions
+    );
   } else if (options.format === 'next-intl') {
-    return findUndefinedNextIntlKeys(source, filesToParse);
+    return findUndefinedNextIntlKeys(source, filesToParse, options);
   }
 };
 
 const findUndefinedReactIntlKeys = async (
   translationFiles: TranslationFile[],
-  filesToParse: string[]
+  filesToParse: string[],
+  options: Options = {
+    ignore: [],
+  }
 ) => {
   const sourceKeys = new Set(
     translationFiles.flatMap(({ content }) => {
@@ -276,7 +297,7 @@ const findUndefinedReactIntlKeys = async (
 
   const undefinedKeys: { [key: string]: string[] } = {};
   Object.entries(JSON.parse(extractedResult)).forEach(([key, meta]) => {
-    if (!sourceKeys.has(key)) {
+    if (!sourceKeys.has(key) && !isIgnoredKey(options.ignore ?? [], key)) {
       const data = meta as Record<PropertyKey, unknown>;
       if (!('file' in data) || typeof data.file !== 'string') {
         return;
@@ -295,6 +316,9 @@ const findUndefinedReactIntlKeys = async (
 const findUndefinedI18NextKeys = async (
   source: TranslationFile[],
   filesToParse: string[],
+  options: Options = {
+    ignore: [],
+  },
   componentFunctions: string[] = []
 ) => {
   const { extractedResult, skippableKeys } = await getI18NextKeysInCode(
@@ -314,7 +338,11 @@ const findUndefinedI18NextKeys = async (
     const isSkippable = skippableKeys.find((skippableKey) => {
       return key.includes(skippableKey);
     });
-    if (isSkippable === undefined && !sourceKeys.has(key)) {
+    if (
+      isSkippable === undefined &&
+      !sourceKeys.has(key) &&
+      !isIgnoredKey(options.ignore ?? [], key)
+    ) {
       if (!undefinedKeys[file]) {
         undefinedKeys[file] = [];
       }
@@ -327,7 +355,10 @@ const findUndefinedI18NextKeys = async (
 
 const findUndefinedNextIntlKeys = async (
   translationFiles: TranslationFile[],
-  filesToParse: string[]
+  filesToParse: string[],
+  options: Options = {
+    ignore: [],
+  }
 ) => {
   const sourceKeys = new Set(
     translationFiles.flatMap(({ content }) => {
@@ -339,7 +370,11 @@ const findUndefinedNextIntlKeys = async (
 
   const undefinedKeys: { [key: string]: string[] } = {};
   extractedResult.forEach(({ key, meta }) => {
-    if (!meta.dynamic && !sourceKeys.has(key)) {
+    if (
+      !meta.dynamic &&
+      !sourceKeys.has(key) &&
+      !isIgnoredKey(options.ignore ?? [], key)
+    ) {
       const file = meta.file;
       if (!undefinedKeys[file]) {
         undefinedKeys[file] = [];
@@ -432,14 +467,7 @@ const getI18NextKeysInCode = async (
 const filterKeys = (content: Translation, keysToIgnore: string[] = []) => {
   if (keysToIgnore.length > 0) {
     return Object.entries(content).reduce((acc, [key, value]) => {
-      if (
-        keysToIgnore.find((ignoreKey) => {
-          if (ignoreKey.endsWith('*')) {
-            return key.includes(ignoreKey.slice(0, ignoreKey.length - 1));
-          }
-          return ignoreKey === key;
-        })
-      ) {
+      if (isIgnoredKey(keysToIgnore, key)) {
         return acc;
       }
       acc[key] = value;
@@ -448,6 +476,17 @@ const filterKeys = (content: Translation, keysToIgnore: string[] = []) => {
   }
 
   return content;
+};
+
+const isIgnoredKey = (keysToIgnore: string[], key: string) => {
+  return (
+    keysToIgnore.find((ignoreKey) => {
+      if (ignoreKey.endsWith('*')) {
+        return key.includes(ignoreKey.slice(0, ignoreKey.length - 1));
+      }
+      return ignoreKey === key;
+    }) !== undefined
+  );
 };
 
 function _flatten(
