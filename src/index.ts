@@ -2,24 +2,18 @@ import { findMissingKeys } from './utils/findMissingKeys';
 import {
   CheckResult,
   InvalidTranslationsResult,
+  Options,
   Translation,
   TranslationFile,
 } from './types';
 import { findInvalidTranslations } from './utils/findInvalidTranslations';
 import { findInvalid18nTranslations } from './utils/findInvalidi18nTranslations';
-import { Context } from './errorReporters';
 import { extract } from '@formatjs/cli-lib';
 import { extract as nextIntlExtract } from './utils/nextIntlSrcParser';
 import fs from 'fs';
 import path from 'path';
 
 const ParseFormats = ['react-intl', 'i18next', 'next-intl'];
-
-export type Options = {
-  format?: 'icu' | 'i18next' | 'react-intl' | 'next-intl';
-  checks?: Context[];
-  ignore?: string[];
-};
 
 export const checkInvalidTranslations = (
   source: Translation,
@@ -33,9 +27,10 @@ export const checkInvalidTranslations = (
 
 export const checkMissingTranslations = (
   source: Translation,
-  targets: Record<string, Translation>
+  targets: Record<string, Translation>,
+  options: Options
 ): CheckResult => {
-  return findMissingKeys(source, targets);
+  return findMissingKeys(source, targets, options);
 };
 
 export const checkTranslations = (
@@ -64,7 +59,10 @@ export const checkTranslations = (
     const filteredContent = filterKeys(content, options.ignore ?? []);
 
     if (hasMissingKeysCheck) {
-      merge(missingKeys, checkMissingTranslations(filteredContent, files));
+      merge(
+        missingKeys,
+        checkMissingTranslations(filteredContent, files, options)
+      );
     }
 
     if (hasInvalidKeysCheck) {

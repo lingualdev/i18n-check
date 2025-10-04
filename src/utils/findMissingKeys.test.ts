@@ -57,4 +57,78 @@ describe('findMissingKeys', () => {
       fr: ['one.two.three', 'ten.eleven.twelve'],
     });
   });
+
+  it('should treat i18next source keys with plural nouns as a single key', () => {
+    expect(
+      findMissingKeys(
+        {
+          ...sourceFile,
+          count_one: '{{count}} entry',
+          count_other: '{{count}} entries',
+        },
+        {
+          de: {
+            ...secondaryFile,
+            count: '{{count}} entry',
+          },
+        },
+        {
+          format: 'i18next',
+        }
+      )
+    ).toEqual({});
+  });
+
+  it('should treat i18next target keys with plural nowns as a single key', () => {
+    expect(
+      findMissingKeys(
+        {
+          ...sourceFile,
+          count: '{{count}} entry',
+        },
+        {
+          de: {
+            ...secondaryFile,
+            count_one: '{{count}} entry',
+            count_interval:
+              '(1)[one entry];(2-7)[a few entries];(7-inf)[a lot of entries];",',
+          },
+        },
+        {
+          format: 'i18next',
+        }
+      )
+    ).toEqual({});
+  });
+
+  it('should treat i18next source and target keys with plural nowns as a single key', () => {
+    expect(
+      findMissingKeys(
+        {
+          ...sourceFile,
+          key_zero: 'zero',
+          key_one: 'singular',
+          key_two: 'two',
+          key_few: 'few',
+          key_many: 'many',
+          key_other: 'other',
+          'ten.eleven.twelve': 'ten eleven twelve',
+        },
+        {
+          de: {
+            ...secondaryFile,
+            key_zero: 'zero',
+            key_one: 'singular',
+            key_two: 'two',
+            key_few: 'few',
+            key_many: 'many',
+            key_other: 'other',
+          },
+        },
+        {
+          format: 'i18next',
+        }
+      )
+    ).toEqual({ de: ['ten.eleven.twelve'] });
+  });
 });
