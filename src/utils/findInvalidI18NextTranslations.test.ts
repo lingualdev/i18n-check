@@ -1,7 +1,7 @@
 import {
   compareTranslationFiles,
-  findInvalid18nTranslations,
-} from './findInvalidi18nTranslations';
+  findInvalidI18NextTranslations,
+} from './findInvalidI18NextTranslations';
 import { flattenTranslations } from './flattenTranslations';
 
 const sourceFile = require('../../translations/i18NextMessageExamples/en-us.json');
@@ -96,14 +96,14 @@ describe('findInvalid18nTranslations:compareTranslationFiles', () => {
 
 describe('findInvalidTranslations', () => {
   it('should return an empty object if all files have no invalid keys', () => {
-    expect(findInvalid18nTranslations(sourceFile, { de: sourceFile })).toEqual(
-      {}
-    );
+    expect(
+      findInvalidI18NextTranslations(sourceFile, { de: sourceFile })
+    ).toEqual({});
   });
 
   it('should return an object containing the keys for the missing language', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         { ...sourceFile, 'ten.eleven.twelve': 'ten eleven twelve' },
         { de: targetFile }
       )
@@ -123,7 +123,7 @@ describe('findInvalidTranslations', () => {
 
   it('should return an object containing the keys for every language with missing key', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         { ...sourceFile, 'ten.eleven.twelve': 'ten eleven twelve' },
         {
           de: targetFile,
@@ -155,7 +155,7 @@ describe('findInvalidTranslations', () => {
 
   it('should find invalid interval', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         {
           key1_interval:
             '(1)[one item];(2-7)[a few items];(7-inf)[a lot of items];',
@@ -179,7 +179,7 @@ describe('findInvalidTranslations', () => {
 
   it('should find invalid nested interpolation', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         {
           'tree.one': 'added {{something}}',
         },
@@ -201,7 +201,7 @@ describe('findInvalidTranslations', () => {
 
   it('should find invalid relative time formatting', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         {
           intlRelativeTimeWithOptionsExplicit:
             'Lorem {{val, relativetime(range: quarter; style: narrow;)}}',
@@ -225,7 +225,7 @@ describe('findInvalidTranslations', () => {
 
   it('should find invalid key with options', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         {
           keyWithOptions:
             'Some format {{value, formatname(option1Name: option1Value; option2Name: option2Value)}}',
@@ -249,7 +249,7 @@ describe('findInvalidTranslations', () => {
 
   it('should find invalid nesting', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         {
           nesting1: '1 $t(nesting2)',
         },
@@ -271,7 +271,7 @@ describe('findInvalidTranslations', () => {
 
   it('should find invalid tags', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         {
           tag: 'This is some <b>bold text</b> and some <i>italic</i> text.',
         },
@@ -293,7 +293,7 @@ describe('findInvalidTranslations', () => {
 
   it('should recognize special characters', () => {
     expect(
-      findInvalid18nTranslations(
+      findInvalidI18NextTranslations(
         {
           key: 'Test < {{a}} and > {{max_a}}',
         },

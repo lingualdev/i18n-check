@@ -79,6 +79,29 @@ export const hasDiff = (
   const hasErrors = compA.some((formatElementA, index) => {
     const formatElementB = compB[index];
 
+    if (isPluralElement(formatElementA) || isPluralElement(formatElementB)) {
+      const optionsA = isPluralElement(formatElementA)
+        ? formatElementA.options
+        : {};
+
+      const optionsB = isPluralElement(formatElementB)
+        ? formatElementB.options
+        : {};
+
+      return Object.keys(optionsA)
+        .sort()
+        .some((key) => {
+          // We can only compare translations that have the same plural keys.
+          // In English, we might have "one", "other", but in German, we might have "one", "few", "other".
+          // Or, in Arabic it might just be "other".
+          // So, we'll have to skip over the ones that don't have a one-to-one match.
+          if (!optionsB[key]) {
+            return false;
+          }
+          return hasDiff(optionsA[key].value, optionsB[key].value);
+        });
+    }
+
     if (
       formatElementA.type !== formatElementB.type ||
       formatElementA.location !== formatElementB.location
@@ -113,24 +136,6 @@ export const hasDiff = (
         return true;
       }
       return optionsA.some((key) => {
-        return hasDiff(
-          formatElementA.options[key].value,
-          formatElementB.options[key].value
-        );
-      });
-    }
-
-    if (isPluralElement(formatElementA) && isPluralElement(formatElementB)) {
-      const optionsA = Object.keys(formatElementA.options).sort();
-
-      return optionsA.some((key) => {
-        // We can only compare translations that have the same plural keys.
-        // In English, we might have "one", "other", but in German, we might have "one", "few", "other".
-        // Or, in Arabic it might just be "other".
-        // So, we'll have to skip over the ones that don't have a one-to-one match.
-        if (!formatElementB.options[key]) {
-          return false;
-        }
         return hasDiff(
           formatElementA.options[key].value,
           formatElementB.options[key].value

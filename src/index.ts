@@ -7,11 +7,12 @@ import {
   TranslationFile,
 } from './types';
 import { findInvalidTranslations } from './utils/findInvalidTranslations';
-import { findInvalid18nTranslations } from './utils/findInvalidi18nTranslations';
+import { findInvalidI18NextTranslations } from './utils/findInvalidI18NextTranslations';
 import { extract } from '@formatjs/cli-lib';
 import { extract as nextIntlExtract } from './utils/nextIntlSrcParser';
 import fs from 'fs';
 import path from 'path';
+import { I18NEXT_PLURAL_SUFFIX } from './utils/constants';
 
 const ParseFormats = ['react-intl', 'i18next', 'next-intl'];
 
@@ -21,7 +22,7 @@ export const checkInvalidTranslations = (
   options: Options = { format: 'icu' }
 ): InvalidTranslationsResult => {
   return options.format === 'i18next'
-    ? findInvalid18nTranslations(source, targets)
+    ? findInvalidI18NextTranslations(source, targets)
     : findInvalidTranslations(source, targets);
 };
 
@@ -170,7 +171,16 @@ const findUnusedI18NextTranslations = async (
   );
 
   source.forEach(({ name, content }) => {
-    const keysInSource = Object.keys(content);
+    const keysInSource = Object.keys(content)
+      // Ensure that any plural definitiions like key_one, key_other etc.
+      // are flatted into a single key
+      .map((key) => {
+        const pluralSuffix = I18NEXT_PLURAL_SUFFIX.find((suffix) => {
+          return key.endsWith(suffix);
+        });
+        return pluralSuffix ? key.replace(pluralSuffix, '') : key;
+      });
+
     const found: string[] = [];
     for (const keyInSource of keysInSource) {
       const isSkippable = skippableKeys.find((skippableKey) => {
@@ -325,9 +335,18 @@ const findUndefinedI18NextKeys = async (
   );
 
   const sourceKeys = new Set(
-    source.flatMap(({ content }) => {
-      return Object.keys(content);
-    })
+    source
+      .flatMap(({ content }) => {
+        return Object.keys(content);
+      })
+      // Ensure that any plural definitiions like key_one, key_other etc.
+      // are flatted into a single key
+      .map((key) => {
+        const pluralSuffix = I18NEXT_PLURAL_SUFFIX.find((suffix) => {
+          return key.endsWith(suffix);
+        });
+        return pluralSuffix ? key.replace(pluralSuffix, '') : key;
+      })
   );
 
   const undefinedKeys: { [key: string]: string[] } = {};

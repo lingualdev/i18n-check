@@ -12,7 +12,7 @@ import {
   Translation,
 } from '../types';
 
-export const findInvalid18nTranslations = (
+export const findInvalidI18NextTranslations = (
   source: Translation,
   targets: Record<string, Translation>
 ) => {
