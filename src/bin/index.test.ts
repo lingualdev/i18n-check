@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
-import { formatTable } from '../errorReporters';
 import path from 'path';
+import { describe, it, expect } from 'vitest';
+import { formatTable } from '../errorReporters';
 
 function tr(file: string) {
   return path.join('translations', file);

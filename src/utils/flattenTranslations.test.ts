@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { flattenEntry, flattenTranslations } from './flattenTranslations';
 
 const flatStructure = require('../../translations/en-us.json');
