@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { extract } from './nextIntlSrcParser';
 import path from 'node:path';
 

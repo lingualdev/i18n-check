@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { compareTranslationFiles, findMissingKeys } from './findMissingKeys';
 
 const sourceFile = {
