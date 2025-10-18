@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { parse } from './i18NextParser';
 
 describe('i18NextParser', () => {
