@@ -47,5 +47,8 @@
   "possiblyUsed": {
     "one": "1",
     "two": "2"
-  }
+  },
+  "countedEntries": "{{count}} entries",
+  "countedEntriesTwo_one": "{{count}} entry",
+  "countedEntriesTwo_other": "{{count}} entries"
 }

@@ -1,4 +1,5 @@
 import { Options, Translation } from '../types';
+import { I18NEXT_PLURAL_SUFFIX } from './constants';
 
 export const findMissingKeys = (
   source: Translation,
@@ -32,16 +33,6 @@ export const compareTranslationFiles = (
   }
   return diffs;
 };
-
-const I18NEXT_PLURAL_SUFFIX = [
-  '_zero',
-  '_one',
-  '_two',
-  '_few',
-  '_many',
-  '_other',
-  '_interval',
-];
 
 export const compareI18nextTranslationFiles = (
   src: Translation,

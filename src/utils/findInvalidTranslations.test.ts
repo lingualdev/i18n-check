@@ -119,4 +119,20 @@ describe('findInvalidTranslations', () => {
       ],
     });
   });
+
+  it('should allow count with and without plural definitons in target or source languages', () => {
+    expect(
+      findInvalidTranslations(
+        {
+          'message.countPlural': 'Minimum {count} item',
+        },
+        {
+          de: {
+            'message.countPlural':
+              'Minimum {count, plural, =1 {# item} other {# items}}',
+          },
+        }
+      )
+    ).toEqual({});
+  });
 });

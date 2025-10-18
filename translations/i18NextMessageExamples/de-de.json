@@ -69,5 +69,8 @@
   "array": ["a", "b", "c"],
   "arrayJoin": ["line1", "line2", "line3"],
   "arrayJoinWithInterpolation": ["you", "can", "{{myVar}}"],
-  "arrayOfObjects": [{ "name": "tom" }, { "name": "steve" }]
+  "arrayOfObjects": [{ "name": "tom" }, { "name": "steve" }],
+  "countedEntries_one": "{{count}} entry",
+  "countedEntries_other": "{{count}} entries",
+  "countedEntriesTwo": "{{count}} entry"
 }

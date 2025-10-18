@@ -10,11 +10,14 @@ export const Content = () => {
       <Trans i18nKey="audio" />
       <Trans i18nKey="format.pdf" />
 
-      <p>{t("more:hello", "hello")}</p>
+      <p>{t('more:hello', 'hello')}</p>
 
-      <p>{t("more:hello", "hello")}</p>
+      <p>{t('more:hello', 'hello')}</p>
 
       {t('format.audio', 'An audio format')}
+
+      <div>{t('countedEntries', '{{count}} entries')}</div>
+      <div>{t('countedEntriesTwo', '{{count}} entries')}</div>
     </p>
   );
 };
