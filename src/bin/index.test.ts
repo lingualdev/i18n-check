@@ -699,6 +699,58 @@ ${formatTable([
 
 `);
     });
+
+    it('should exit with code 0 when only source locale file is provided', async () => {
+      const cmd =
+        'node dist/bin/index.js -s en-US -l translations/flattenExamples --exclude translations/flattenExamples/de-de.json translations/flattenExamples/fr-fr.json';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('No target locale files found. Skipping missingKeys and invalidKeys checks.');
+    });
+
+    it('should handle single locale file gracefully without failing', async () => {
+      const stdout = await execAsync(
+        'node dist/bin/index.js -s en-US -l translations/flattenExamples --exclude translations/flattenExamples/de-de.json translations/flattenExamples/fr-fr.json'
+      );
+
+      const result = stdout.split('Done')[0];
+      expect(result).toContain('i18n translations checker');
+      expect(result).toContain('Source: en-US');
+      expect(result).toContain('No target locale files found. Skipping missingKeys and invalidKeys checks.');
+      expect(result).not.toContain('Found missing keys!');
+      expect(result).not.toContain('Found invalid keys!');
+    });
+
+    it('should handle single file example with only source locale', async () => {
+      const stdout = await execAsync(
+        'node dist/bin/index.js -s en-US -l translations/singleFileExample'
+      );
+
+      const result = stdout.split('Done')[0];
+      expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+No target locale files found. Skipping missingKeys and invalidKeys checks.
+
+
+No missing keys found!
+
+No invalid translations found!
+
+`);
+    });
+
+    it('should exit with code 0 for single file example', async () => {
+      const cmd =
+        'node dist/bin/index.js -s en-US -l translations/singleFileExample';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('No target locale files found. Skipping missingKeys and invalidKeys checks.');
+    });
   });
 
   describe('YAML', () => {
@@ -985,6 +1037,35 @@ ${formatTable([
 ])}
 
 `);
+    });
+
+    it('should handle single YAML file example with only source locale', async () => {
+      const stdout = await execAsync(
+        'node dist/bin/index.js -s en-US -l translations/yaml/singleFileExample'
+      );
+
+      const result = stdout.split('Done')[0];
+      expect(result).toEqual(`i18n translations checker
+Source: en-US
+
+No target locale files found. Skipping missingKeys and invalidKeys checks.
+
+
+No missing keys found!
+
+No invalid translations found!
+
+`);
+    });
+
+    it('should exit with code 0 for single YAML file example', async () => {
+      const cmd =
+        'node dist/bin/index.js -s en-US -l translations/yaml/singleFileExample';
+
+      const result = await execAsyncWithExitCode(cmd);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('No target locale files found. Skipping missingKeys and invalidKeys checks.');
     });
   });
 });

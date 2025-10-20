@@ -249,11 +249,10 @@ const main = async () => {
     targetFiles.length === 0
   ) {
     console.log(
-      chalk.red(
-        'Locale file(s) not found. Please provide valid locale file(s), i.e. --locales translations/'
+      chalk.yellow(
+        '\nNo target locale files found. Skipping missingKeys and invalidKeys checks.\n'
       )
     );
-    exit(1);
   }
   try {
     const result = checkTranslations(srcFiles, targetFiles, options);
