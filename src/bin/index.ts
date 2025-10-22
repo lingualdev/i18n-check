@@ -248,9 +248,14 @@ const main = async () => {
       options.checks.includes('invalidKeys')) &&
     targetFiles.length === 0
   ) {
+    // Remove missingKeys and invalidKeys from checks since they require multiple files
+    options.checks = options.checks.filter(
+      check => check !== 'missingKeys' && check !== 'invalidKeys'
+    );
+    
     console.log(
       chalk.yellow(
-        '\nNo target locale files found. Skipping missingKeys and invalidKeys checks.\n'
+        '\nOnly one locale file found. Skipping missingKeys and invalidKeys checks.\n'
       )
     );
   }
