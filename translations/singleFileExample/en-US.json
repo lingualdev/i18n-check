@@ -1,0 +1,8 @@
+{
+  "welcome": "Welcome to our application",
+  "hello": "Hello, {name}!",
+  "goodbye": "Goodbye!",
+  "settings": "Settings",
+  "profile": "Profile",
+  "logout": "Logout"
+}

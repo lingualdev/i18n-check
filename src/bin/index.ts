@@ -248,12 +248,16 @@ const main = async () => {
       options.checks.includes('invalidKeys')) &&
     targetFiles.length === 0
   ) {
+    // Remove missingKeys and invalidKeys from checks since they require multiple files
+    options.checks = options.checks.filter(
+      check => check !== 'missingKeys' && check !== 'invalidKeys'
+    );
+    
     console.log(
-      chalk.red(
-        'Locale file(s) not found. Please provide valid locale file(s), i.e. --locales translations/'
+      chalk.yellow(
+        '\nOnly one locale file found. Skipping missingKeys and invalidKeys checks.\n'
       )
     );
-    exit(1);
   }
   try {
     const result = checkTranslations(srcFiles, targetFiles, options);
