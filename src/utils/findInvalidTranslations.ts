@@ -50,8 +50,26 @@ export const compareTranslationFiles = (a: Translation, b: Translation) => {
     if (b[key] === undefined) {
       continue;
     }
-    const parsedTranslationA = parse(String(a[key]));
-    const parsedTranslationB = parse(String(b[key]));
+
+    let parsedTranslationA = null;
+    try {
+      parsedTranslationA = parse(String(a[key]));
+    } catch (_) {
+      diffs.push({ key, msg: `Error parsing "${a[key]}". Try to escape ICU characters.` });
+    }
+
+
+    let parsedTranslationB = null;
+    try {
+      parsedTranslationB = parse(String(b[key]));
+    } catch (_) {
+      diffs.push({ key, msg: `Error parsing "${b[key]}". Try to escape ICU characters.` });
+    }
+
+    if (parsedTranslationA === null || parsedTranslationB === null) {
+      continue;
+    }
+
     if (hasDiff(parsedTranslationA, parsedTranslationB)) {
       const msg = getErrorMessage(parsedTranslationA, parsedTranslationB);
       diffs.push({ key, msg });
