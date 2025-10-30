@@ -23,10 +23,32 @@ export const findInvalidTranslations = (
   }
 
   for (const [lang, file] of Object.entries(files)) {
-    const result = compareTranslationFiles(source, file);
+    try {
+      const result = compareTranslationFiles(source, file);
 
-    if (result.length > 0) {
-      differences[lang] = result;
+      if (result.length > 0) {
+        differences[lang] = result;
+      }
+    } catch (error) {
+      // Re-throw with file context
+      const enhancedError = new Error(
+        `Error in translation file "${lang}": ${error instanceof Error ? error.message : String(error)}`
+      );
+      if (error instanceof Error) {
+        if ('location' in error) {
+          (enhancedError as unknown as { location?: unknown }).location = (
+            error as unknown as { location?: unknown }
+          ).location;
+        }
+        if ('originalMessage' in error) {
+          (
+            enhancedError as unknown as { originalMessage?: unknown }
+          ).originalMessage = (
+            error as unknown as { originalMessage?: unknown }
+          ).originalMessage;
+        }
+      }
+      throw enhancedError;
     }
   }
 
@@ -50,11 +72,35 @@ export const compareTranslationFiles = (a: Translation, b: Translation) => {
     if (b[key] === undefined) {
       continue;
     }
-    const parsedTranslationA = parse(String(a[key]));
-    const parsedTranslationB = parse(String(b[key]));
-    if (hasDiff(parsedTranslationA, parsedTranslationB)) {
-      const msg = getErrorMessage(parsedTranslationA, parsedTranslationB);
-      diffs.push({ key, msg });
+    try {
+      const parsedTranslationA = parse(String(a[key]));
+      const parsedTranslationB = parse(String(b[key]));
+      if (hasDiff(parsedTranslationA, parsedTranslationB)) {
+        const msg = getErrorMessage(parsedTranslationA, parsedTranslationB);
+        diffs.push({ key, msg });
+      }
+    } catch (error) {
+      // Re-throw with key context and preserve location/originalMessage
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      const enhancedError = new Error(
+        `Failed to parse translation key "${key}": ${errorMessage === 'INVALID_TAG' ? 'Invalid ICU message format tags found in translation content' : errorMessage}`
+      );
+      if (error instanceof Error) {
+        if ('location' in error) {
+          (enhancedError as unknown as { location?: unknown }).location = (
+            error as unknown as { location?: unknown }
+          ).location;
+        }
+        if ('originalMessage' in error) {
+          (
+            enhancedError as unknown as { originalMessage?: unknown }
+          ).originalMessage = (
+            error as unknown as { originalMessage?: unknown }
+          ).originalMessage;
+        }
+      }
+      throw enhancedError;
     }
   }
 

@@ -136,4 +136,21 @@ describe('findInvalidTranslations', () => {
       )
     ).toEqual({});
   });
+
+  it('should throw error with file and key context when parsing invalid ICU tags', () => {
+    expect(() => {
+      findInvalidTranslations(
+        {
+          'test.key': 'Valid message',
+        },
+        {
+          en: {
+            'test.key': '<a href="/test">Invalid HTML</a>',
+          },
+        }
+      );
+    }).toThrow(
+      'Error in translation file "en": Failed to parse translation key "test.key": Invalid ICU message format tags found in translation content'
+    );
+  });
 });
