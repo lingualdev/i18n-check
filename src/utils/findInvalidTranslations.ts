@@ -13,6 +13,27 @@ import {
   Translation,
 } from '../types';
 
+type Location = { start: { line: number; column: number } };
+
+export class CheckError extends Error {
+  location?: Location;
+  originalMessage?: string;
+}
+
+function isLocation(value: unknown): value is Location {
+  return (
+    typeof value === 'object' &&
+    value != null &&
+    'start' in value &&
+    typeof value.start === 'object' &&
+    value.start != null &&
+    'line' in value.start &&
+    typeof value.start.line === 'number' &&
+    'column' in value.start &&
+    typeof value.start.column === 'number'
+  );
+}
+
 export const findInvalidTranslations = (
   source: Translation,
   files: Record<string, Translation>
@@ -23,10 +44,29 @@ export const findInvalidTranslations = (
   }
 
   for (const [lang, file] of Object.entries(files)) {
-    const result = compareTranslationFiles(source, file);
+    try {
+      const result = compareTranslationFiles(source, file);
 
-    if (result.length > 0) {
-      differences[lang] = result;
+      if (result.length > 0) {
+        differences[lang] = result;
+      }
+    } catch (error) {
+      // Re-throw with file context
+      const enhancedError = new CheckError(
+        `Error in translation file "${lang}": ${error instanceof Error ? error.message : String(error)}`
+      );
+      if (error instanceof Error) {
+        if ('location' in error && isLocation(error.location)) {
+          enhancedError.location = error.location;
+        }
+        if (
+          'originalMessage' in error &&
+          typeof error.originalMessage === 'string'
+        ) {
+          enhancedError.originalMessage = error.originalMessage;
+        }
+      }
+      throw enhancedError;
     }
   }
 
@@ -50,11 +90,32 @@ export const compareTranslationFiles = (a: Translation, b: Translation) => {
     if (b[key] === undefined) {
       continue;
     }
-    const parsedTranslationA = parse(String(a[key]));
-    const parsedTranslationB = parse(String(b[key]));
-    if (hasDiff(parsedTranslationA, parsedTranslationB)) {
-      const msg = getErrorMessage(parsedTranslationA, parsedTranslationB);
-      diffs.push({ key, msg });
+    try {
+      const parsedTranslationA = parse(String(a[key]));
+      const parsedTranslationB = parse(String(b[key]));
+      if (hasDiff(parsedTranslationA, parsedTranslationB)) {
+        const msg = getErrorMessage(parsedTranslationA, parsedTranslationB);
+        diffs.push({ key, msg });
+      }
+    } catch (error) {
+      // Re-throw with key context and preserve location/originalMessage
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      const enhancedError = new CheckError(
+        `Failed to parse translation key "${key}": ${errorMessage === 'INVALID_TAG' ? 'Invalid ICU message format tags found in translation content' : errorMessage}`
+      );
+      if (error instanceof Error) {
+        if ('location' in error && isLocation(error.location)) {
+          enhancedError.location = error.location;
+        }
+        if (
+          'originalMessage' in error &&
+          typeof error.originalMessage === 'string'
+        ) {
+          enhancedError.originalMessage = error.originalMessage;
+        }
+      }
+      throw enhancedError;
     }
   }
 
