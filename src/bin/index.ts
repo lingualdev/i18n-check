@@ -314,13 +314,40 @@ const main = async () => {
     } else {
       exit(0);
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
-    console.log(
-      chalk.red(
-        "\nError: Can't validate translations. Check if the format is supported or specify the translation format i.e. -f i18next"
-      )
-    );
+    let errorMessage =
+      "\nError: Can't validate translations. Check if the format is supported or specify the translation format i.e. -f i18next";
+
+    if (e instanceof Error) {
+      // Use enhanced error message if available
+      if (
+        e.message.includes('Error in translation file') ||
+        e.message.includes('Failed to parse translation key')
+      ) {
+        errorMessage = `\n${e.message}`;
+      }
+
+      // Check if the error has location information (from ICU parser)
+      if (
+        'location' in e &&
+        typeof e.location === 'object' &&
+        e.location !== null
+      ) {
+        const location = e.location as {
+          start?: { line: number; column: number };
+        };
+        if (location.start) {
+          errorMessage += `\nLocation: Line ${location.start.line}, Column ${location.start.column}`;
+        }
+      }
+
+      // Check if the error has originalMessage (from ICU parser)
+      if ('originalMessage' in e && typeof e.originalMessage === 'string') {
+        errorMessage += `\nProblematic translation: "${e.originalMessage}"`;
+      }
+    }
+
+    console.log(chalk.red(errorMessage));
     exit(1);
   }
 };
