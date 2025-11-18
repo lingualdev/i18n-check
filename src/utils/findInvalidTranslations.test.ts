@@ -42,6 +42,15 @@ describe('findInvalidTranslations:compareTranslationFiles', () => {
       )
     ).toEqual([]);
   });
+
+  it('should return an error if the translation is not a valid ICU string', () => {
+    expect(
+      compareTranslationFiles(
+        { badIcu: 'Display variables {{like_this}}.' },
+        { badIcu: 'Display variables like_this.' }
+      )
+    ).toEqual([{ key: 'badIcu', msg: 'Error parsing "Display variables {{like_this}}.". Try to escape ICU characters.' }]);
+  });
 });
 
 describe('findInvalidTranslations', () => {
