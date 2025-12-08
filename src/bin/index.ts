@@ -22,6 +22,7 @@ import {
 } from '../types';
 import { flattenTranslations } from '../utils/flattenTranslations';
 import path from 'node:path';
+import { CheckError } from '../utils/findInvalidTranslations';
 
 const version = require('../../package.json').version;
 
@@ -250,9 +251,9 @@ const main = async () => {
   ) {
     // Remove missingKeys and invalidKeys from checks since they require multiple files
     options.checks = options.checks.filter(
-      check => check !== 'missingKeys' && check !== 'invalidKeys'
+      (check) => check !== 'missingKeys' && check !== 'invalidKeys'
     );
-    
+
     console.log(
       chalk.yellow(
         '\nOnly one locale file found. Skipping missingKeys and invalidKeys checks.\n'
@@ -314,13 +315,26 @@ const main = async () => {
     } else {
       exit(0);
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
-    console.log(
-      chalk.red(
-        "\nError: Can't validate translations. Check if the format is supported or specify the translation format i.e. -f i18next"
-      )
-    );
+    let errorMessage =
+      "\nError: Can't validate translations. Check if the format is supported or specify the translation format i.e. -f i18next";
+
+    // Use enhanced error message if available
+    if (e instanceof CheckError) {
+      errorMessage = `\n${e.message}`;
+
+      // Check if the error has location information (from ICU parser)
+      if (e.location) {
+        errorMessage += `\nLocation: Line ${e.location.start.line}, Column ${e.location.start.column}`;
+      }
+
+      // Check if the error has originalMessage (from ICU parser)
+      if (e.originalMessage != null) {
+        errorMessage += `\nProblematic translation: "${e.originalMessage}"`;
+      }
+    }
+
+    console.log(chalk.red(errorMessage));
     exit(1);
   }
 };
