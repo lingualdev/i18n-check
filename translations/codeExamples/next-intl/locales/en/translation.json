@@ -142,5 +142,15 @@
         "title": "title"
       }
     }
+  },
+  "some": {
+    "key": {
+      "as": {
+        "comment": "Some key as comment"
+      },
+      "inside": {
+        "docblock": "Some key inside docblock"
+      }
+    }
   }
 }

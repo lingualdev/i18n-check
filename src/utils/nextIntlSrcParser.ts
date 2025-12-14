@@ -3,7 +3,8 @@ import * as ts from 'typescript';
 
 const USE_TRANSLATIONS = 'useTranslations';
 const GET_TRANSLATIONS = 'getTranslations';
-const COMMENT_CONTAINS_STATIC_KEY_REGEX = /t\((["'])(.*?[^\\])(["'])\)/;
+const COMMENT_CONTAINS_STATIC_KEY_REGEX =
+  /i18n-check t\((["'])(.*?[^\\])(["'])\)/;
 
 export const extract = (filesPaths: string[]) => {
   return filesPaths.flatMap(getKeys).sort((a, b) => {
@@ -296,8 +297,8 @@ const getKeys = (path: string) => {
     // Example:
     // const someKeys = messages[selectedOption];
     // Define as a single-line comment all the possible static keys for that dynamic key
-    // t('some.static.key.we.want.to.extract');
-    // t('some.other.key.we.want.to.extract.without.semicolons')
+    // i18n-check t('some.static.key.we.want.to.extract');
+    // i18n-check t('some.other.key.we.want.to.extract.without.semicolons')
     const commentRanges = ts.getLeadingCommentRanges(
       sourceFile.getFullText(),
       node.getFullStart()
@@ -307,7 +308,7 @@ const getKeys = (path: string) => {
       commentRanges.forEach((range) => {
         const comment = sourceFile.getFullText().slice(range.pos, range.end);
         // parse the string and check if it includes the following format:
-        // t('someString')
+        // i18n-check t('someString')
         const hasStaticKeyComment =
           COMMENT_CONTAINS_STATIC_KEY_REGEX.test(comment);
 
@@ -319,12 +320,20 @@ const getKeys = (path: string) => {
             const namespace = getCurrentNamespaces();
             const namespaceName = namespace ? namespace[0]?.name : '';
 
-            foundKeys.push({
-              key: namespaceName
-                ? `${namespaceName}.${commentKey}`
-                : commentKey,
-              meta: { file: path, namespace: namespaceName },
+            const key = namespaceName
+              ? `${namespaceName}.${commentKey}`
+              : commentKey;
+
+            const keyExists = foundKeys.find((foundKey) => {
+              return foundKey.key === key;
             });
+
+            if (!keyExists) {
+              foundKeys.push({
+                key,
+                meta: { file: path, namespace: namespaceName },
+              });
+            }
           }
         }
       });

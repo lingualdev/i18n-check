@@ -20,6 +20,7 @@ const generateMetaDataExample = path.join(
   srcPath,
   'GenerateMetadataExample.tsx'
 );
+const commentsExample = path.join(srcPath, 'comments.ts');
 
 describe('nextIntlSrcParser', () => {
   it('should find all the translation keys', () => {
@@ -628,6 +629,27 @@ describe('nextIntlSrcParser', () => {
         meta: {
           file: generateMetaDataExample,
           namespace: 'generate',
+        },
+      },
+    ]);
+  });
+
+  it('should find all the keys definded as comments', () => {
+    const keys = extract([commentsExample]);
+
+    expect(keys).toEqual([
+      {
+        key: 'some.key.as.comment',
+        meta: {
+          file: commentsExample,
+          namespace: '',
+        },
+      },
+      {
+        key: 'some.key.inside.docblock',
+        meta: {
+          file: commentsExample,
+          namespace: '',
         },
       },
     ]);
