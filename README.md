@@ -247,7 +247,7 @@ yarn i18n:check --locales translations/folderExamples -s en-US -i "some.path.to.
 
 ### --parser-component-functions
 
-When using the `--unused` option, there will be situations where the i18next-parser will not be able to find components that wrap a `Trans` component.The component names for i18next-parser to match should be provided via the `--parser-component-functions` option. This option should onlybe used to define additional names for matching, a by default `Trans` will always be matched.
+When using the `--unused` option, there will be situations where the i18next-parser will not be able to find components that wrap a `Trans` component. The component names for i18next-parser to match should be provided via the `--parser-component-functions` option. This option should only be used to define additional names for matching, as by default `Trans` will always be matched.
 
 ```bash
 yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18next
