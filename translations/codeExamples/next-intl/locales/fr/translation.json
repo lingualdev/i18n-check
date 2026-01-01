@@ -152,5 +152,22 @@
         "docblock": "Some key inside docblock"
       }
     }
-  }
+  },
+  "Basic": {
+    "basic": "basic"
+  },
+  "Indirect1": {
+    "indirect1": "indirect1"
+  },
+  "Indirect2": {
+    "indirect2": "indirect2"
+  },
+  "Indirect3": {
+    "indirect3": "indirect3"
+  },
+  "Indirect4": {
+    "indirect4": "indirect4"
+  },
+  "indirectNoNamespaceKeyOne": "indirectNoNamespaceKeyOne",
+  "indirectNoNamespaceKeyTwo": "indirectNoNamespaceKeyTwo"
 }

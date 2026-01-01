@@ -243,6 +243,134 @@ const getKeys = (path: string) => {
       }
     }
 
+    // Check if a function has the t function as a parameter
+    // and if a namespace can be extracted from it
+    if (ts.isFunctionLike(node)) {
+      // The first scenario is the t function is defined as:
+      //  someFn(t: ReturnType<typeof useTranslations<'someNamespace'>>)
+      const tFunctionParam =
+        node.parameters &&
+        node.parameters.find(
+          (param) =>
+            param.type &&
+            ts.isTypeReferenceNode(param.type) &&
+            param.type.typeName &&
+            ts.isIdentifier(param.type.typeName) &&
+            param.type.typeName.text === 'ReturnType' &&
+            param.type.typeArguments &&
+            param.type.typeArguments.length > 0 &&
+            ts.isTypeQueryNode(param.type.typeArguments[0]) &&
+            ts.isIdentifier(param.type.typeArguments[0].exprName) &&
+            param.type.typeArguments[0].exprName.text === USE_TRANSLATIONS
+        );
+
+      if (
+        tFunctionParam !== undefined &&
+        tFunctionParam.type &&
+        ts.isTypeReferenceNode(tFunctionParam.type) &&
+        tFunctionParam.type.typeArguments &&
+        tFunctionParam.type.typeArguments.length > 0 &&
+        ts.isTypeQueryNode(tFunctionParam.type.typeArguments[0]) &&
+        ts.isIdentifier(tFunctionParam.type.typeArguments[0].exprName) &&
+        tFunctionParam.type.typeArguments[0].exprName.text === USE_TRANSLATIONS
+      ) {
+        const [namespaceArgument] =
+          tFunctionParam.type.typeArguments[0].typeArguments &&
+          tFunctionParam.type.typeArguments[0].typeArguments.length > 0
+            ? tFunctionParam.type.typeArguments[0].typeArguments
+            : [];
+
+        if (ts.isIdentifier(tFunctionParam.name)) {
+          const name =
+            namespaceArgument &&
+            ts.isLiteralTypeNode(namespaceArgument) &&
+            ts.isStringLiteral(namespaceArgument.literal)
+              ? namespaceArgument.literal.text
+              : '';
+          pushNamespace({
+            name,
+            variable: tFunctionParam.name.text,
+          });
+        }
+      }
+
+      // The second scenario is the t function is defined as an object property:
+      // someFn({t}: {t: ReturnType<typeof useTranslations<'someNamespace'>>}>
+      const tFunctionParamAsProperty =
+        node.parameters &&
+        node.parameters.find(
+          (param) =>
+            param.type &&
+            ts.isTypeLiteralNode(param.type) &&
+            param.type.members.find((member) => {
+              return (
+                ts.isPropertySignature(member) &&
+                member.type &&
+                ts.isTypeReferenceNode(member.type) &&
+                member.type.typeName &&
+                ts.isIdentifier(member.type.typeName) &&
+                member.type.typeName.text === 'ReturnType' &&
+                member.type.typeArguments &&
+                member.type.typeArguments.length > 0 &&
+                ts.isTypeQueryNode(member.type.typeArguments[0]) &&
+                ts.isIdentifier(member.type.typeArguments[0].exprName) &&
+                member.type.typeArguments[0].exprName.text === USE_TRANSLATIONS
+              );
+            })
+        );
+
+      if (
+        tFunctionParamAsProperty !== undefined &&
+        tFunctionParamAsProperty.type &&
+        ts.isTypeLiteralNode(tFunctionParamAsProperty.type)
+      ) {
+        const fnType = tFunctionParamAsProperty.type.members.find((member) => {
+          return (
+            ts.isPropertySignature(member) &&
+            member.type &&
+            ts.isTypeReferenceNode(member.type) &&
+            member.type.typeName &&
+            ts.isIdentifier(member.type.typeName) &&
+            member.type.typeName.text === 'ReturnType' &&
+            member.type.typeArguments &&
+            member.type.typeArguments.length > 0 &&
+            ts.isTypeQueryNode(member.type.typeArguments[0]) &&
+            ts.isIdentifier(member.type.typeArguments[0].exprName) &&
+            member.type.typeArguments[0].exprName.text === USE_TRANSLATIONS
+          );
+        });
+
+        if (
+          fnType &&
+          ts.isPropertySignature(fnType) &&
+          fnType.type &&
+          ts.isTypeReferenceNode(fnType.type) &&
+          fnType.type.typeArguments &&
+          fnType.type.typeArguments.length > 0 &&
+          ts.isTypeQueryNode(fnType.type.typeArguments[0])
+        ) {
+          const [namespaceArgument] =
+            fnType.type.typeArguments[0].typeArguments &&
+            fnType.type.typeArguments[0].typeArguments.length > 0
+              ? fnType.type.typeArguments[0].typeArguments
+              : [];
+
+          if (fnType.name && ts.isIdentifier(fnType.name)) {
+            const name =
+              namespaceArgument &&
+              ts.isLiteralTypeNode(namespaceArgument) &&
+              ts.isStringLiteral(namespaceArgument.literal)
+                ? namespaceArgument.literal.text
+                : '';
+            pushNamespace({
+              name,
+              variable: fnType.name.text,
+            });
+          }
+        }
+      }
+    }
+
     // Search for `t()` calls
     if (
       getCurrentNamespaces() !== null &&

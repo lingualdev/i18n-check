@@ -21,6 +21,10 @@ const generateMetaDataExample = path.join(
   'GenerateMetadataExample.tsx'
 );
 const commentsExample = path.join(srcPath, 'comments.ts');
+const indirectFunctionCallExample = path.join(
+  srcPath,
+  'IndirectFunctionCalls.tsx'
+);
 
 describe('nextIntlSrcParser', () => {
   it('should find all the translation keys', () => {
@@ -634,7 +638,7 @@ describe('nextIntlSrcParser', () => {
     ]);
   });
 
-  it('should find all the keys definded as comments', () => {
+  it('should find all the keys defined as comments', () => {
     const keys = extract([commentsExample]);
 
     expect(keys).toEqual([
@@ -649,6 +653,62 @@ describe('nextIntlSrcParser', () => {
         key: 'some.key.inside.docblock',
         meta: {
           file: commentsExample,
+          namespace: '',
+        },
+      },
+    ]);
+  });
+
+  it('should find all the keys that are used inside indirect function calls', () => {
+    const keys = extract([indirectFunctionCallExample]);
+
+    expect(keys).toEqual([
+      {
+        key: 'Basic.basic',
+        meta: {
+          file: indirectFunctionCallExample,
+          namespace: 'Basic',
+        },
+      },
+      {
+        key: 'Indirect1.indirect1',
+        meta: {
+          file: indirectFunctionCallExample,
+          namespace: 'Indirect1',
+        },
+      },
+      {
+        key: 'Indirect2.indirect2',
+        meta: {
+          file: indirectFunctionCallExample,
+          namespace: 'Indirect2',
+        },
+      },
+      {
+        key: 'Indirect3.indirect3',
+        meta: {
+          file: indirectFunctionCallExample,
+          namespace: 'Indirect3',
+        },
+      },
+      {
+        key: 'Indirect4.indirect4',
+        meta: {
+          file: indirectFunctionCallExample,
+          namespace: 'Indirect4',
+        },
+      },
+      {
+        key: 'indirectNoNamespaceKeyOne',
+        meta: {
+          file: indirectFunctionCallExample,
+          namespace: '',
+        },
+      },
+      {
+        key: 'indirectNoNamespaceKeyTwo',
+        meta: {
+          file: indirectFunctionCallExample,
           namespace: '',
         },
       },
