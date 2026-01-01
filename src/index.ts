@@ -9,6 +9,7 @@ import {
 import { findInvalidTranslations } from './utils/findInvalidTranslations';
 import { findInvalidI18NextTranslations } from './utils/findInvalidI18NextTranslations';
 import { extract } from '@formatjs/cli-lib';
+import { getKeys } from './utils/i18NextSrcParser';
 import { extract as nextIntlExtract } from './utils/nextIntlSrcParser';
 import fs from 'fs';
 import path from 'path';
@@ -416,27 +417,6 @@ const getI18NextKeysInCode = async (
   filesToParse: string[],
   componentFunctions: string[] = []
 ) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const { transform } = await import('i18next-parser');
-
-  const i18nextParser = new transform({
-    lexers: {
-      jsx: [
-        {
-          lexer: 'JsxLexer',
-          componentFunctions: componentFunctions.concat(['Trans']),
-        },
-      ],
-      tsx: [
-        {
-          lexer: 'JsxLexer',
-          componentFunctions: componentFunctions.concat(['Trans']),
-        },
-      ],
-    },
-  });
-
   // Skip any parsed keys that have the `returnObjects` property set to true
   // As these are used dynamically, they will be skipped to prevent
   // these keys from being marked as unused.
@@ -448,8 +428,13 @@ const getI18NextKeysInCode = async (
 
   filesToParse.forEach((file) => {
     const rawContent = fs.readFileSync(file, 'utf-8');
-
-    const entries = i18nextParser.parser.parse(rawContent, file);
+    const entries = getKeys(
+      file,
+      {
+        componentFunctions: componentFunctions.concat(['Trans']),
+      },
+      rawContent
+    );
 
     // Intermediate solution to retrieve all keys from the parser.
     // This will be built out to also include the namespace and check
