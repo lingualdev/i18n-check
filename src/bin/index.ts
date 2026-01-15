@@ -270,8 +270,8 @@ const main = async () => {
     if (unusedSrcPath) {
       const isMultiUnusedFolders = unusedSrcPath.length > 1;
       const pattern = isMultiUnusedFolders
-        ? `{${unusedSrcPath.join(',').trim()}}/**/*.{ts,tsx}`
-        : `${unusedSrcPath.join(',').trim()}/**/*.{ts,tsx}`;
+        ? `{${unusedSrcPath.join(',').trim()}}/**/*.{js,jsx,ts,tsx}`
+        : `${unusedSrcPath.join(',').trim()}/**/*.{js,jsx,ts,tsx}`;
       const filesToParse = globSync(pattern, {
         ignore: ['node_modules/**'],
         windowsPathsNoEscape: true,

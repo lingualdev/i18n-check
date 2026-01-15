@@ -16,7 +16,8 @@
   "format": {
     "pdf": "A pdf format",
     "audio": "An audio format",
-    "ebook": "An e-book formt"
+    "ebook": "An e-book format",
+    "doc": "A doc format"
   },
   "nonExistentKey": "Key does not exist",
   "test": {
@@ -26,7 +27,8 @@
     "deep": {
       "nested": {
         "key": "Some deep nested key",
-        "otherKey": "one"
+        "otherKey": "one",
+        "keyInJS": "Key inside a JS file"
       }
     }
   },
