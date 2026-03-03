@@ -4,6 +4,10 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+
+permissions:
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,6 +23,4 @@ jobs:
       - name: Install dependencies and build
         run: pnpm install --frozen-lockfile && pnpm run build
       - name: Publish package to NPM
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public
