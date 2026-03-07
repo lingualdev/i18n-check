@@ -707,7 +707,9 @@ ${formatTable([
       const result = await execAsyncWithExitCode(cmd);
 
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('Only one locale file found. Skipping missingKeys and invalidKeys checks.');
+      expect(result.stdout).toContain(
+        'Only one locale file found. Skipping missingKeys and invalidKeys checks.'
+      );
     });
 
     it('should handle single locale file gracefully without failing', async () => {
@@ -718,7 +720,9 @@ ${formatTable([
       const result = stdout.split('Done')[0];
       expect(result).toContain('i18n translations checker');
       expect(result).toContain('Source: en-US');
-      expect(result).toContain('Only one locale file found. Skipping missingKeys and invalidKeys checks.');
+      expect(result).toContain(
+        'Only one locale file found. Skipping missingKeys and invalidKeys checks.'
+      );
       expect(result).not.toContain('Found missing keys!');
       expect(result).not.toContain('Found invalid keys!');
     });
@@ -745,7 +749,9 @@ Only one locale file found. Skipping missingKeys and invalidKeys checks.
       const result = await execAsyncWithExitCode(cmd);
 
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('Only one locale file found. Skipping missingKeys and invalidKeys checks.');
+      expect(result.stdout).toContain(
+        'Only one locale file found. Skipping missingKeys and invalidKeys checks.'
+      );
     });
   });
 
@@ -1057,7 +1063,9 @@ Only one locale file found. Skipping missingKeys and invalidKeys checks.
       const result = await execAsyncWithExitCode(cmd);
 
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('Only one locale file found. Skipping missingKeys and invalidKeys checks.');
+      expect(result.stdout).toContain(
+        'Only one locale file found. Skipping missingKeys and invalidKeys checks.'
+      );
     });
   });
 });

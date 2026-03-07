@@ -52,5 +52,10 @@
   },
   "countedEntries_one": "{{count}} entry",
   "countedEntries_other": "{{count}} entries",
-  "countedEntriesTwo": "{{count}} entry"
+  "countedEntriesTwo": "{{count}} entry",
+  "context": "context",
+  "context_a": "context a",
+  "context_b": "context_b",
+  "context_c_one": "context_c_one",
+  "context_c_other": "context_c_other"
 }
