@@ -28,7 +28,7 @@
     "@formatjs/icu-messageformat-parser": "^2.11.4",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
-    "glob": "12.0.0",
+    "glob": "13.0.6",
     "js-yaml": "^4.1.1",
     "typescript": "^5.9.3"
   },
@@ -37,11 +37,11 @@
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.19.1",
     "braces": "^3.0.3",
-    "eslint": "^9.39.1",
+    "eslint": "^10.0.3",
     "globals": "^16.5.0",
     "prettier": "^3.6.2",
-    "typescript-eslint": "^8.47.0",
-    "vitest": "^4.0.10"
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
   },
   "repository": {
     "type": "git",
