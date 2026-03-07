@@ -17,7 +17,7 @@
     "check-format": "prettier --check './{src,translations}/**/*.{js,jsx,ts,tsx,json,html,css}'",
     "test": "vitest run",
     "test:cli": "pnpm build && vitest --config vitest.bin.config.ts run src/bin/index.test.ts",
-    "prepublish": "pnpm install --frozen-lockfile && pnpm run build"
+    "prepublishOnly": "pnpm install --frozen-lockfile && pnpm run build"
   },
   "files": [
     "dist/",
