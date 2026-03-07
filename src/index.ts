@@ -17,6 +17,8 @@ import { I18NEXT_PLURAL_SUFFIX } from './utils/constants';
 
 const ParseFormats = ['react-intl', 'i18next', 'next-intl'];
 
+const CONTEXT_SEPARATOR = '_';
+
 export const checkInvalidTranslations = (
   source: Translation,
   targets: Record<string, Translation>,
@@ -340,7 +342,7 @@ const findUndefinedI18NextKeys = async (
       .flatMap(({ content }) => {
         return Object.keys(content);
       })
-      // Ensure that any plural definitiions like key_one, key_other etc.
+      // Ensure that any plural definitions like key_one, key_other etc.
       // are flatted into a single key
       .map((key) => {
         const pluralSuffix = I18NEXT_PLURAL_SUFFIX.find((suffix) => {
@@ -456,7 +458,9 @@ const getI18NextKeysInCode = async (
       } else {
         extractedResult.push({
           file,
-          key: entry.key,
+          key: entry.context
+            ? `${entry.key}${CONTEXT_SEPARATOR}${entry.context}`
+            : entry.key,
           namespace: entry.namespace,
         });
       }

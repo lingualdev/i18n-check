@@ -16,6 +16,12 @@ export const I18NextExample = () => {
 
   const resolution = returnObjectLike['one'];
 
+  const contextKey0 = t('context');
+  const contextKey1 = t('context', { context: 'a' });
+  const contextKey2 = t('context', { context: 'b' });
+  const contextKey3 = t('context', { context: 'c', count: 1 });
+  const contextKey4 = t('context', { context: 'c', count: 100 });
+
   // Define static keys for any dynamically defined keys for the parser to identify them
   // https://github.com/i18next/i18next-parser?tab=readme-ov-file#caveats
   // t('some.deep.nested.otherKey')
