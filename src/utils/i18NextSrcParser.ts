@@ -473,6 +473,39 @@ const extractFromExpression = (node: ts.CallExpression, options: Options) => {
         return null;
       }
       entries[0].key = concatenatedString;
+    } else if (
+      ts.isFunctionExpression(keyArgument) ||
+      ts.isFunctionDeclaration(keyArgument) ||
+      ts.isArrowFunction(keyArgument)
+    ) {
+      // Try to find selector api definitions: ($) => $.a.b.c
+
+      if (!keyArgument.body) {
+        return null;
+      }
+
+      // Check if the function contains a return statement
+      if (ts.isBlock(keyArgument.body)) {
+        const returnStatement = keyArgument.body.statements.find((statement) =>
+          ts.isReturnStatement(statement)
+        );
+        if (
+          returnStatement &&
+          returnStatement.expression &&
+          ts.isPropertyAccessExpression(returnStatement.expression)
+        ) {
+          const [_, ...keys] = returnStatement.expression
+            .getFullText()
+            .split('.');
+
+          entries[0].key = keys.join('.');
+        } else {
+          return null;
+        }
+      } else {
+        const [_, ...keys] = keyArgument.body.getFullText().split('.');
+        entries[0].key = keys.join('.');
+      }
     } else {
       return null;
     }

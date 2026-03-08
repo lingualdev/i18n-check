@@ -866,5 +866,97 @@ describe('getKeys', () => {
         },
       ]);
     });
+
+    it('extracts key from selector api', () => {
+      const content = 't(($) => $.a.b.c)';
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
+    it('extracts key from selector api containing function body', () => {
+      const content = `t(function ($) {
+        return $.a.b.c;
+      })`;
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
+    it('extracts key from selector api containing arrow function with body', () => {
+      const content = `t(($) => {
+        return $.a.b.c;
+      })`;
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
+    it('extracts key and option from selector api', () => {
+      const content = 't(($) => $.a.b.c, { ns: "bar", keyPrefix: "" })';
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+          keyPrefix: '',
+          namespace: 'bar',
+          ns: 'bar',
+        },
+      ]);
+    });
+
+    it('extracts multiple nested keys from selector api', () => {
+      const content = `
+    t(($) => $.some.title);
+    t(($) => $.some.nested.title);
+    t(($) => $.some.nested.description);`;
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'some.title',
+        },
+        {
+          key: 'some.nested.title',
+        },
+
+        {
+          key: 'some.nested.description',
+        },
+      ]);
+    });
   });
 });
