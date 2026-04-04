@@ -29,12 +29,11 @@
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
     "glob": "13.0.6",
-    "js-yaml": "^4.1.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.19.1",
     "braces": "^3.0.3",
     "eslint": "^10.0.3",
