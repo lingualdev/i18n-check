@@ -882,6 +882,21 @@ describe('getKeys', () => {
       ]);
     });
 
+    it('extracts key from selector api with array access', () => {
+      const content = 't(($) => $["a.b.c"])';
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
     it('extracts key from selector api containing function body', () => {
       const content = `t(function ($) {
         return $.a.b.c;
@@ -899,9 +914,43 @@ describe('getKeys', () => {
       ]);
     });
 
+    it('extracts key from selector api with array access containing function body', () => {
+      const content = `t(function ($) {
+        return $["a.b.c"];
+      })`;
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
     it('extracts key from selector api containing arrow function with body', () => {
       const content = `t(($) => {
         return $.a.b.c;
+      })`;
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
+    it('extracts key from selector api with array access containing arrow function with body', () => {
+      const content = `t(($) => {
+        return $["a.b.c"];
       })`;
       expect(
         getKeys(
@@ -934,11 +983,30 @@ describe('getKeys', () => {
       ]);
     });
 
+    it('extracts key and option from selector api with array access', () => {
+      const content = 't(($) => $["a.b.c"], { ns: "bar", keyPrefix: "" })';
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+          keyPrefix: '',
+          namespace: 'bar',
+          ns: 'bar',
+        },
+      ]);
+    });
+
     it('extracts multiple nested keys from selector api', () => {
       const content = `
     t(($) => $.some.title);
     t(($) => $.some.nested.title);
-    t(($) => $.some.nested.description);`;
+    t(($) => $.some.nested.description);
+    t(($) => $['some.nested.content']);`;
       expect(
         getKeys(
           'file.ts',
@@ -955,6 +1023,9 @@ describe('getKeys', () => {
 
         {
           key: 'some.nested.description',
+        },
+        {
+          key: 'some.nested.content',
         },
       ]);
     });
