@@ -499,9 +499,26 @@ const extractFromExpression = (node: ts.CallExpression, options: Options) => {
             .split('.');
 
           entries[0].key = keys.join('.');
+        }
+        // check if the access is defined as an array.
+        // $["a.b.c"]
+        else if (
+          returnStatement &&
+          returnStatement.expression &&
+          ts.isElementAccessExpression(returnStatement.expression)
+        ) {
+          entries[0].key = returnStatement.expression.argumentExpression
+            .getFullText()
+            .replace(/['"]/g, '');
         } else {
           return null;
         }
+        // check if the access is defined as an array.
+        // $["a.b.c"]
+      } else if (ts.isElementAccessExpression(keyArgument.body)) {
+        entries[0].key = keyArgument.body.argumentExpression
+          .getFullText()
+          .replace(/['"]/g, '');
       } else {
         const [_, ...keys] = keyArgument.body.getFullText().split('.');
         entries[0].key = keys.join('.');

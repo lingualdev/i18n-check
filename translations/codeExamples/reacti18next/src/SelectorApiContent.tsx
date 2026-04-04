@@ -20,6 +20,7 @@ export const Content = () => {
           return $.selector.example.three;
         })}
       </div>
+      <p>{t(($) => $['selector.example.four'])}</p>
     </p>
   );
 };
