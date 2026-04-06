@@ -259,6 +259,34 @@ yarn i18n:check --locales translations/i18NextMessageExamples -s en-US -f i18nex
 -u src --parser-component-functions WrappedTransComponent AnotherWrappedTransComponent
 ```
 
+### --next-intl-translation-fn-type-alias
+
+To find any indirect function calls inside a `next-intl` codebase, the parser will try to find the type `ReturnType<typeof useTranslations>` in the function call arguments.
+
+```ts
+const indirectFnCall = (
+  t: ReturnType<typeof useTranslations<'SomeNameSpace'>>
+) => {
+  const indirectTranslation = t('someKey');
+  // Do something with the indirectTranslation
+};
+```
+
+When a type alias is used instead of `ReturnType<typeof useTranslations>`, the `--next-intl-translation-fn-type-alias` option can be used to tell the parser the name of the type or types.
+
+```ts
+import { NextIntlTranslateFnAlias } from './types';
+
+const indirectFnCall = (t: NextIntlTranslateFnAlias<'SomeNameSpace'>) => {
+  const indirectTranslation = t('someKey');
+  // Do something with the indirectTranslation
+};
+```
+
+```bash
+yarn i18n:check --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src --next-intl-translation-fn-type-alias NextIntlTranslateFnAlias
+```
+
 ## Examples
 
 i18n-check is able to load and validate against different locale folder structures. Depending on how the locale files are organized, there are different configuration options.

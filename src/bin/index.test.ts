@@ -524,7 +524,7 @@ ${formatTable([
 
     it('should find unused and undefined keys for next-intl applications', async () => {
       const stdout = await execAsync(
-        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src'
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src --next-intl-translation-fn-type-alias NextIntlTranslateFnAlias NextIntlTranslateFnOtherAlias'
       );
 
       const result = stdout.split('Done')[0];
@@ -568,7 +568,7 @@ ${formatTable([
 
     it('should exit with code 0 when no unused keys are found', async () => {
       const cmd =
-        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src translations/codeExamples/next-intl/unused --only unused -i notUsedKey message.plural';
+        'node dist/bin/index.js --source en --locales translations/codeExamples/next-intl/locales/ -f next-intl -u translations/codeExamples/next-intl/src translations/codeExamples/next-intl/unused --only unused -i notUsedKey message.plural --next-intl-translation-fn-type-alias NextIntlTranslateFnAlias NextIntlTranslateFnOtherAlias';
 
       const result = await execAsyncWithExitCode(cmd);
 

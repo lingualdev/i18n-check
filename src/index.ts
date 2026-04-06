@@ -127,7 +127,8 @@ export const checkUnusedKeys = async (
   } else if (options.format === 'next-intl') {
     return findUnusedNextIntlTranslations(
       filteredTranslationFiles,
-      filesToParse
+      filesToParse,
+      options
     );
   }
 };
@@ -212,11 +213,12 @@ const findUnusedI18NextTranslations = async (
 
 const findUnusedNextIntlTranslations = async (
   translationFiles: TranslationFile[],
-  filesToParse: string[]
+  filesToParse: string[],
+  options: Options
 ) => {
   const unusedKeys: Record<string, string[]> = {};
 
-  const extracted = nextIntlExtract(filesToParse);
+  const extracted = nextIntlExtract(filesToParse, options);
   const dynamicNamespaces = extracted.flatMap((namespace) => {
     if (namespace.meta.dynamic) {
       return [namespace.key];
@@ -386,7 +388,7 @@ const findUndefinedNextIntlKeys = async (
     })
   );
 
-  const extractedResult = nextIntlExtract(filesToParse);
+  const extractedResult = nextIntlExtract(filesToParse, options);
 
   const undefinedKeys: { [key: string]: string[] } = {};
   extractedResult.forEach(({ key, meta }) => {

@@ -1,18 +1,21 @@
 import fs from 'node:fs';
 import * as ts from 'typescript';
+import { Options } from '../types';
 
 const USE_TRANSLATIONS = 'useTranslations';
 const GET_TRANSLATIONS = 'getTranslations';
 const COMMENT_CONTAINS_STATIC_KEY_REGEX =
   /i18n-check t\((["'])(.*?[^\\])(["'])\)/;
 
-export const extract = (filesPaths: string[]) => {
-  return filesPaths.flatMap(getKeys).sort((a, b) => {
-    return a.key > b.key ? 1 : -1;
-  });
+export const extract = (filesPaths: string[], options: Options = {}) => {
+  return filesPaths
+    .flatMap((path) => getKeys(path, options))
+    .sort((a, b) => {
+      return a.key > b.key ? 1 : -1;
+    });
 };
 
-const getKeys = (path: string) => {
+const getKeys = (path: string, options?: Options) => {
   const content = fs.readFileSync(path, 'utf-8');
   const sourceFile = ts.createSourceFile(
     path,
@@ -353,6 +356,120 @@ const getKeys = (path: string) => {
             fnType.type.typeArguments[0].typeArguments &&
             fnType.type.typeArguments[0].typeArguments.length > 0
               ? fnType.type.typeArguments[0].typeArguments
+              : [];
+
+          if (fnType.name && ts.isIdentifier(fnType.name)) {
+            const name =
+              namespaceArgument &&
+              ts.isLiteralTypeNode(namespaceArgument) &&
+              ts.isStringLiteral(namespaceArgument.literal)
+                ? namespaceArgument.literal.text
+                : '';
+            pushNamespace({
+              name,
+              variable: fnType.name.text,
+            });
+          }
+        }
+      }
+
+      // Third scenaro is if t function the type is
+      // an alias for ReturnType<typeof useTranslations>
+      const tFunctionAliasParam =
+        node.parameters &&
+        node.parameters.find(
+          (param) =>
+            param.type &&
+            ts.isTypeReferenceNode(param.type) &&
+            param.type.typeName &&
+            ts.isIdentifier(param.type.typeName) &&
+            options &&
+            options.nextIntlTranslationFnTypeAlias !== undefined &&
+            options?.nextIntlTranslationFnTypeAlias.includes(
+              param.type.typeName.text
+            )
+        );
+
+      if (
+        tFunctionAliasParam !== undefined &&
+        tFunctionAliasParam.type &&
+        ts.isTypeReferenceNode(tFunctionAliasParam.type)
+      ) {
+        const [namespaceArgument] =
+          tFunctionAliasParam.type.typeArguments &&
+          tFunctionAliasParam.type.typeArguments.length > 0
+            ? tFunctionAliasParam.type.typeArguments
+            : [];
+
+        if (ts.isIdentifier(tFunctionAliasParam.name)) {
+          const name =
+            namespaceArgument &&
+            ts.isLiteralTypeNode(namespaceArgument) &&
+            ts.isStringLiteral(namespaceArgument.literal)
+              ? namespaceArgument.literal.text
+              : '';
+          pushNamespace({
+            name,
+            variable: tFunctionAliasParam.name.text,
+          });
+        }
+      }
+
+      // Fourth scenario is the t function is defined as an object property and uses an alias:
+      // someFn({t}: {t: AliasForTheOriginalNextIntlType}>
+      const tFunctionParamAliasAsProperty =
+        node.parameters &&
+        node.parameters.find(
+          (param) =>
+            param.type &&
+            ts.isTypeLiteralNode(param.type) &&
+            param.type.members.find((member) => {
+              return (
+                ts.isPropertySignature(member) &&
+                member.type &&
+                ts.isTypeReferenceNode(member.type) &&
+                member.type.typeName &&
+                ts.isIdentifier(member.type.typeName) &&
+                options &&
+                options.nextIntlTranslationFnTypeAlias !== undefined &&
+                options?.nextIntlTranslationFnTypeAlias.includes(
+                  member.type.typeName.text
+                )
+              );
+            })
+        );
+
+      if (
+        tFunctionParamAliasAsProperty !== undefined &&
+        tFunctionParamAliasAsProperty.type &&
+        ts.isTypeLiteralNode(tFunctionParamAliasAsProperty.type)
+      ) {
+        const fnType = tFunctionParamAliasAsProperty.type.members.find(
+          (member) => {
+            return (
+              ts.isPropertySignature(member) &&
+              member.type &&
+              ts.isTypeReferenceNode(member.type) &&
+              member.type.typeName &&
+              ts.isIdentifier(member.type.typeName) &&
+              options &&
+              options.nextIntlTranslationFnTypeAlias !== undefined &&
+              options?.nextIntlTranslationFnTypeAlias.includes(
+                member.type.typeName.text
+              )
+            );
+          }
+        );
+
+        if (
+          fnType &&
+          ts.isPropertySignature(fnType) &&
+          fnType.type &&
+          ts.isTypeReferenceNode(fnType.type)
+        ) {
+          const [namespaceArgument] =
+            fnType.type.typeArguments && fnType.type.typeArguments.length > 0
+              ? fnType.type.typeArguments
               : [];
 
           if (fnType.name && ts.isIdentifier(fnType.name)) {
