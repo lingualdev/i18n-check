@@ -65,6 +65,10 @@ program
     '--parser-component-functions <components...>',
     'a list of component names to parse when using the --unused option'
   )
+  .option(
+    '--next-intl-translation-fn-type-alias <nextIntlTranslationFnTypeAliases...>',
+    'next-intl translation function type aliases'
+  )
   .parse();
 
 const getCheckOptions = (): Context[] => {
@@ -107,6 +111,9 @@ const main = async () => {
   const ignore = program.getOptionValue('ignore');
   const unusedSrcPath = program.getOptionValue('unused');
   const componentFunctions = program.getOptionValue('parserComponentFunctions');
+  const nextIntlTranslationFnTypeAlias = program.getOptionValue(
+    'nextIntlTranslationFnTypeAlias'
+  );
 
   if (!srcPath) {
     console.log(
@@ -154,6 +161,7 @@ const main = async () => {
     checks: getCheckOptions(),
     format: format ?? undefined,
     ignore,
+    nextIntlTranslationFnTypeAlias,
   };
 
   const fileInfos: {

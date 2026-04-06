@@ -23,4 +23,5 @@ export type Options = {
   format?: 'icu' | 'i18next' | 'react-intl' | 'next-intl';
   checks?: Context[];
   ignore?: string[];
+  nextIntlTranslationFnTypeAlias?: string[];
 };

@@ -25,6 +25,10 @@ const indirectFunctionCallExample = path.join(
   srcPath,
   'IndirectFunctionCalls.tsx'
 );
+const indirectFunctionCallWithTypeAliasExample = path.join(
+  srcPath,
+  'IndirectFunctionCallsWithTypeAlias.tsx'
+);
 
 describe('nextIntlSrcParser', () => {
   it('should find all the translation keys', () => {
@@ -709,6 +713,67 @@ describe('nextIntlSrcParser', () => {
         key: 'indirectNoNamespaceKeyTwo',
         meta: {
           file: indirectFunctionCallExample,
+          namespace: '',
+        },
+      },
+    ]);
+  });
+
+  it('should find all the keys that are used inside indirect function calls with type alias', () => {
+    const keys = extract([indirectFunctionCallWithTypeAliasExample], {
+      nextIntlTranslationFnTypeAlias: [
+        'NextIntlTranslateFnAlias',
+        'NextIntlTranslateFnOtherAlias',
+      ],
+    });
+
+    expect(keys).toEqual([
+      {
+        key: 'Basic.basic',
+        meta: {
+          file: indirectFunctionCallWithTypeAliasExample,
+          namespace: 'Basic',
+        },
+      },
+      {
+        key: 'Indirect5.indirect5',
+        meta: {
+          file: indirectFunctionCallWithTypeAliasExample,
+          namespace: 'Indirect5',
+        },
+      },
+      {
+        key: 'Indirect6.indirect6',
+        meta: {
+          file: indirectFunctionCallWithTypeAliasExample,
+          namespace: 'Indirect6',
+        },
+      },
+      {
+        key: 'Indirect7.indirect7',
+        meta: {
+          file: indirectFunctionCallWithTypeAliasExample,
+          namespace: 'Indirect7',
+        },
+      },
+      {
+        key: 'Indirect8.indirect8',
+        meta: {
+          file: indirectFunctionCallWithTypeAliasExample,
+          namespace: 'Indirect8',
+        },
+      },
+      {
+        key: 'indirectNoNamespaceKeyFour',
+        meta: {
+          file: indirectFunctionCallWithTypeAliasExample,
+          namespace: '',
+        },
+      },
+      {
+        key: 'indirectNoNamespaceKeyThree',
+        meta: {
+          file: indirectFunctionCallWithTypeAliasExample,
           namespace: '',
         },
       },

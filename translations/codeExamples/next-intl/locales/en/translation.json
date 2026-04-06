@@ -168,6 +168,20 @@
   "Indirect4": {
     "indirect4": "indirect4"
   },
+  "Indirect5": {
+    "indirect5": "indirect5"
+  },
+  "Indirect6": {
+    "indirect6": "indirect6"
+  },
+  "Indirect7": {
+    "indirect7": "indirect7"
+  },
+  "Indirect8": {
+    "indirect8": "indirect8"
+  },
   "indirectNoNamespaceKeyOne": "indirectNoNamespaceKeyOne",
-  "indirectNoNamespaceKeyTwo": "indirectNoNamespaceKeyTwo"
+  "indirectNoNamespaceKeyTwo": "indirectNoNamespaceKeyTwo",
+  "indirectNoNamespaceKeyThree": "indirectNoNamespaceKeyThree",
+  "indirectNoNamespaceKeyFour": "indirectNoNamespaceKeyFour"
 }
