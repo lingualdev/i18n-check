@@ -56,11 +56,7 @@ const OPEN_TAG = '<';
 const CLOSE_TAG = '</';
 
 export const parse = (input: string) => {
-  let ast: MessageFormatElement[] = [];
-
-  ast = parseInput([input]);
-
-  return ast;
+  return parseInput([input]);
 };
 
 const parseInput = (input: string[]): MessageFormatElement[] => {

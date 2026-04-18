@@ -8,7 +8,6 @@ import {
 } from './types';
 import { findInvalidTranslations } from './utils/findInvalidTranslations';
 import { findInvalidI18NextTranslations } from './utils/findInvalidI18NextTranslations';
-import { extract } from '@formatjs/cli-lib';
 import { getKeys } from './utils/i18NextSrcParser';
 import { extract as nextIntlExtract } from './utils/nextIntlSrcParser';
 import fs from 'fs';
@@ -137,23 +136,25 @@ const findUnusedReactIntlTranslations = async (
   translationFiles: TranslationFile[],
   filesToParse: string[]
 ) => {
-  const unusedKeys: Record<string, string[]> = {};
+  return (async () => {
+    const { extract } = await import('@formatjs/cli-lib');
 
-  const extracted = await extract(filesToParse, {});
-  const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
+    const unusedKeys: Record<string, string[]> = {};
+    const extracted = await extract(filesToParse, {});
+    const extractedResultSet = new Set(Object.keys(JSON.parse(extracted)));
 
-  translationFiles.forEach(({ name, content }) => {
-    const keysInSource = Object.keys(content);
-    const found: string[] = [];
-    for (const keyInSource of keysInSource) {
-      if (!extractedResultSet.has(keyInSource)) {
-        found.push(keyInSource);
+    translationFiles.forEach(({ name, content }) => {
+      const keysInSource = Object.keys(content);
+      const found: string[] = [];
+      for (const keyInSource of keysInSource) {
+        if (!extractedResultSet.has(keyInSource)) {
+          found.push(keyInSource);
+        }
       }
-    }
-    unusedKeys[name] = found;
-  });
-
-  return unusedKeys;
+      unusedKeys[name] = found;
+    });
+    return unusedKeys;
+  })();
 };
 
 const findUnusedI18NextTranslations = async (
@@ -298,32 +299,34 @@ const findUndefinedReactIntlKeys = async (
     ignore: [],
   }
 ) => {
-  const sourceKeys = new Set(
-    translationFiles.flatMap(({ content }) => {
-      return Object.keys(content);
-    })
-  );
+  return (async () => {
+    const { extract } = await import('@formatjs/cli-lib');
+    const sourceKeys = new Set(
+      translationFiles.flatMap(({ content }) => {
+        return Object.keys(content);
+      })
+    );
 
-  const extractedResult = await extract(filesToParse, {
-    extractSourceLocation: true,
-  });
+    const undefinedKeys: { [key: string]: string[] } = {};
+    const extractedResult = await extract(filesToParse, {
+      extractSourceLocation: true,
+    });
 
-  const undefinedKeys: { [key: string]: string[] } = {};
-  Object.entries(JSON.parse(extractedResult)).forEach(([key, meta]) => {
-    if (!sourceKeys.has(key) && !isIgnoredKey(options.ignore ?? [], key)) {
-      const data = meta as Record<PropertyKey, unknown>;
-      if (!('file' in data) || typeof data.file !== 'string') {
-        return;
+    Object.entries(JSON.parse(extractedResult)).forEach(([key, meta]) => {
+      if (!sourceKeys.has(key) && !isIgnoredKey(options.ignore ?? [], key)) {
+        const data = meta as Record<PropertyKey, unknown>;
+        if (!('file' in data) || typeof data.file !== 'string') {
+          return;
+        }
+        const file = path.normalize(data.file);
+        if (!undefinedKeys[file]) {
+          undefinedKeys[file] = [];
+        }
+        undefinedKeys[file].push(key);
       }
-      const file = path.normalize(data.file);
-      if (!undefinedKeys[file]) {
-        undefinedKeys[file] = [];
-      }
-      undefinedKeys[file].push(key);
-    }
-  });
-
-  return undefinedKeys;
+    });
+    return undefinedKeys;
+  })();
 };
 
 const findUndefinedI18NextKeys = async (
