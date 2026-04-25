@@ -28,20 +28,19 @@
     "@formatjs/icu-messageformat-parser": "^2.11.4",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
-    "glob": "13.0.6",
-    "js-yaml": "^4.1.1",
-    "typescript": "^5.9.3"
+    "glob": "^13.0.6",
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^22.19.1",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.19.17",
     "braces": "^3.0.3",
-    "eslint": "^10.0.3",
-    "globals": "^16.5.0",
-    "prettier": "^3.6.2",
-    "typescript-eslint": "^8.56.1",
-    "vitest": "^4.0.18"
+    "eslint": "^10.2.1",
+    "globals": "^17.5.0",
+    "prettier": "^3.8.3",
+    "typescript-eslint": "^8.59.0",
+    "vitest": "^4.1.5"
   },
   "repository": {
     "type": "git",
@@ -50,5 +49,5 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
+  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
 }

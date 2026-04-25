@@ -5,7 +5,7 @@ import { exit } from 'node:process';
 import chalk from 'chalk';
 import { program } from 'commander';
 import { glob, globSync } from 'glob';
-import yaml from 'js-yaml';
+import { parse } from 'yaml';
 import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from '..';
 import {
   CheckOptions,
@@ -187,7 +187,7 @@ const main = async () => {
   fileInfos.forEach(({ extension, file, name, path }) => {
     let rawContent;
     if (extension === 'yaml') {
-      rawContent = yaml.load(fs.readFileSync(file, 'utf-8'));
+      rawContent = parse(fs.readFileSync(file, 'utf-8'));
     } else {
       rawContent = JSON.parse(fs.readFileSync(file, 'utf-8'));
     }
