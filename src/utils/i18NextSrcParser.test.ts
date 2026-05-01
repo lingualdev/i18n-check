@@ -897,6 +897,23 @@ describe('getKeys', () => {
       ]);
     });
 
+    it('extracts key from selector api with multi-line array access', () => {
+      const content = `t(($) => $[
+        "a.b.c"
+      ])`;
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
     it('extracts key from selector api containing function body', () => {
       const content = `t(function ($) {
         return $.a.b.c;
@@ -917,6 +934,25 @@ describe('getKeys', () => {
     it('extracts key from selector api with array access containing function body', () => {
       const content = `t(function ($) {
         return $["a.b.c"];
+      })`;
+      expect(
+        getKeys(
+          'file.ts',
+          { typeMap: { CountType: { count: '' } }, parseGenerics: true },
+          content
+        )
+      ).toEqual([
+        {
+          key: 'a.b.c',
+        },
+      ]);
+    });
+
+    it('extracts key from selector api with multi-line array access containing function body', () => {
+      const content = `t(function ($) {
+        return $[
+          "a.b.c"
+        ];
       })`;
       expect(
         getKeys(

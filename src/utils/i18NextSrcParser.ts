@@ -509,7 +509,8 @@ const extractFromExpression = (node: ts.CallExpression, options: Options) => {
         ) {
           entries[0].key = returnStatement.expression.argumentExpression
             .getFullText()
-            .replace(/['"]/g, '');
+            .replace(/['"]/g, '')
+            .trim();
         } else {
           return null;
         }
@@ -518,7 +519,8 @@ const extractFromExpression = (node: ts.CallExpression, options: Options) => {
       } else if (ts.isElementAccessExpression(keyArgument.body)) {
         entries[0].key = keyArgument.body.argumentExpression
           .getFullText()
-          .replace(/['"]/g, '');
+          .replace(/['"]/g, '')
+          .trim();
       } else {
         const [_, ...keys] = keyArgument.body.getFullText().split('.');
         entries[0].key = keys.join('.');
