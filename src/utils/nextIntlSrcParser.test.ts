@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { extract } from './nextIntlSrcParser';
+import { extract } from './nextIntlSrcParser.js';
 import path from 'node:path';
 
 const srcPath = './translations/codeExamples/next-intl/src/';

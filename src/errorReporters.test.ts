@@ -4,7 +4,7 @@ import {
   formatInvalidTranslationsResultTable,
   formatSummaryTable,
   formatTable,
-} from './errorReporters';
+} from './errorReporters.js';
 
 describe('formatTable', () => {
   test('single col and row', () => {

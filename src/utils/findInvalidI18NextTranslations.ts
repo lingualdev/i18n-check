@@ -5,12 +5,12 @@
  *
  */
 
-import { parse, MessageFormatElement } from './i18NextParser';
+import { parse, MessageFormatElement } from './i18NextParser.js';
 import {
   InvalidTranslationEntry,
   InvalidTranslationsResult,
   Translation,
-} from '../types';
+} from '../types.js';
 
 export const findInvalidI18NextTranslations = (
   source: Translation,

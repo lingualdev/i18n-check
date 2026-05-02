@@ -6,25 +6,33 @@ import chalk from 'chalk';
 import { program } from 'commander';
 import { glob, globSync } from 'glob';
 import { parse } from 'yaml';
-import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from '..';
+import {
+  checkTranslations,
+  checkUndefinedKeys,
+  checkUnusedKeys,
+} from '../index.js';
 import {
   CheckOptions,
   Context,
   formatCheckResultTable,
   formatInvalidTranslationsResultTable,
   formatSummaryTable,
-} from '../errorReporters';
+} from '../errorReporters.js';
 import {
   CheckResult,
   FileInfo,
   InvalidTranslationsResult,
   TranslationFile,
-} from '../types';
-import { flattenTranslations } from '../utils/flattenTranslations';
+} from '../types.js';
+import { flattenTranslations } from '../utils/flattenTranslations.js';
 import path from 'node:path';
-import { CheckError } from '../utils/findInvalidTranslations';
+import { createRequire } from 'node:module';
+import { CheckError } from '../utils/findInvalidTranslations.js';
 
-const version = require('../../package.json').version;
+// Use createRequire because JSON imports differ across Node.js 20 versions
+// (`assert` vs `with`) and TypeScript can't handle both reliably
+const require = createRequire(import.meta.url);
+const { version } = require('../../package.json');
 
 program
   .version(version)

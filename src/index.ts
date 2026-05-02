@@ -1,18 +1,18 @@
-import { findMissingKeys } from './utils/findMissingKeys';
+import { findMissingKeys } from './utils/findMissingKeys.js';
 import {
   CheckResult,
   InvalidTranslationsResult,
   Options,
   Translation,
   TranslationFile,
-} from './types';
-import { findInvalidTranslations } from './utils/findInvalidTranslations';
-import { findInvalidI18NextTranslations } from './utils/findInvalidI18NextTranslations';
-import { getKeys } from './utils/i18NextSrcParser';
-import { extract as nextIntlExtract } from './utils/nextIntlSrcParser';
+} from './types.js';
+import { findInvalidTranslations } from './utils/findInvalidTranslations.js';
+import { findInvalidI18NextTranslations } from './utils/findInvalidI18NextTranslations.js';
+import { getKeys } from './utils/i18NextSrcParser.js';
+import { extract as nextIntlExtract } from './utils/nextIntlSrcParser.js';
 import fs from 'fs';
 import path from 'path';
-import { I18NEXT_PLURAL_SUFFIX } from './utils/constants';
+import { I18NEXT_PLURAL_SUFFIX } from './utils/constants.js';
 
 const ParseFormats = ['react-intl', 'i18next', 'next-intl'];
 

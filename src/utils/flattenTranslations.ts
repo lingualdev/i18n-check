@@ -1,4 +1,4 @@
-import { Translation } from '../types';
+import { Translation } from '../types.js';
 
 export const flattenTranslations = (translations: Translation) => {
   if (!hasNestedDefinitions(translations)) {

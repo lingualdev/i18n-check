@@ -3,6 +3,7 @@
   "version": "0.9.3",
   "description": "i18n translation messages check",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "bin": {

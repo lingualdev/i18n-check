@@ -1,5 +1,5 @@
-import { Options, Translation } from '../types';
-import { I18NEXT_PLURAL_SUFFIX } from './constants';
+import { Options, Translation } from '../types.js';
+import { I18NEXT_PLURAL_SUFFIX } from './constants.js';
 
 export const findMissingKeys = (
   source: Translation,

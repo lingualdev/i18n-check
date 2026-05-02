@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import {
   compareTranslationFiles,
   findInvalidI18NextTranslations,
-} from './findInvalidI18NextTranslations';
-import { flattenTranslations } from './flattenTranslations';
+} from './findInvalidI18NextTranslations.js';
+import { flattenTranslations } from './flattenTranslations.js';
 
 const sourceFile = require('../../translations/i18NextMessageExamples/en-us.json');
 const targetFile = require('../../translations/i18NextMessageExamples/de-de.json');

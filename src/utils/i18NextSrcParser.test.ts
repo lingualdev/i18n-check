@@ -10,7 +10,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { getKeys } from './i18NextSrcParser';
+import { getKeys } from './i18NextSrcParser.js';
 
 describe('getKeys', () => {
   describe('supports JSX', () => {

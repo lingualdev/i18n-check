@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import * as ts from 'typescript';
-import { Options } from '../types';
+import { Options } from '../types.js';
 
 const USE_TRANSLATIONS = 'useTranslations';
 const GET_TRANSLATIONS = 'getTranslations';
