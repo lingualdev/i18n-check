@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import {
   compareTranslationFiles,
   findInvalidTranslations,
-} from './findInvalidTranslations';
-import { flattenTranslations } from './flattenTranslations';
+} from './findInvalidTranslations.js';
+import { flattenTranslations } from './flattenTranslations.js';
 
 const sourceFile = require('../../translations/messageExamples/en-us.json');
 const secondaryFile = require('../../translations/messageExamples/de-de.json');

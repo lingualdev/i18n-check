@@ -11,7 +11,7 @@ import {
   InvalidTranslationEntry,
   InvalidTranslationsResult,
   Translation,
-} from '../types';
+} from '../types.js';
 
 type Location = { start: { line: number; column: number } };
 

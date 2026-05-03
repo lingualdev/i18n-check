@@ -1,4 +1,4 @@
-import { Context } from './errorReporters';
+import { Context } from './errorReporters.js';
 
 export type Translation = Record<string, unknown>;
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { flattenEntry, flattenTranslations } from './flattenTranslations';
+import { flattenEntry, flattenTranslations } from './flattenTranslations.js';
 
 const flatStructure = require('../../translations/en-us.json');
 const nestedStructure = require('../../translations/flattenExamples/en-us.json');

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse } from './i18NextParser';
+import { parse } from './i18NextParser.js';
 
 describe('i18NextParser', () => {
   it('should parse interpolation', () => {

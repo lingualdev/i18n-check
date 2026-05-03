@@ -1,4 +1,4 @@
-import { CheckResult, InvalidTranslationsResult } from './types';
+import { CheckResult, InvalidTranslationsResult } from './types.js';
 
 export type StandardReporter = {
   file: string;
