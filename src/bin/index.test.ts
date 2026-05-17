@@ -479,11 +479,11 @@ Found undefined keys!
 ${formatTable([
   [['file', 'key']],
   [
-    [codeEx('reacti18next/src/App.tsx'), 'some.key.that.is.not.defined'],
     [
       codeEx('reacti18next/secondSrcFolder/Main.tsx'),
       'another.key.that.is.not.defined',
     ],
+    [codeEx('reacti18next/src/App.tsx'), 'some.key.that.is.not.defined'],
   ],
 ])}
 

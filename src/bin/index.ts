@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { exit } from 'node:process';
 import chalk from 'chalk';
 import { program } from 'commander';
-import { glob, globSync } from 'glob';
+import { glob, globSync } from 'tinyglobby';
 import { parse } from 'yaml';
 import { checkTranslations, checkUndefinedKeys, checkUnusedKeys } from '..';
 import {
@@ -147,7 +147,6 @@ const main = async () => {
 
   const files = await glob(pattern, {
     ignore: ['node_modules/**'].concat(excludedPaths),
-    windowsPathsNoEscape: true,
   });
 
   console.log('i18n translations checker');
@@ -282,7 +281,6 @@ const main = async () => {
         : `${unusedSrcPath.join(',').trim()}/**/*.{js,jsx,ts,tsx}`;
       const filesToParse = globSync(pattern, {
         ignore: ['node_modules/**'],
-        windowsPathsNoEscape: true,
       });
 
       const unusedKeys = await checkUnusedKeys(
