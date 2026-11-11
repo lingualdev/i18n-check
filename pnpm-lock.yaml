@@ -137,9 +137,6 @@ importers:
       '@types/node':
         specifier: ^22.20.5
         version: 22.20.5
-      braces:
-        specifier: ^3.0.3
-        version: 3.0.3
       eslint:
         specifier: ^10.14.0
         version: 10.14.0
