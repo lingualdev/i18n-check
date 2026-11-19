@@ -1,5 +1,8 @@
 import {
+  ArgumentElement,
   MessageFormatElement,
+  PluralElement,
+  isArgumentElement,
   isLiteralElement,
   isPluralElement,
   isPoundElement,
@@ -84,6 +87,11 @@ const sortParsedKeys = (a: MessageFormatElement, b: MessageFormatElement) => {
   return a.type - b.type;
 };
 
+const isPluralOrArgumentElement = (
+  element: MessageFormatElement
+): element is PluralElement | ArgumentElement =>
+  isPluralElement(element) || isArgumentElement(element);
+
 export const compareTranslationFiles = (a: Translation, b: Translation) => {
   const diffs: InvalidTranslationEntry[] = [];
   for (const key in a) {
@@ -141,6 +149,14 @@ export const hasDiff = (
     const formatElementB = compB[index];
 
     if (isPluralElement(formatElementA) || isPluralElement(formatElementB)) {
+      if (
+        !isPluralOrArgumentElement(formatElementA) ||
+        !isPluralOrArgumentElement(formatElementB) ||
+        formatElementA.value !== formatElementB.value
+      ) {
+        return true;
+      }
+
       const optionsA = isPluralElement(formatElementA)
         ? formatElementA.options
         : {};
@@ -230,7 +246,13 @@ const getErrorMessage = (
       return acc;
     }
 
-    if (formatElementA.type !== formatElementB.type) {
+    if (
+      formatElementA.type !== formatElementB.type &&
+      !(
+        isPluralOrArgumentElement(formatElementA) &&
+        isPluralOrArgumentElement(formatElementB)
+      )
+    ) {
       acc.push(
         `Expected element of type "${
           typeLookup[formatElementA.type]

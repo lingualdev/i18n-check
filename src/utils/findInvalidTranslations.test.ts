@@ -137,6 +137,47 @@ describe('findInvalidTranslations', () => {
     ).toEqual({});
   });
 
+  it('should fail if a plural variable is changed or paired with an incompatible type', () => {
+    const plural = '{count, plural, one {# item} other {# items}}';
+    expect(
+      findInvalidTranslations(
+        {
+          renamedPlural: plural,
+          renamedArgument: plural,
+          select: plural,
+          date: plural,
+        },
+        {
+          de: {
+            renamedPlural: '{total, plural, one {# Ding} other {# Dinge}}',
+            renamedArgument: '{total} Dinge',
+            select: '{count, select, one {x} other {y}}',
+            date: '{count, date, short}',
+          },
+        }
+      )
+    ).toEqual({
+      de: [
+        {
+          key: 'renamedPlural',
+          msg: 'Expected plural to contain "count" but received "total"',
+        },
+        {
+          key: 'renamedArgument',
+          msg: 'Expected plural to contain "count" but received "total"',
+        },
+        {
+          key: 'select',
+          msg: 'Expected element of type "plural" but received "select"',
+        },
+        {
+          key: 'date',
+          msg: 'Expected element of type "plural" but received "date"',
+        },
+      ],
+    });
+  });
+
   it('should throw error with file and key context when parsing invalid ICU tags', () => {
     expect(() => {
       findInvalidTranslations(
